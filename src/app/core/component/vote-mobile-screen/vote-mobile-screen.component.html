@@ -24,7 +24,7 @@
             </td>
         </tr>
         <tr>
-            <td [innerHtml]="vote.message" class="vote-message" colspan="4">
+            <td [innerHtml]="sanitaizedData" *ngIf="sanitaizedData" class="vote-message" colspan="4">
             </td>
         </tr>
     </table>

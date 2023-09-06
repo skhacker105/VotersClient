@@ -14,7 +14,7 @@
             <td class="vote-user-name">
                 {{ vote.user.name }}
             </td>
-            <td [innerHtml]="vote.message" class="vote-message">
+            <td [innerHtml]="sanitaizedData" class="vote-message" *ngIf="sanitaizedData">
             </td>
             <td class="vote-date">
                 <mat-icon (click)="onEditClick.emit()" *ngIf="showActionButton">edit</mat-icon>

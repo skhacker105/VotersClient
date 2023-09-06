@@ -22,7 +22,7 @@ export class UserService {
   }
 
   register(email: string, password: string, name: string) {
-    return this.http.post<ServerResponse<string>>(this.baseUrl + 'register', { email, password })
+    return this.http.post<ServerResponse<string>>(this.baseUrl + 'register', { email, password, name })
   }
 
   saveSession(token: any): void {

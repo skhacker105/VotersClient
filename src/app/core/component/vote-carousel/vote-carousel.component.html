@@ -6,7 +6,11 @@
     <div class="vote-user-name">
         {{ vote.user.name }}
     </div>
+    <div class="spacer"></div>
+    <div class="vote-createdOn">
+        {{ vote.createdOn | date }}
+    </div>
 </mat-toolbar>
 
-<div class="flex" [innerHTML]="vote.message" *ngIf="vote">
+<div class="flex" [innerHTML]="sanitaizedData" *ngIf="sanitaizedData">
 </div>
