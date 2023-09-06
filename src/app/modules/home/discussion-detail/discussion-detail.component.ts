@@ -176,4 +176,38 @@ export class DiscussionDetailComponent implements OnInit, OnDestroy {
 
     return existingCategory.votes.length;
   }
+
+  handleDeleteVote(vote: IVote) {
+    if (!this.discussion) return;
+
+    const config: IConfirmationDialogData = {
+      message: `Delete "${vote.message}"?`,
+      okDisplay: 'Delete',
+      cancelDisplay: 'Cancel',
+      color: 'warn'
+    };
+    const ref = this.dialog.open(ConfirmationDialogComponent, {
+      data: config
+    })
+    ref.afterClosed()
+      .pipe(takeUntil(this.isComponentIsActive))
+      .subscribe(result => {
+        result ? this.deleteVote(vote) : null
+      })
+  }
+
+  deleteVote(vote: IVote) {
+    if (!this.discussion) return;
+
+    this.votingService.deleteVote(vote._id)
+      .pipe(takeUntil(this.isComponentIsActive))
+      .subscribe({
+        next: (res) => {
+          this.router.navigateByUrl('/');
+        },
+        error: (err: any) => {
+          this.loggerService.showError(err.error.message)
+        }
+      });
+  }
 }

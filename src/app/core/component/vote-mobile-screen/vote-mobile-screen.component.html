@@ -18,9 +18,9 @@
                 {{ vote.createdOn | date }}
             </td>
             <td class="vote-action">
-                <mat-icon>edit</mat-icon>
+                <mat-icon (click)="onEditClick.emit()" *ngIf="showActionButton">edit</mat-icon>
                 &nbsp;
-                <mat-icon>delete</mat-icon>
+                <mat-icon (click)="onDeleteClick.emit()" *ngIf="showActionButton">delete</mat-icon>
             </td>
         </tr>
         <tr>

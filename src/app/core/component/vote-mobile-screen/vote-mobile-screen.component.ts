@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { IVote } from '../../models/vote';
 
 @Component({
@@ -9,6 +9,9 @@ import { IVote } from '../../models/vote';
 export class VoteMobileScreenComponent implements OnInit {
 
   @Input() vote: IVote | undefined;
+  @Input() showActionButton = false;
+  @Output() onEditClick = new EventEmitter<void>();
+  @Output() onDeleteClick = new EventEmitter<void>();
   color = '#366f63'
 
   ngOnInit(): void {

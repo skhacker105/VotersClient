@@ -17,6 +17,10 @@
             <td [innerHtml]="vote.message" class="vote-message">
             </td>
             <td class="vote-date">
+                <mat-icon (click)="onEditClick.emit()" *ngIf="showActionButton">edit</mat-icon>
+                &nbsp;
+                <mat-icon (click)="onDeleteClick.emit()" *ngIf="showActionButton">delete</mat-icon>
+                &nbsp;
                 {{ vote.createdOn | date }}
             </td>
         </tr>

@@ -16,15 +16,18 @@
     <app-page-header [display]="'Votes'">
 
         <button mat-icon-button *ngFor="let allVoteType of votingService.allVoteTypes"
-            (click)="voteDiscussion(allVoteType)" [attr.title]="allVoteType.name"
-            [disabled]="isMyVote(allVoteType)" [matBadge]="getVoteCategoryCount(allVoteType)"
-            [matBadgeHidden]="getVoteCategoryCount(allVoteType) === 0">
+            (click)="voteDiscussion(allVoteType)" [attr.title]="allVoteType.name" [disabled]="isMyVote(allVoteType)"
+            [matBadge]="getVoteCategoryCount(allVoteType)" [matBadgeHidden]="getVoteCategoryCount(allVoteType) === 0">
             <mat-icon>{{ allVoteType.icon }}</mat-icon>
         </button>
     </app-page-header>
     <ng-container *ngFor="let vote of discussion.getVotes()">
-        <app-vote-big-screen [vote]="vote" class="bigscreen"></app-vote-big-screen>
-        <app-vote-mobile-screen [vote]="vote" class="mobile"></app-vote-mobile-screen>
+        <app-vote-big-screen [vote]="vote" class="bigscreen" [showActionButton]="votingService.isOwner(vote, loginProfile)"
+            (onEditClick)="voteDiscussion(vote.voteType)" (onDeleteClick)="handleDeleteVote(vote)">
+        </app-vote-big-screen>
+        <app-vote-mobile-screen [vote]="vote" class="mobile" [showActionButton]="votingService.isOwner(vote, loginProfile)"
+            (onEditClick)="voteDiscussion(vote.voteType)"
+            (onDeleteClick)="handleDeleteVote(vote)"></app-vote-mobile-screen>
     </ng-container>
 </ng-container>
 <br><br>

@@ -4,6 +4,7 @@ import { IVote, IVoteType } from '../models/vote';
 import { ServerResponse } from '../models/serverResponse';
 import { environment } from 'src/environments/environment';
 import { map, tap } from 'rxjs';
+import { IUser } from '../models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -42,5 +43,13 @@ export class VotingService {
 
   editVote(id: string, vote: any) {
     return this.http.put<ServerResponse<IVote>>(this.baseUrlVote + 'edit/' + id, vote)
+  }
+
+  deleteVote(id: string) {
+    return this.http.delete<ServerResponse<string>>(this.baseUrlVote + 'delete/' + id)
+  }
+
+  isOwner(vote: IVote, loaginUser?: IUser) {
+    return vote.user._id === loaginUser?._id
   }
 }
