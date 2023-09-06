@@ -1,9 +1,14 @@
 <ng-container *ngIf="vote">
     <table class="vote-container" cellspacing="0" [style.background]="color">
         <tr>
-            <td class="vote-user-icon">
+            <!-- <td class="vote-user-icon">
                 <div>
                     {{ vote.user.name[0] }}
+                </div>
+            </td> -->
+            <td class="vote-user-icon">
+                <div>
+                    <mat-icon class="votetype-icon">{{ vote.voteType.icon }}</mat-icon>
                 </div>
             </td>
             <td class="vote-user-name">

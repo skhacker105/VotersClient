@@ -15,6 +15,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { VoteBigScreenComponent } from './component/vote-big-screen/vote-big-screen.component';
 import { VoteMobileScreenComponent } from './component/vote-mobile-screen/vote-mobile-screen.component';
 import { NeedLocationAccessComponent } from './component/need-location-access/need-location-access.component';
+import { VoteCarouselComponent } from './component/vote-carousel/vote-carousel.component';
 
 
 @NgModule({
@@ -29,7 +30,8 @@ import { NeedLocationAccessComponent } from './component/need-location-access/ne
     InputTextAreaComponent,
     VoteBigScreenComponent,
     VoteMobileScreenComponent,
-    NeedLocationAccessComponent
+    NeedLocationAccessComponent,
+    VoteCarouselComponent
   ],
   imports: [
     CommonModule,

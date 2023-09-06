@@ -5,11 +5,9 @@
 <ng-container *ngIf="discussion">
     <mat-card class="discussion-card" [ngClass]="{'deleted': isDeleted}">
         <mat-card-header class="discussion-head">
-            <mat-card-title>
+            <mat-card-title class="discussion-title">
                 {{ discussion.title }}
                 <div class="spacer"></div>
-            </mat-card-title>
-            <div class="action-buttons">
                 <button mat-icon-button color="accent" class="bigscreen" [ngClass]="{ 'mobile': !isOwner }"
                 [routerLink]="['/home/discussionDetail/', discussion._id]">
                     <mat-icon>pinch_zoom_out</mat-icon>
@@ -21,16 +19,12 @@
                 <button mat-icon-button color="warn" *ngIf="isOwner" (click)="handleDeleteDiscussion()">
                     <mat-icon>delete</mat-icon>
                 </button>
-            </div>
+            </mat-card-title>
 
         </mat-card-header>
         <div class="discussion-message" [innerHTML]="discussion.message">
         </div>
-        <mat-card-content class="vote-messages">
-            Votes
-            <!-- All Votes and messages -->
-        </mat-card-content>
-        <mat-card-actions>
+        <mat-card-actions class="discussion-action">
             <button mat-icon-button color="accent" [routerLink]="['/home/discussionDetail/', discussion._id]">
                 <mat-icon>pinch_zoom_out</mat-icon>
             </button>
@@ -41,5 +35,10 @@
                 <mat-icon>{{ allVoteType.icon }}</mat-icon>
             </button>
         </mat-card-actions>
+        <mat-card-content class="vote-messages">
+            <ng-container *ngFor="let vote of discussion.getVotes()">
+                <app-vote-carousel [vote]="vote"></app-vote-carousel>
+            </ng-container>
+        </mat-card-content>
     </mat-card>
 </ng-container>
