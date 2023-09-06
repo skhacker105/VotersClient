@@ -1,0 +1,47 @@
+
+.vote-container {
+    font-size: smaller;
+    border-bottom: solid 1px #efefef;
+
+    .vote-user-icon {
+        padding: 5px;
+        // background-color: #366f63;
+
+        div {
+            width: 20px;
+            height: 20px;
+            text-align: center;
+            border: solid 1px white;
+            color: white;
+            border-radius: 50%;
+        }
+    }
+
+    .vote-user-name {
+        white-space: nowrap;
+        color: #dfdfdf;
+        padding-right: 16px;
+        // background-color: #366f63;
+    }
+
+    .vote-message {
+        width: 100%;
+        padding: 8px;
+        padding-top: 16px;
+        padding-top: 16px;
+        background-color: white;
+    
+        ::ng-deep p img {
+            max-width: 90% !important;
+        }
+    }
+
+    .vote-date {
+        white-space: nowrap;
+        color: #dfdfdf;
+        padding-right: 16px;
+        padding-left: 16px;
+        // background-color: #366f63;
+    }
+}
+

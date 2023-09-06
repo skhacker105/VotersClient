@@ -1,0 +1,18 @@
+<div class="login-register bodybackground">
+    <mat-card class="card bigscreen">
+        <mat-card-content>
+            <mat-tab-group mat-stretch-tabs="true">
+                <mat-tab label="LOGIN"><app-login></app-login></mat-tab>
+                <mat-tab label="REGISTER"><app-register></app-register></mat-tab>
+            </mat-tab-group>
+        </mat-card-content>
+    </mat-card>
+
+    <div class="card">
+        <mat-tab-group mat-stretch-tabs="true" class="mobile full-height login-register" appSwipe
+            (swipe)="handleSwipe($event)" [selectedIndex]="selectedTabIndex">
+            <mat-tab label="LOGIN"><app-login></app-login></mat-tab>
+            <mat-tab label="REGISTER"><app-register></app-register></mat-tab>
+        </mat-tab-group>
+    </div>
+</div>

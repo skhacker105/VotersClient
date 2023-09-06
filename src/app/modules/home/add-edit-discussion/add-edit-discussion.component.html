@@ -1,0 +1,25 @@
+<app-page-header [display]="(id ? 'Edit' : 'Add') + '   Discussion'"></app-page-header>
+<form [formGroup]="discussionForm" (ngSubmit)="saveDiscussion()" class="standard-padding">
+    <mat-form-field class="report-name">
+        <mat-label>Title</mat-label>
+        <input matInput formControlName="title">
+    </mat-form-field>
+
+    <mat-form-field class="full-width">
+        <textarea matInput formControlName="message" style="display: none;" placeholder="Message"></textarea>
+        <quill-editor formControlName="message" placeholder="Message">
+            <br>
+        </quill-editor>
+    </mat-form-field>
+
+    <div class="flex">
+        <div class="spacer"></div>
+        <button mat-raised-button type="button" *ngIf="id" (click)="cancelSaveDiscussion()">
+            Cancel Update
+        </button>
+        <button mat-raised-button color="primary" type="submit"
+            [disabled]="!discussionForm.touched || discussionForm.invalid">
+            Save Discussion
+        </button>
+    </div>
+</form>

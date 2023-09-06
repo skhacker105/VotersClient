@@ -1,0 +1,51 @@
+<!-- My Discussion -->
+<ng-container *ngIf="myDiscussions.data && myDiscussions.data.length > 0">
+  <app-page-header [display]="'My Discussions'"></app-page-header>
+  <owl-carousel-o [options]="customOptions">
+
+    <ng-template carouselSlide *ngFor="let discussion of myDiscussions.data">
+      <div class="slide">
+        <app-discussion-carousel [discussion]="discussion"></app-discussion-carousel>
+      </div>
+    </ng-template>
+  </owl-carousel-o>
+</ng-container>
+
+
+<!-- NewsDashboard -->
+<!-- <ng-container *ngIf="discussionsDahboard.data && discussionsDahboard.data.length > 0"> -->
+<app-page-header [display]="'News Highlight'">
+
+  <!-- Timeline -->
+  <mat-chip color="primary" [matMenuTriggerFor]="menu" [attr.title]="selectedTimeLine.display"
+    [style.background]="selectedTimeLine.backgroundColor" class="selected-option">
+    {{selectedTimeLine.display}}
+  </mat-chip>
+  <mat-menu #menu="matMenu">
+    <ng-container *ngFor="let timeLine of allTimeLines">
+      <ng-container *ngIf="timeLine.id != selectedTimeLine.id">
+        <mat-chip color="primary" [attr.title]="timeLine.display" class="time-line-option"
+          [style.background]="timeLine.backgroundColor" (click)="setTimeLine(timeLine)">
+          {{timeLine.display}}
+        </mat-chip><br>
+      </ng-container>
+    </ng-container>
+  </mat-menu>
+
+  <!-- Scope -->
+  <mat-chip color="primary" [matMenuTriggerFor]="menu1" [attr.title]="selectedScope.display"
+    [style.background]="selectedScope.backgroundColor" class="selected-option">
+    {{selectedScope.display}}
+  </mat-chip>
+  <mat-menu #menu1="matMenu">
+    <ng-container *ngFor="let scope of allScopes">
+      <ng-container *ngIf="scope.id != selectedScope.id">
+        <mat-chip color="primary" [attr.title]="scope.display" class="time-line-option"
+          [style.background]="scope.backgroundColor" (click)="setScope(scope)">
+          {{scope.display}}
+        </mat-chip><br>
+      </ng-container>
+    </ng-container>
+  </mat-menu>
+</app-page-header>
+<!-- </ng-container> -->

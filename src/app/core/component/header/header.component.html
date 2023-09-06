@@ -1,0 +1,30 @@
+<mat-toolbar class="header-container" color="primary">
+    <button mat-icon-button title="Home" routerLink="/home">
+        <mat-icon>campaign</mat-icon>
+    </button>
+    <div class="header-title">Raise your voice</div>
+    <div class="spacer"></div>
+    <button mat-icon-button title="Search">
+        <mat-icon>search</mat-icon>
+    </button>
+    <ng-container *ngIf="userService.isLoggedIn()">
+        <button mat-icon-button (click)="gotoAddDiscussion()" *ngIf="!userService.isAdmin()" title="ADD Discussion">
+            <mat-icon>add</mat-icon>
+        </button>
+        <button mat-icon-button [matMenuTriggerFor]="menu" *ngIf="userService.isAdmin()" title="ADD">
+            <mat-icon>add_box</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+            <button mat-icon-button (click)="gotoAddDiscussion()" title="Discussion">
+                <mat-icon>text_increase</mat-icon>
+            </button>
+            <button mat-icon-button (click)="gotoAddVoteTypes()" title="Vote Type">
+                <mat-icon>ballot</mat-icon>
+            </button>
+        </mat-menu>
+
+        <button mat-icon-button (click)="logout()" title="Logout">
+            <mat-icon>logout</mat-icon>
+        </button>
+    </ng-container>
+</mat-toolbar>

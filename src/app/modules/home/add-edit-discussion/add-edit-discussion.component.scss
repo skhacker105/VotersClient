@@ -1,0 +1,11 @@
+@media (max-width: 480px) {
+    .report-name {
+        width: 100%;
+    }
+}
+
+@media (min-width: 481px) {
+    .report-name {
+        width: 50%;
+    }
+}

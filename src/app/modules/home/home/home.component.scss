@@ -1,0 +1,25 @@
+.time-line-option {
+    width: 98%;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: 1%;
+    margin-right: 1%;
+}
+
+@media (max-width: 480px) {
+    .selected-option {
+        margin-left: 2px;
+    }
+}
+
+@media (min-width: 480px) and (max-width: 700px) {
+    .selected-option {
+        margin-left: 4px;
+    }
+}
+
+@media (min-width: 700px) {
+    .selected-option {
+        margin-left: 16px;
+    }
+}

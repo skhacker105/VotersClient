@@ -1,0 +1,14 @@
+.error-container {
+    max-width: 300px;
+}
+
+.error-message {
+    border: solid 5px red;
+    color: red;
+}
+
+.message-container {
+    flex: 1 auto;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+}

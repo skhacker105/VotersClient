@@ -1,0 +1,30 @@
+<ng-container *ngIf="discussion">
+    <app-page-header [display]="discussion.title">
+        <div class="action-buttons">
+            <button mat-icon-button color="primary" *ngIf="isOwner"
+                [routerLink]="['/home/editDiscussion/', discussion._id]">
+                <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" *ngIf="isOwner" (click)="handleDeleteDiscussion()">
+                <mat-icon>delete</mat-icon>
+            </button>
+        </div>
+    </app-page-header>
+    <div class="discussion-message" [innerHTML]="discussion.message">
+    </div>
+
+    <app-page-header [display]="'Votes'">
+
+        <button mat-icon-button *ngFor="let allVoteType of votingService.allVoteTypes"
+            (click)="voteDiscussion(allVoteType)" [attr.title]="allVoteType.name"
+            [disabled]="isMyVote(allVoteType)" [matBadge]="getVoteCategoryCount(allVoteType)"
+            [matBadgeHidden]="getVoteCategoryCount(allVoteType) === 0">
+            <mat-icon>{{ allVoteType.icon }}</mat-icon>
+        </button>
+    </app-page-header>
+    <ng-container *ngFor="let vote of discussion.getVotes()">
+        <app-vote-big-screen [vote]="vote" class="bigscreen"></app-vote-big-screen>
+        <app-vote-mobile-screen [vote]="vote" class="mobile"></app-vote-mobile-screen>
+    </ng-container>
+</ng-container>
+<br><br>

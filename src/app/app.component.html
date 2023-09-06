@@ -1,0 +1,3 @@
+<app-header></app-header>
+<router-outlet *ngIf="userService.hasLocationAccess.value"></router-outlet>
+<app-need-location-access *ngIf="!userService.hasLocationAccess.value"></app-need-location-access>

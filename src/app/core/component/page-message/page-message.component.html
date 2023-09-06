@@ -1,0 +1,15 @@
+<mat-toolbar class="error-container" [ngClass]="{
+    'error-message': isError
+}" color="primary">
+
+    <div class="message-container">
+        {{ message }}
+    </div>
+
+    <div>
+        <button mat-icon-button matSnackBarAction (click)="snackBarRef.dismissWithAction()">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+
+</mat-toolbar>

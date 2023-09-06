@@ -1,0 +1,21 @@
+<ng-container *ngIf="vote">
+    <table class="vote-container" cellspacing="0" [style.background]="color">
+        <tr>
+            <td class="vote-user-icon">
+                <div>
+                    {{ vote.user.name[0] }}
+                </div>
+            </td>
+            <td class="vote-user-name">
+                {{ vote.user.name }}
+            </td>
+            <td class="vote-date">
+                {{ vote.createdOn | date }}
+            </td>
+        </tr>
+        <tr>
+            <td [innerHtml]="vote.message" class="vote-message" colspan="3">
+            </td>
+        </tr>
+    </table>
+</ng-container>

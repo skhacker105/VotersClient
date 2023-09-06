@@ -1,0 +1,11 @@
+<app-page-header [display]="'Say Something'"></app-page-header>
+<mat-form-field class="full-width">
+    <textarea matInput [formControl]="message" style="display: none;" placeholder="Message"></textarea>
+    <quill-editor [formControl]="message" placeholder="Message">
+        <br>
+    </quill-editor>
+</mat-form-field>
+<p align="end">
+    <button mat-raised-button mat-dialog-close>Cancel</button>
+    <button mat-raised-button color="primary" [mat-dialog-close]="message.value">Save</button>
+</p>

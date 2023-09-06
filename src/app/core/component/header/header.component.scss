@@ -1,0 +1,23 @@
+@media (min-width: 481px) {
+    .header-title {
+        padding-left: 10px;
+    }
+    .header-icon {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .header-container {
+        font-size: 10px;
+    }
+    .header-title {
+        padding-left: 5px;
+    }
+    .header-icon {
+        padding-left: 6px;
+        padding-right: 6px;
+    }
+  }
+

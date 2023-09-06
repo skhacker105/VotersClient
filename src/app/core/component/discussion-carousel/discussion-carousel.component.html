@@ -1,0 +1,45 @@
+<ng-container *ngIf="!discussion">
+    No data found in our database.
+</ng-container>
+
+<ng-container *ngIf="discussion">
+    <mat-card class="discussion-card" [ngClass]="{'deleted': isDeleted}">
+        <mat-card-header class="discussion-head">
+            <mat-card-title>
+                {{ discussion.title }}
+                <div class="spacer"></div>
+            </mat-card-title>
+            <div class="action-buttons">
+                <button mat-icon-button color="accent" class="bigscreen" [ngClass]="{ 'mobile': !isOwner }"
+                [routerLink]="['/home/discussionDetail/', discussion._id]">
+                    <mat-icon>pinch_zoom_out</mat-icon>
+                </button>
+                <button mat-icon-button color="primary" *ngIf="isOwner"
+                    [routerLink]="['/home/editDiscussion/', discussion._id]">
+                    <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button color="warn" *ngIf="isOwner" (click)="handleDeleteDiscussion()">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </div>
+
+        </mat-card-header>
+        <div class="discussion-message" [innerHTML]="discussion.message">
+        </div>
+        <mat-card-content class="vote-messages">
+            Votes
+            <!-- All Votes and messages -->
+        </mat-card-content>
+        <mat-card-actions>
+            <button mat-icon-button color="accent" [routerLink]="['/home/discussionDetail/', discussion._id]">
+                <mat-icon>pinch_zoom_out</mat-icon>
+            </button>
+            <button mat-icon-button *ngFor="let allVoteType of votingService.allVoteTypes"
+                (click)="voteDiscussion(allVoteType)" [attr.title]="allVoteType.name" [disabled]="isMyVote(allVoteType) || isDeleted"
+                [matBadge]="getVoteCategoryCount(allVoteType)"
+                [matBadgeHidden]="getVoteCategoryCount(allVoteType) === 0">
+                <mat-icon>{{ allVoteType.icon }}</mat-icon>
+            </button>
+        </mat-card-actions>
+    </mat-card>
+</ng-container>

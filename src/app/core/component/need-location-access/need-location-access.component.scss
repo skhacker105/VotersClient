@@ -1,0 +1,41 @@
+.need-location-container {
+    background-image: url("../../../../assets/noLocAccess.jpg");
+    background-size: cover;
+    background-position: center;
+    text-align: center;
+
+
+    .need-location {
+        text-align: center;
+        padding-top: 50px;
+        font-size: 74px;
+        line-height: 72px;
+        color: #ffff00;
+    }
+
+    .request-location-container {
+        background-color: white;
+        opacity: 0.8;
+        text-align: center;
+
+        .request-location-button {
+            font-size: 120px;
+            width: 120px;
+            height: 130px;
+            padding: 16px;
+            color: red;
+        }
+
+        .request-location-text {
+            font-size: larger;
+            padding: 16px;
+            width: 150px;
+            border: solid 1px #a0a0a0;
+            cursor: pointer;
+            border-radius: 30px;
+            margin: auto;
+            box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+
+        }
+    }
+}
