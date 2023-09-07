@@ -1,11 +1,12 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { IVote } from '../../models/vote';
 import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-vote-big-screen',
   templateUrl: './vote-big-screen.component.html',
-  styleUrls: ['./vote-big-screen.component.scss']
+  styleUrls: ['./vote-big-screen.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class VoteBigScreenComponent implements OnInit {
 

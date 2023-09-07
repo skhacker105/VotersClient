@@ -18,7 +18,7 @@ export class AppComponent implements OnInit {
 
   trackLocationChange() {
     if (!this.userService.hasLocationAccess.value) this.loadGeoLocation();
-    this.watchPosition();
+    // this.watchPosition();
   }
 
   loadGeoLocation() {

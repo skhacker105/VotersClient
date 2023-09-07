@@ -7,62 +7,6 @@
     }
 }
 
-// @media (max-width: 400px) {
-
-//     .discussion-card {
-
-//         .discussion-message {
-//             height: 100px;
-//             max-height: 100px;
-//         }
-
-//         .vote-messages {
-//             max-height: 100px;
-//         }
-//     }
-// }
-
-// @media (min-width: 401px) and (max-width: 760px) {
-
-//     .discussion-card {
-
-//         .discussion-message {
-//             height: 120px;
-//             max-height: 120px;
-//         }
-
-//         .vote-messages {
-//             max-height: 150px;
-//         }
-//     }
-// }
-
-// @media (min-width: 761px) and (max-width: 1000px) {
-
-//     .discussion-card {
-
-//         .discussion-message {
-//             height: 150px;
-//             max-height: 150px;
-//         }
-
-//         .vote-messages {
-//             max-height: 200px;
-//         }
-//     }
-// }
-
-// @media (min-width: 1000px) {
-
-//     .discussion-card {
-
-//         .discussion-message {
-//             height: 250px;
-//             max-height: 250px;
-//         }
-
-//         .vote-messages {
-//             max-height: 200px;
-//         }
-//     }
-// }
+.action-buttons {
+    display: flex;
+}

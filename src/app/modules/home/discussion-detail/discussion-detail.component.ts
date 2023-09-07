@@ -146,7 +146,6 @@ export class DiscussionDetailComponent implements OnInit, OnDestroy {
     if (!this.discussion || !this.loginProfile) return;
 
     const existingvote = this.discussion.userHasAlreadyVoted(this.loginProfile);
-    console.log('existingvote = ', existingvote, vote)
     if (existingvote) {
       if (this.discussion) this.discussion.updateVote(vote);
     } else {
@@ -209,5 +208,25 @@ export class DiscussionDetailComponent implements OnInit, OnDestroy {
           this.loggerService.showError(err.error.message)
         }
       });
+  }
+
+  handleChangeState(newState: string) {
+    if (!this.discussion) return;
+    this.discussion.confirmForStateChange(newState)
+      .then(result => {
+        if (result) this.changeState(newState)
+      })
+      .catch(err => {this.loggerService.showError(err); console.log('error: ', err)})
+  }
+
+  changeState(newState: string) {
+    if (!this.discussion) return;
+
+    this.discussionService.updateState(this.discussion._id, newState)
+      .pipe(takeUntil(this.isComponentIsActive))
+      .subscribe({
+        next: res => this.discussion?.changeState(newState),
+        error: err => this.loggerService.showError(err)
+      })
   }
 }

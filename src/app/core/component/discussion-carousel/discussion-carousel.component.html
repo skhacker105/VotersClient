@@ -9,17 +9,22 @@
                 {{ discussion.title }}
                 <div class="spacer"></div>
                 <button mat-icon-button color="accent" class="bigscreen" [ngClass]="{ 'mobile': !isOwner }"
-                [routerLink]="['/home/discussionDetail/', discussion._id]">
+                    [routerLink]="['/home/discussionDetail/', discussion._id]">
                     <mat-icon>pinch_zoom_out</mat-icon>
                 </button>
-                <button mat-icon-button color="primary" *ngIf="isOwner"
+                <button mat-icon-button color="primary" *ngIf="isOwner && !discussion.isVotingEnabled && !discussion.isBlocked"
                     [routerLink]="['/home/editDiscussion/', discussion._id]">
                     <mat-icon>edit</mat-icon>
                 </button>
-                <button mat-icon-button color="warn" *ngIf="isOwner" (click)="handleDeleteDiscussion()">
+                <button mat-icon-button color="warn" *ngIf="isOwner && !discussion.isVotingEnabled && !discussion.isBlocked" (click)="handleDeleteDiscussion()">
                     <mat-icon>delete</mat-icon>
                 </button>
             </mat-card-title>
+            <mat-card-subtitle class="discussion-state">
+                <app-discussion-next-state [discussion]="discussion" [showControl]="isOwner"
+                    (changeState)="handleChangeState($event)">
+                </app-discussion-next-state>
+            </mat-card-subtitle>
 
         </mat-card-header>
         <div class="discussion-message" [innerHTML]="discussion.message">
@@ -28,12 +33,14 @@
             <button mat-icon-button color="accent" [routerLink]="['/home/discussionDetail/', discussion._id]">
                 <mat-icon>pinch_zoom_out</mat-icon>
             </button>
-            <button mat-icon-button *ngFor="let allVoteType of votingService.allVoteTypes"
-                (click)="voteDiscussion(allVoteType)" [attr.title]="allVoteType.name" [disabled]="isMyVote(allVoteType) || isDeleted"
-                [matBadge]="getVoteCategoryCount(allVoteType)"
-                [matBadgeHidden]="getVoteCategoryCount(allVoteType) === 0">
-                <mat-icon>{{ allVoteType.icon }}</mat-icon>
-            </button>
+            <ng-container *ngIf="discussion.isVotingEnabled">
+                <button mat-icon-button *ngFor="let allVoteType of votingService.allVoteTypes"
+                    (click)="voteDiscussion(allVoteType)" [attr.title]="allVoteType.name"
+                    [disabled]="isMyVote(allVoteType) || isDeleted" [matBadge]="getVoteCategoryCount(allVoteType)"
+                    [matBadgeHidden]="getVoteCategoryCount(allVoteType) === 0">
+                    <mat-icon>{{ allVoteType.icon }}</mat-icon>
+                </button>
+            </ng-container>
         </mat-card-actions>
         <mat-card-content class="vote-messages">
             <ng-container *ngFor="let vote of discussion.getVotes()">

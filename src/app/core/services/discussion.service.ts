@@ -7,6 +7,7 @@ import { IGridConfig } from '../models/paging';
 import { BehaviorSubject, map } from 'rxjs';
 import { ITimeline } from '../models/timeline';
 import { IScope } from '../models/scope';
+import { MatDialog } from '@angular/material/dialog';
 
 @Injectable({
   providedIn: 'root'
@@ -16,19 +17,19 @@ export class DiscussionService {
   baseUrl = environment.basUrl + 'discussion/';
   selectedTimeLine = new BehaviorSubject<ITimeline | undefined>(undefined);
   selectedScope = new BehaviorSubject<IScope | undefined>(undefined);
-  constructor(public http: HttpClient) { }
+  constructor(public http: HttpClient, private matDialog: MatDialog) { }
 
 
   private Objectify(d: ServerResponse<Discussion>) {
-    d.data = new Discussion(d.data)
+    d.data = new Discussion(d.data, this.matDialog)
     return d;
   }
   private ObjectifyArr(darr: ServerResponse<Discussion[]>) {
-    darr.data = darr.data.map(d => new Discussion(d));
+    darr.data = darr.data.map(d => new Discussion(d, this.matDialog));
     return darr
   }
   private ObjectifyPagedArr(darr: ServerResponse<IGridConfig<Discussion[]>>) {
-    darr.data.data = darr.data.data?.map(d => new Discussion(d));
+    darr.data.data = darr.data.data?.map(d => new Discussion(d, this.matDialog));
     return darr
   }
 
@@ -53,6 +54,10 @@ export class DiscussionService {
 
   update(id: string, discussion: any) {
     return this.http.put<ServerResponse<Discussion>>(this.baseUrl + 'edit/' + id, discussion)
+  }
+
+  updateState(id: string, newState: string) {
+    return this.http.put<ServerResponse<Discussion>>(this.baseUrl + 'updateState/' + id, {newState})
   }
 
   delete(id: string) {

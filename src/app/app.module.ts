@@ -7,6 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CoreModule } from './core/core.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { JwtInterceptor } from './core/interceptor/jwt.interceptor';
+import { UrlLocationInterceptor } from './core/interceptor/user-location.interceptor';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,11 @@ import { JwtInterceptor } from './core/interceptor/jwt.interceptor';
     {
       provide: HTTP_INTERCEPTORS,
       useClass: JwtInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: UrlLocationInterceptor,
       multi: true
     }
   ]

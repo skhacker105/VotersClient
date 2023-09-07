@@ -1,11 +1,12 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { IVote } from '../../models/vote';
 import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-vote-mobile-screen',
   templateUrl: './vote-mobile-screen.component.html',
-  styleUrls: ['./vote-mobile-screen.component.scss']
+  styleUrls: ['./vote-mobile-screen.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class VoteMobileScreenComponent implements OnInit {
 

@@ -16,6 +16,9 @@ import { VoteBigScreenComponent } from './component/vote-big-screen/vote-big-scr
 import { VoteMobileScreenComponent } from './component/vote-mobile-screen/vote-mobile-screen.component';
 import { NeedLocationAccessComponent } from './component/need-location-access/need-location-access.component';
 import { VoteCarouselComponent } from './component/vote-carousel/vote-carousel.component';
+import { DiscussionStateIconPipe } from './pipe/discussion-state-icon.pipe';
+import { DiscussionStateDisplayPipe } from './pipe/discussion-state-display.pipe';
+import { DiscussionNextStateComponent } from './component/discussion-next-state/discussion-next-state.component';
 
 
 @NgModule({
@@ -31,7 +34,10 @@ import { VoteCarouselComponent } from './component/vote-carousel/vote-carousel.c
     VoteBigScreenComponent,
     VoteMobileScreenComponent,
     NeedLocationAccessComponent,
-    VoteCarouselComponent
+    VoteCarouselComponent,
+    DiscussionStateIconPipe,
+    DiscussionStateDisplayPipe,
+    DiscussionNextStateComponent
   ],
   imports: [
     CommonModule,
@@ -52,7 +58,10 @@ import { VoteCarouselComponent } from './component/vote-carousel/vote-carousel.c
     DiscussionCarouselComponent,
     VoteBigScreenComponent,
     VoteMobileScreenComponent,
-    NeedLocationAccessComponent
+    NeedLocationAccessComponent,
+    DiscussionStateIconPipe,
+    DiscussionStateDisplayPipe,
+    DiscussionNextStateComponent
   ]
 })
 export class CoreModule { }

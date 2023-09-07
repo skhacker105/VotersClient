@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { IVote, IVoteType } from '../models/vote';
 import { ServerResponse } from '../models/serverResponse';
 import { environment } from 'src/environments/environment';
-import { map, tap } from 'rxjs';
+import { catchError, of, tap } from 'rxjs';
 import { IUser } from '../models/user';
 
 @Injectable({
@@ -18,7 +18,13 @@ export class VotingService {
 
   loadVoteTypes() {
     return this.http.get<ServerResponse<IVoteType[]>>(this.baseUrlVoteType + 'getAll')
-      .pipe(tap(res => this.allVoteTypes = res.data))
+      .pipe(
+        tap(res => this.allVoteTypes = res.data),
+        catchError(err => {
+          console.log('Error: ', err);
+          return of([])
+        })
+      )
   }
 
   getAll() {

@@ -86,7 +86,7 @@ export class AddEditVoteTypeComponent implements OnInit, OnDestroy {
           this.loadAllVoteTypes();
         },
         error: err => {
-          this.loggerService.showError(err.error.message);
+          this.loggerService.showError(err.error.error);
         }
       });
   }
@@ -123,7 +123,7 @@ export class AddEditVoteTypeComponent implements OnInit, OnDestroy {
           this.loadAllVoteTypes();
         },
         error: err => {
-          this.loggerService.showError(err.error.message);
+          this.loggerService.showError(err.error.error );
         }
       })
   }
