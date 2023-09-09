@@ -29,7 +29,7 @@ export class DiscussionCarouselComponent implements OnInit, OnDestroy {
   isComponentIsActive = new Subject<boolean>();
 
   constructor(
-    public votingService: VotingService,
+    private votingService: VotingService,
     private userService: UserService,
     private dialog: MatDialog,
     private loggerService: LoggerService,
@@ -115,7 +115,7 @@ export class DiscussionCarouselComponent implements OnInit, OnDestroy {
   getVoteCategoryCount(votetype?: IVoteType): number {
     if (!this.discussion || !votetype) return 0;
 
-    const existingCategory = this.discussion.voteCategories.find(cat => cat.category._id === votetype._id)
+    const existingCategory = this.discussion.voteCategories.find(cat => cat.category.ui_id === votetype.ui_id)
     if (!existingCategory) return 0;
 
     return existingCategory.votes.length;

@@ -1,15 +1,15 @@
 .discussion-next-state {
     display: flex;
     color: gray;
+
+    .discussion-state {
+        line-height: 47px;
+        font-size: 14px;
+    }
 }
 
 @media (max-width: 480px) {
     .discussion-next-state {
-
-        .discussion-state {
-            line-height: 47px;
-            font-size: 14px;
-        }
 
         .discussion-icon {
             font-size: 16px;
@@ -19,11 +19,6 @@
 
 @media (min-width: 481px) {
     .discussion-next-state {
-
-        .discussion-state {
-            line-height: 39px;
-            font-size: 14px;
-        }
 
         .discussion-icon {
             font-size: 20px;

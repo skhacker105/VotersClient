@@ -1,0 +1,25 @@
+.option-select-icon {
+    width: 100px;
+
+    .option-select-title {
+        position: relative;
+        z-index: 100;
+        bottom: 3px;
+        font-size: 12px;
+        width: 80px;
+        text-overflow: ellipsis;
+        text-align: center;
+        display: block;
+        overflow: hidden;
+    }
+}
+
+@media (max-width: 480px) {
+    .option-select-icon {
+        width: 70px !important;
+    }
+
+    .option-select-title {
+        width: 50px !important;
+    }
+}

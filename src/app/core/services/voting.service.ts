@@ -3,8 +3,9 @@ import { Injectable } from '@angular/core';
 import { IVote, IVoteType } from '../models/vote';
 import { ServerResponse } from '../models/serverResponse';
 import { environment } from 'src/environments/environment';
-import { catchError, of, tap } from 'rxjs';
 import { IUser } from '../models/user';
+import { MATERIAL_ICONS } from '../constants/material-icon';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,34 +14,14 @@ export class VotingService {
 
   baseUrlVote = environment.basUrl + 'vote/';
   baseUrlVoteType = environment.basUrl + 'votetype/';
-  allVoteTypes: IVoteType[] = [];
-  constructor(public http: HttpClient) { }
-
-  loadVoteTypes() {
-    return this.http.get<ServerResponse<IVoteType[]>>(this.baseUrlVoteType + 'getAll')
-      .pipe(
-        tap(res => this.allVoteTypes = res.data),
-        catchError(err => {
-          console.log('Error: ', err);
-          return of([])
-        })
-      )
-  }
-
-  getAll() {
-    return this.http.get<ServerResponse<IVoteType[]>>(this.baseUrlVoteType + 'getAll')
-  }
-
-  add(vote: any) {
-    return this.http.post<ServerResponse<IVoteType>>(this.baseUrlVoteType + 'add', vote)
-  }
-
-  update(id: string, vote: any) {
-    return this.http.put<ServerResponse<IVoteType>>(this.baseUrlVoteType + 'edit/' + id, vote)
-  }
-
-  delete(id: string) {
-    return this.http.delete<ServerResponse<string>>(this.baseUrlVoteType + 'delete/' + id)
+  allVoteTypes: IVoteType[];
+  constructor(public http: HttpClient, private userService: UserService) {
+    this.allVoteTypes = MATERIAL_ICONS.map((icon, i) => {
+      return {
+        ui_id: '',
+        matIcon: icon
+      } as IVoteType
+    });
   }
 
   addVote(data: any) {

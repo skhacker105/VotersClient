@@ -1,5 +1,5 @@
-<mat-toolbar>
+<mat-toolbar [color]="color" class="sticky">
     {{display}}
-    <div class="spacer"></div>
+    <div class="spacer" *ngIf="needSpacer"></div>
     <ng-content></ng-content>
 </mat-toolbar>

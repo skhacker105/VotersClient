@@ -1,0 +1,11 @@
+<button mat-icon-button (click)="voteTypeClick.emit(voteType)"
+    [attr.title]="voteType.name" [disabled]="disabled"
+    [matBadge]="matBadge"
+    [matBadgeHidden]="matBadgeHidden"
+    *ngIf="voteType"
+    type="button"
+    class="option-select-icon"
+    >
+    <mat-icon>{{ voteType.matIcon }}</mat-icon>
+    <span class="option-select-title">{{ voteType.name }}</span>
+</button>

@@ -15,10 +15,13 @@ export interface VoteCategory {
 }
 
 export interface IVoteType {
-    _id: string;
-    name: string;
-    icon: string;
-    reportName: string;
+    _id?: string;
+    ui_id: string;
+    iconOption: string;
+    matIcon?: string;
+    image: string;
+    name?: string;
+    profile?: string;
     createdBy: IUser;
     createdOn: Date;
 }

@@ -7,4 +7,6 @@ import { Component, Input } from '@angular/core';
 })
 export class PageHeaderComponent {
   @Input() display = '';
+  @Input() color = '';
+  @Input() needSpacer = true;
 }

@@ -1,5 +1,5 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { OwlOptions } from 'ngx-owl-carousel-o';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { OwlOptions, SlidesOutputData } from 'ngx-owl-carousel-o';
 import { Subject, take, takeUntil } from 'rxjs';
 import { allScopeOptions } from 'src/app/core/constants/scope-options';
 import { timelineOptions } from 'src/app/core/constants/timeline-options';
@@ -18,8 +18,8 @@ import { LoggerService } from 'src/app/core/services/logger.service';
 export class HomeComponent implements OnInit, OnDestroy {
 
   isComponentIsActive = new Subject<boolean>();
-  myDiscussions = GridConfig.defaultPagingObject<Discussion[]>();
-  discussionsDahboard = GridConfig.defaultPagingObject<Discussion[]>();
+  myDiscussions = new GridConfig<Discussion[]>();
+  news = new GridConfig<Discussion[]>();
   customOptions: OwlOptions = {
     loop: false,
     mouseDrag: true,
@@ -42,8 +42,9 @@ export class HomeComponent implements OnInit, OnDestroy {
         items: 4
       }
     },
-    nav: false
+    nav: false,
   }
+
   allTimeLines: ITimeline[] = timelineOptions;
   selectedTimeLine: ITimeline = this.allTimeLines[0];
   allScopes: IScope[] = allScopeOptions;
@@ -52,7 +53,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   constructor(private discussionService: DiscussionService, private loggerService: LoggerService) { }
 
   ngOnInit(): void {
-    this.loadMyDiscussions()
+    this.loadMyDiscussions(this.myDiscussions.getCurrentPageQuery(this.myDiscussions))
   }
 
   ngOnDestroy(): void {
@@ -60,18 +61,35 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.isComponentIsActive.complete();
   }
 
-  loadMyDiscussions() {
-    this.discussionService.getMyDiscussions(GridConfig.getPagingQuery(this.myDiscussions))
+  handleSlidedData(slideState: SlidesOutputData) {
+    const trigger = !slideState.slides || !slideState.startPosition ? false : (slideState.startPosition + slideState.slides.length) < this.myDiscussions.dataLength
+    if (trigger) this.loadMyDiscussionNextPage(slideState);
+  }
+
+  loadMyDiscussions(qry: IGridConfig<Discussion[]>, slideState?: SlidesOutputData) {
+    if (!qry) return;
+
+    this.discussionService.getMyDiscussions(qry)
       .pipe(takeUntil(this.isComponentIsActive), take(1))
       .subscribe({
         next: res => {
-          this.myDiscussions = res.data;
+          this.customOptions.startPosition = slideState?.startPosition
+          res.data.data = this.myDiscussions.data.concat(res.data.data)
+          this.myDiscussions.setData(res.data);
         },
         error: err => {
           this.loggerService.showError(err.error.message);
         }
       });
   }
+
+  loadMyDiscussionNextPage(slideState?: SlidesOutputData) {
+    if (this.myDiscussions.hasNextPage()) {
+      const newqry = this.myDiscussions.getNextPageQuery(this.myDiscussions);
+      if (newqry) this.loadMyDiscussions(newqry, slideState)
+    }
+  }
+
 
   setTimeLine(timeline: ITimeline) {
     this.selectedTimeLine = timeline;

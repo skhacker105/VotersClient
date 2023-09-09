@@ -19,6 +19,7 @@ import { VoteCarouselComponent } from './component/vote-carousel/vote-carousel.c
 import { DiscussionStateIconPipe } from './pipe/discussion-state-icon.pipe';
 import { DiscussionStateDisplayPipe } from './pipe/discussion-state-display.pipe';
 import { DiscussionNextStateComponent } from './component/discussion-next-state/discussion-next-state.component';
+import { MatVoteTypeComponent } from './component/mat-vote-type/mat-vote-type.component';
 
 
 @NgModule({
@@ -37,7 +38,8 @@ import { DiscussionNextStateComponent } from './component/discussion-next-state/
     VoteCarouselComponent,
     DiscussionStateIconPipe,
     DiscussionStateDisplayPipe,
-    DiscussionNextStateComponent
+    DiscussionNextStateComponent,
+    MatVoteTypeComponent
   ],
   imports: [
     CommonModule,
@@ -61,7 +63,8 @@ import { DiscussionNextStateComponent } from './component/discussion-next-state/
     NeedLocationAccessComponent,
     DiscussionStateIconPipe,
     DiscussionStateDisplayPipe,
-    DiscussionNextStateComponent
+    DiscussionNextStateComponent,
+    MatVoteTypeComponent
   ]
 })
 export class CoreModule { }

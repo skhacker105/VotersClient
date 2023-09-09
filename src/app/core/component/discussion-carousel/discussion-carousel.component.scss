@@ -14,16 +14,17 @@
         overflow: hidden;
     }
 
-    .discussion-action {
-        margin: auto;
-        padding-top: 16px;
-    }
+    // .discussion-action {
+    //     margin: auto;
+    //     padding-top: 16px;
+    // }
 
     .discussion-message {
         width: 100%;
         padding: 10px;
         padding-left: 16px;
         padding-left: 16px;
+        max-width: -webkit-fill-available;
 
         ::ng-deep p img {
             max-width: 90% !important;

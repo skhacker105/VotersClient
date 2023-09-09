@@ -16,6 +16,10 @@ export class Discussion {
     createdBy: IUser;
     createdOn: Date;
     state: string;
+    startDate?: Date;
+    endDate?: Date;
+    voteTypes: IVoteType[];
+
     nextPossibleStates: string[] = [];
     isVotingEnabled = false;
     isBlocked = false;
@@ -28,6 +32,10 @@ export class Discussion {
         this.createdBy = obj.createdBy;
         this.createdOn = obj.createdOn;
         this.state = obj.state;
+        this.voteTypes = obj.voteTypes ? obj.voteTypes : [];
+        this.startDate = obj.startDate;
+        this.endDate = obj.endDate;
+
         this.matDialog = matDialog;
         this.resetEnability();
         this.resetBlockedState();
@@ -37,7 +45,7 @@ export class Discussion {
 
     categorizeVotes() {
         const uniqueVoteTypes = this.votes.reduce((arr, val) => {
-            let existing: VoteCategory | undefined = arr.find(cat => cat.category._id === val.voteType._id);
+            let existing: VoteCategory | undefined = arr.find(cat => cat.category.ui_id === val.voteType.ui_id);
             if (!existing) {
                 existing = {
                     category: val.voteType,
@@ -102,7 +110,7 @@ export class Discussion {
     }
 
     isMyVote(voteType: IVoteType, user: IUser) {
-        return this.votes.some(v => v.user._id === user._id && voteType._id === v.voteType._id);
+        return this.votes.some(v => v.user._id === user._id && voteType .ui_id=== v.voteType.ui_id);
     }
 
     getVotes() {
@@ -134,5 +142,14 @@ export class Discussion {
         this.resetEnability();
         this.resetBlockedState();
         this.resetNextStates();
+    }
+
+    getVoteCategoryCount(votetype?: IVoteType): number {
+      if (!votetype) return 0;
+  
+      const existingCategory = this.voteCategories.find(cat => cat.category.ui_id === votetype.ui_id)
+      if (!existingCategory) return 0;
+  
+      return existingCategory.votes.length;
     }
 }

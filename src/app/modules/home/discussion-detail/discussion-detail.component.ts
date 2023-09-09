@@ -162,20 +162,6 @@ export class DiscussionDetailComponent implements OnInit, OnDestroy {
     }
   }
 
-  isMyVote(votetype?: IVoteType): boolean {
-    if (!this.discussion || !votetype || !this.loginProfile) return false;
-    return this.discussion.isMyVote(votetype, this.loginProfile);
-  }
-
-  getVoteCategoryCount(votetype?: IVoteType): number {
-    if (!this.discussion || !votetype) return 0;
-
-    const existingCategory = this.discussion.voteCategories.find(cat => cat.category._id === votetype._id)
-    if (!existingCategory) return 0;
-
-    return existingCategory.votes.length;
-  }
-
   handleDeleteVote(vote: IVote) {
     if (!this.discussion) return;
 

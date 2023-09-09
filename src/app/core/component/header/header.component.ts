@@ -19,8 +19,4 @@ export class HeaderComponent {
   gotoAddDiscussion() {
     this.router.navigateByUrl('/home/addDiscussion')
   }
-
-  gotoAddVoteTypes() {
-    this.router.navigateByUrl('/home/addVoteType')
-  }
 }

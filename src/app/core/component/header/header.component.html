@@ -8,20 +8,9 @@
         <mat-icon>search</mat-icon>
     </button>
     <ng-container *ngIf="userService.isLoggedIn()">
-        <button mat-icon-button (click)="gotoAddDiscussion()" *ngIf="!userService.isAdmin()" title="ADD Discussion">
-            <mat-icon>add</mat-icon>
-        </button>
-        <button mat-icon-button [matMenuTriggerFor]="menu" *ngIf="userService.isAdmin()" title="ADD">
+        <button mat-icon-button (click)="gotoAddDiscussion()" title="ADD Discussion">
             <mat-icon>add_box</mat-icon>
         </button>
-        <mat-menu #menu="matMenu">
-            <button mat-icon-button (click)="gotoAddDiscussion()" title="Discussion">
-                <mat-icon>text_increase</mat-icon>
-            </button>
-            <button mat-icon-button (click)="gotoAddVoteTypes()" title="Vote Type">
-                <mat-icon>ballot</mat-icon>
-            </button>
-        </mat-menu>
 
         <button mat-icon-button (click)="logout()" title="Logout">
             <mat-icon>logout</mat-icon>

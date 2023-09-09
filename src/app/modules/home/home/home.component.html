@@ -1,20 +1,58 @@
 <!-- My Discussion -->
 <ng-container *ngIf="myDiscussions.data && myDiscussions.data.length > 0">
-  <app-page-header [display]="'My Discussions'"></app-page-header>
-  <owl-carousel-o [options]="customOptions">
+  <app-page-header [display]="'My Discussions'" color="subheader">
+    <button mat-icon-button title="Enabled" (click)="myDiscussions.isExpanded = false" *ngIf="myDiscussions.isExpanded">
+      <mat-icon>visibility</mat-icon>
+    </button>
+    <button mat-icon-button title="Disabled" (click)="myDiscussions.isExpanded = true"
+      *ngIf="!myDiscussions.isExpanded">
+      <mat-icon>visibility_off</mat-icon>
+    </button>
+  </app-page-header>
 
-    <ng-template carouselSlide *ngFor="let discussion of myDiscussions.data">
-      <div class="slide">
-        <app-discussion-carousel [discussion]="discussion"></app-discussion-carousel>
-      </div>
-    </ng-template>
-  </owl-carousel-o>
+  <ng-container *ngIf="myDiscussions.isExpanded">
+    <owl-carousel-o [options]="customOptions" (translated)="handleSlidedData($event)" class="bigscreen">
+      <ng-template carouselSlide *ngFor="let discussion of myDiscussions.data; let i = index;">
+        <ng-template [ngTemplateOutlet]="discussioncrousel" [ngTemplateOutletContext]="{
+        discussion: discussion,
+        length: myDiscussions.data.length,
+        i: i
+      }"></ng-template>
+      </ng-template>
+    </owl-carousel-o>
+    <div class="mobile mobile-dicussions-container">
+      <ng-container *ngFor="let discussion of myDiscussions.data; let i = index;">
+        <ng-template [ngTemplateOutlet]="discussioncrousel" [ngTemplateOutletContext]="{ discussion: discussion }">
+        </ng-template>
+      </ng-container>
+      <p align="center" *ngIf="myDiscussions.hasNextPage()">
+        <button mat-raised-button (click)="loadMyDiscussionNextPage()">Load More...</button>
+      </p>
+    </div>
+  </ng-container>
 </ng-container>
 
+<!-- Dicsussion Crousel for dashboard -->
+<ng-template #discussioncrousel let-discussion="discussion">
+  <app-discussion-carousel [discussion]="discussion"></app-discussion-carousel>
+</ng-template>
 
-<!-- NewsDashboard -->
+
+
+
+
+<!-- NEWS Dashboard -->
 <!-- <ng-container *ngIf="discussionsDahboard.data && discussionsDahboard.data.length > 0"> -->
-<app-page-header [display]="'News Highlight'">
+<app-page-header [display]="'NEWS'" color="subheader">
+
+  <!-- Content Visibility -->
+  <button mat-icon-button title="Enabled" (click)="news.isExpanded = false" *ngIf="news.isExpanded">
+    <mat-icon>visibility</mat-icon>
+  </button>
+  <button mat-icon-button title="Disabled" (click)="news.isExpanded = true"
+    *ngIf="!news.isExpanded">
+    <mat-icon>visibility_off</mat-icon>
+  </button>
 
   <!-- Timeline -->
   <mat-chip color="primary" [matMenuTriggerFor]="menu" [attr.title]="selectedTimeLine.display"

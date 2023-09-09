@@ -3,14 +3,63 @@
 @import 'ngx-owl-carousel-o/lib/styles/scss/owl.carousel';
 @import 'ngx-owl-carousel-o/lib/styles/scss/owl.theme.default';
 
-html, body {
+html,
+body {
     margin: 0px;
     width: 100%;
     height: 100%;
 }
 
+.mat-subheader:disabled {
+    background-color: #8793d2 !important;
+    color: white !important;
+}
+
+.mat-subheader {
+    background-color: #8793d2 !important;
+    color: white !important;
+}
+
+.mat-matIcon-select:disabled {
+    color: inherit !important;
+}
+
+.mat-matIcon-select {
+    color: #c7339e !important;
+}
+
 .flex {
     display: flex;
+
+    .flex-scrollable {
+        flex: 1 auto !important;
+        overflow-x: auto !important;
+        height: 77px;
+    }
+}
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
+
+    .flex-scrollable {
+        flex: 1 auto;
+        overflow-y: auto;
+    }
+}
+
+.invalid {
+    color: red;
+}
+
+.fill-parent {
+    max-height: -webkit-fill-available;
+}
+
+.sticky {
+    position: sticky;
+    top: 0;
+    z-index: 999;
 }
 
 .spacer {
@@ -35,15 +84,17 @@ html, body {
 
 }
 
+// Media queries
 @media (max-width: 480px) {
     .bodybackground {
         background-image: url('./assets/bg_mobile.jpg');
         background-size: cover;
     }
-    
+
     .mobile {
         display: inherit !important;
     }
+
     .bigscreen {
         display: none !important;
     }
@@ -51,7 +102,10 @@ html, body {
     .standard-padding {
         padding: 10px;
     }
-    .ql-editor { height: 150px !important; }
+
+    .ql-editor {
+        height: 150px !important;
+    }
 }
 
 @media (min-width: 481px) {
@@ -66,6 +120,7 @@ html, body {
     .mobile {
         display: none !important;
     }
+
     .bigscreen {
         display: inherit !important;
     }
@@ -73,7 +128,10 @@ html, body {
     .standard-padding {
         padding: 15px;
     }
-    .ql-editor { height: 200px !important; }
+
+    .ql-editor {
+        height: 200px !important;
+    }
 }
 
 @media (max-width: 400px) {
@@ -81,16 +139,19 @@ html, body {
         width: 99%;
     }
 }
+
 @media (min-width: 401px) and (max-width: 760px) {
     .input-textarea-popup {
         width: 80%;
     }
 }
+
 @media (min-width: 761px) and (max-width: 1000px) {
     .input-textarea-popup {
         width: 60%;
     }
 }
+
 @media (min-width: 1000px) {
     .input-textarea-popup {
         width: 500px;
@@ -100,10 +161,17 @@ html, body {
 .mat-mdc-snack-bar-label {
     max-width: 300px;
 }
+
 .mdc-snackbar__surface {
     padding-right: 0px !important;
     min-width: inherit !important;
 }
+
 .mdc-snackbar__label {
     padding: 0px !important;
+}
+
+.mat-badge-content {
+    margin-top: 12px;
+    margin-right: 10px;
 }

@@ -10,6 +10,12 @@
     .selected-option {
         margin-left: 2px;
     }
+
+    .mobile-dicussions-container {
+        max-height: -webkit-fill-available;
+        overflow-y: auto;
+        display: block !important;
+    }
 }
 
 @media (min-width: 480px) and (max-width: 700px) {

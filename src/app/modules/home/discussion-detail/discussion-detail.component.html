@@ -6,17 +6,19 @@
                 (changeState)="handleChangeState($event)">
             </app-discussion-next-state>
 
-            <button mat-icon-button color="primary" *ngIf="isOwner"
+            <button mat-icon-button color="primary"
+                *ngIf="isOwner && !discussion.isVotingEnabled && !discussion.isBlocked"
                 [routerLink]="['/home/editDiscussion/', discussion._id]">
                 <mat-icon>edit</mat-icon>
             </button>
-            <button mat-icon-button color="warn" *ngIf="isOwner" (click)="handleDeleteDiscussion()">
+            <button mat-icon-button color="warn" *ngIf="isOwner && !discussion.isVotingEnabled && !discussion.isBlocked"
+                (click)="handleDeleteDiscussion()">
                 <mat-icon>delete</mat-icon>
             </button>
         </div>
     </app-page-header>
-    <app-page-header>
-        <app-discussion-next-state [discussion]="discussion" [showControl]="isOwner" class="mobile"
+    <app-page-header class="mobile">
+        <app-discussion-next-state [discussion]="discussion" [showControl]="isOwner"
             (changeState)="handleChangeState($event)">
         </app-discussion-next-state>
     </app-page-header>
@@ -24,24 +26,26 @@
     <div class="discussion-message" [innerHTML]="discussion.message">
     </div>
 
-    <app-page-header [display]="'Votes'">
+    <app-page-header [display]="'Votes'" [needSpacer]="false">
 
-        <ng-container *ngIf="discussion.isVotingEnabled">
-            <button mat-icon-button *ngFor="let allVoteType of votingService.allVoteTypes"
-                (click)="voteDiscussion(allVoteType)" [attr.title]="allVoteType.name" [disabled]="isMyVote(allVoteType)"
-                [matBadge]="getVoteCategoryCount(allVoteType)"
-                [matBadgeHidden]="getVoteCategoryCount(allVoteType) === 0">
-                <mat-icon>{{ allVoteType.icon }}</mat-icon>
+        <div *ngIf="loginProfile" class="flex flex-scrollable">
+            <button mat-icon-button *ngFor="let allVoteType of discussion.voteTypes"
+                (click)="voteDiscussion(allVoteType)" [attr.title]="allVoteType.name"
+                [disabled]="!discussion.isVotingEnabled || discussion.isMyVote(allVoteType, loginProfile)"
+                [matBadge]="discussion.getVoteCategoryCount(allVoteType)"
+                [matBadgeHidden]="discussion.getVoteCategoryCount(allVoteType) === 0">
+                <mat-icon>{{ allVoteType.matIcon }}</mat-icon>
             </button>
-        </ng-container>
+        </div>
     </app-page-header>
     <ng-container *ngFor="let vote of discussion.getVotes()">
         <app-vote-big-screen [vote]="vote" class="bigscreen"
-            [showActionButton]="votingService.isOwner(vote, loginProfile)" (onEditClick)="voteDiscussion(vote.voteType)"
-            (onDeleteClick)="handleDeleteVote(vote)">
+            [showActionButton]="votingService.isOwner(vote, loginProfile) && discussion.isVotingEnabled"
+            (onEditClick)="voteDiscussion(vote.voteType)" (onDeleteClick)="handleDeleteVote(vote)">
         </app-vote-big-screen>
         <app-vote-mobile-screen [vote]="vote" class="mobile"
-            [showActionButton]="votingService.isOwner(vote, loginProfile)" (onEditClick)="voteDiscussion(vote.voteType)"
+            [showActionButton]="votingService.isOwner(vote, loginProfile) && discussion.isVotingEnabled"
+            (onEditClick)="voteDiscussion(vote.voteType)"
             (onDeleteClick)="handleDeleteVote(vote)"></app-vote-mobile-screen>
     </ng-container>
 </ng-container>

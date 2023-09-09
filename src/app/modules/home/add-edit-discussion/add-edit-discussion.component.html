@@ -1,17 +1,53 @@
 <app-page-header [display]="(id ? 'Edit' : 'Add') + '   Discussion'"></app-page-header>
+
+<!-- Add Edit Discussion Form -->
 <form [formGroup]="discussionForm" (ngSubmit)="saveDiscussion()" class="standard-padding">
+
+    <!-- Title -->
     <mat-form-field class="report-name">
         <mat-label>Title</mat-label>
         <input matInput formControlName="title">
     </mat-form-field>
 
+    <!-- Date Range -->
+    <mat-form-field class="report-range">
+        <mat-label>Enter a date range</mat-label>
+        <mat-date-range-input [rangePicker]="picker" [min]="todayDate">
+            <input matStartDate formControlName="startDate" placeholder="Start date">
+            <input matEndDate formControlName="endDate" placeholder="End date">
+        </mat-date-range-input>
+        <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker touchUi #picker></mat-date-range-picker>
+
+        <mat-error *ngIf="discussionForm.controls['startDate'].hasError('matStartDateInvalid')">Invalid start
+            date</mat-error>
+        <mat-error *ngIf="discussionForm.controls['endDate'].hasError('matEndDateInvalid')">Invalid end date</mat-error>
+    </mat-form-field>
+
+    <!-- Vote Types -->
+    <div class="flex">
+        <button mat-icon-button type="button" routerLink="voteType" (click)="handleAddEditVoteType()">
+            <mat-icon>add_box</mat-icon>
+        </button>
+        <div class="flex-scrollable flex">
+            <ng-container *ngFor="let voteType of VoteTypes;">
+                <app-mat-vote-type [voteType]="voteType" (voteTypeClick)="handleAddEditVoteType(voteType)">
+                </app-mat-vote-type>
+            </ng-container>
+        </div>
+    </div>
+
+    <br>
+    <!-- Description -->
     <mat-form-field class="full-width">
         <textarea matInput formControlName="message" style="display: none;" placeholder="Message"></textarea>
-        <quill-editor formControlName="message" placeholder="Message">
+        <quill-editor formControlName="message" placeholder="Message*">
             <br>
         </quill-editor>
     </mat-form-field>
 
+    <!-- Actions -->
     <div class="flex">
         <div class="spacer"></div>
         <button mat-raised-button type="button" *ngIf="id" (click)="cancelSaveDiscussion()">
@@ -23,3 +59,128 @@
         </button>
     </div>
 </form>
+
+<!-- Add Edit Vote Template -->
+<ng-template #newVoteTypeForm let-data>
+    <!-- <div class="flex-column"> -->
+    <mat-toolbar color="subheader">
+        <div class="dialog-title">Add Voting Options</div>
+        <div class="spacer"></div>
+        <button mat-icon-button mat-dialog-close type="button">
+            <mat-icon class="dialog-close">close</mat-icon>
+        </button>
+    </mat-toolbar>
+
+    <!-- Vote Type Form -->
+    <mat-dialog-content>
+        <form [formGroup]="voteTypeForm" class="flex-scrollable">
+
+            <!-- Name -->
+            <mat-form-field class="report-name">
+                <mat-label>Name</mat-label>
+                <input matInput formControlName="name">
+            </mat-form-field>
+
+            <!-- Iconc Image Options -->
+            <mat-radio-group formControlName="iconOption">
+
+                <mat-list>
+                    <!-- Iconn Image Options Header -->
+                    <div mat-subheader
+                        [ngClass]="{'invalid': voteTypeForm.controls['iconOption'].errors && voteTypeForm.controls['iconOption'].touched}">
+                        Icon / Image *
+                    </div>
+
+                    <!-- Icons Selection -->
+                    <mat-list-item class="icon-list-item">
+
+                        <!-- Icons Selection Header -->
+                        <span matListItemTitle class="flex">
+                            <mat-radio-button [value]="iconOptions.matIcon">Select from existing Icon</mat-radio-button>
+                        </span>
+
+                        <!-- Selected Icon -->
+                        <span matListItemLine class="selected-mat-icon bigscreen"
+                            *ngIf="voteTypeForm.controls['matIcon']?.value">
+
+                            <button mat-icon-button class="option-select-icon selected-mat-icon" disabled
+                                color="matIcon-select">
+                                <mat-icon>{{ voteTypeForm.controls['matIcon'].value }}</mat-icon>
+                            </button>
+                            <span class="option-select-title">{{ voteTypeForm.controls['matIcon'].value }}</span>
+                        </span>
+
+                        <!-- ICON Selection -->
+                        <span matListItemLine
+                            *ngIf="voteTypeForm.controls['iconOption']?.value === iconOptions.matIcon">
+
+                            <!-- mobile screen -->
+                            <mat-form-field class="mobile">
+                                <mat-label>Select an Icon</mat-label>
+                                <mat-icon matPrefix>{{voteTypeForm.controls['matIcon'].value}}</mat-icon>
+                                <input type="text" placeholder="Choose Icon" matInput formControlName="matIcon"
+                                    [matAutocomplete]="auto">
+                                <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+                                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                                    <mat-option *ngFor="let option of $filteredIcons | async" [value]="option">
+                                        <mat-icon>{{option}}</mat-icon>
+                                        {{option}}
+                                    </mat-option>
+                                </mat-autocomplete>
+                            </mat-form-field>
+
+                            <!-- big screen -->
+                            <div class="bigscreen">
+                                <div class="icon-bigscreen">
+                                    <ng-container *ngFor="let option of matIcons">
+                                        <button mat-icon-button class="option-select-icon"
+                                            (click)="onIconSelect(option)"
+                                            [disabled]="option === voteTypeForm.controls['matIcon'].value || voteTypeForm.controls['iconOption'].value != iconOptions.matIcon"
+                                            color="matIcon-select">
+                                            <mat-icon>{{option}}</mat-icon>
+                                            <span class="option-select-title">{{option}}</span>
+                                        </button>
+                                    </ng-container>
+                                </div>
+                            </div>
+                        </span>
+                    </mat-list-item>
+
+                    <!-- Image -->
+                    <mat-list-item class="icon-list-item">
+                        <span matListItemTitle>
+                            <mat-radio-button [value]="iconOptions.image">Upload an Image</mat-radio-button>
+                        </span>
+                        <span matListItemLine></span>
+                        <span matListItemLine *ngIf="voteTypeForm.controls['iconOption']?.value === iconOptions.image">
+                            <button (click)="fileInput.click()" type="button"
+                                [disabled]="voteTypeForm.controls['iconOption'].value !== iconOptions.image">
+                                <mat-icon>upload</mat-icon>
+                                <span>Select Image</span>
+                                <input #fileInput type="file" (change)="onFileInput($event)" style="display:none;" />
+                            </button>
+                        </span>
+                    </mat-list-item>
+                </mat-list>
+
+            </mat-radio-group>
+
+
+            <!-- Profile -->
+            <mat-form-field class="full-width">
+                <textarea matInput formControlName="profile" style="display: none;"></textarea>
+                <quill-editor formControlName="profile" placeholder="Voting Option Details / Profile / Promotion">
+                    <br>
+                </quill-editor>
+            </mat-form-field>
+
+        </form>
+    </mat-dialog-content>
+
+    <!-- Save Cancel Action -->
+    <mat-dialog-actions align="end">
+        <button mat-raised-button mat-dialog-close type="button">Cancel</button>
+        <button mat-raised-button type="button" color="primary" (click)="handleVoteTypeSubmit()">Save</button>
+    </mat-dialog-actions>
+    <!-- </div> -->
+</ng-template>

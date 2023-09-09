@@ -1,11 +1,85 @@
-@media (max-width: 480px) {
-    .report-name {
-        width: 100%;
+.icon-list-item {
+    height: auto !important;
+}
+
+.selected-mat-icon {
+    padding: 10px;
+    height: 37px;
+
+    .selected-mat-icon {
+        padding-top: 10px;
+    }
+
+    .option-select-title {
+        font-size: 20px;
     }
 }
 
-@media (min-width: 481px) {
-    .report-name {
+.icon-bigscreen {
+    height: 150px;
+    display: flex;
+    flex-wrap: wrap;
+    overflow: auto;
+
+    .option-select-icon {
+        width: 100px;
+
+        .option-select-title {
+            position: relative;
+            z-index: 100;
+            bottom: 3px;
+            font-size: 12px;
+            width: 80px;
+            text-overflow: ellipsis;
+            text-align: center;
+            display: block;
+            overflow: hidden;
+        }
+    }
+}
+
+@media (max-width: 480px) {
+
+    .report-name,
+    .report-range {
+        width: 100%;
+    }
+
+    .dialog-title {
+        font-size: 12px !important;
+        white-space: nowrap;
+    }
+
+    .dialog-close {
+        font-size: 20px;
+        line-height: 25px;
+    }
+}
+
+@media (min-width: 481px) and (max-width: 700px) {
+
+    .report-name,
+    .report-range {
         width: 50%;
+    }
+
+    .dialog-title {
+        font-size: 20px;
+        white-space: nowrap;
+    }
+
+    .dialog-close {
+        font-size: 20px;
+        line-height: 25px;
+    }
+}
+
+@media (min-width: 701px) {
+    .report-name {
+        width: 70%;
+    }
+
+    .report-range {
+        width: 30%;
     }
 }
