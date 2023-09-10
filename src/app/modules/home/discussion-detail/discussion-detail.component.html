@@ -33,13 +33,15 @@
     <app-page-header [display]="'Votes'" [needSpacer]="false">
 
         <div *ngIf="loginProfile" class="flex flex-scrollable">
-            <button mat-icon-button *ngFor="let allVoteType of discussion.voteTypes"
-                (click)="voteDiscussion(allVoteType)" [attr.title]="allVoteType.name"
-                [disabled]="!discussion.isVotingEnabled || discussion.isMyVote(allVoteType, loginProfile)"
-                [matBadge]="discussion.getVoteCategoryCount(allVoteType)"
-                [matBadgeHidden]="discussion.getVoteCategoryCount(allVoteType) === 0">
-                <mat-icon>{{ allVoteType.matIcon }}</mat-icon>
-            </button>
+
+            <ng-container *ngFor="let voteType of discussion.voteTypes">
+                <app-mat-vote-type [voteType]="voteType" (voteTypeClick)="voteDiscussion(voteType)"
+                    [attr.title]="voteType.name"
+                    [disabled]="!discussion.isVotingEnabled || discussion.isMyVote(voteType, loginProfile)"
+                    [matBadgeCount]="discussion.getVoteCategoryCount(voteType)"
+                    [isMatBadgeHidden]="discussion.getVoteCategoryCount(voteType) === 0">
+                </app-mat-vote-type>
+            </ng-container>
         </div>
     </app-page-header>
     <ng-container *ngFor="let vote of discussion.getVotes()">

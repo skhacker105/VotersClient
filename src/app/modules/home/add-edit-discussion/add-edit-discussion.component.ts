@@ -94,18 +94,14 @@ export class AddEditDiscussionComponent implements OnInit, OnDestroy {
     const isVoteTypeURL = (url: string, options: string[]) => options.some(o => url.indexOf(o) >= 0);
 
     this.ui_id = this.route.snapshot.queryParamMap.get('ui_id');
-    console.log('isVoteTypeURL = ', isVoteTypeURL(this.router.url, [`addDiscussion/voteType`, `editDiscussion/${this.id}/voteType`]))
-    console.log(this.ui_id, this.loadedDiscussion)
     if (!this.ui_id && isVoteTypeURL(this.router.url, [`addDiscussion/voteType`, `editDiscussion/${this.id}/voteType`]))
       this.handleAddEditVoteType();
       else if (this.ui_id && this.loadedDiscussion) {
         const votetype =  this.loadedDiscussion.voteTypes.find(v => v.ui_id === this.ui_id)
-        console.log('voteType = ', votetype)
         this.handleAddEditVoteType(votetype);
       }
       else if (this.ui_id && (this.discussionForm.controls['voteTypes'].value as IVoteType[]).length > 0) {
         const votetype =  (this.discussionForm.controls['voteTypes'].value as IVoteType[]).find(v => v.ui_id === this.ui_id)
-        console.log('voteType = ', votetype)
         this.handleAddEditVoteType(votetype);
       }
   }
@@ -128,7 +124,6 @@ export class AddEditDiscussionComponent implements OnInit, OnDestroy {
   prepareDiscussionObjectToEdit(discussion?: Discussion) {
     if (!discussion) return;
 
-    console.log('discussion = ', discussion)
     this.loadedDiscussion = discussion;
     this.redirectIfNotAllowed(discussion);
     if (this.checkIfOwner(discussion)) {
@@ -136,7 +131,6 @@ export class AddEditDiscussionComponent implements OnInit, OnDestroy {
       if (this.ui_id) {
         const voteType = discussion.voteTypes.find(v => v.ui_id === this.ui_id)
         this.handleAddEditVoteType(voteType);
-        console.log('voteType = ', voteType)
       }
     }
     else {

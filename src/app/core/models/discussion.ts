@@ -5,9 +5,18 @@ import { IVote, IVoteType, VoteCategory } from "./vote";
 import { IConfirmationDialogData } from "./confirmation-dialog.model";
 import { take } from "rxjs";
 import { ConfirmationDialogComponent } from "../component/confirmation-dialog/confirmation-dialog.component";
+import { VotingService } from "../services/voting.service";
+import { LoggerService } from "../services/logger.service";
+import { DiscussionService } from "../services/discussion.service";
+import { InputVoteWizardComponent } from "../component/input-vote-wizard/input-vote-wizard..component";
+import { IInputVoteWizard } from "./input-vote-wizars";
 
 export class Discussion {
     matDialog: MatDialog;
+    votingService: VotingService;
+    loggerService: LoggerService;
+    discussionService: DiscussionService;
+
     _id: string;
     title: string;
     message: string;
@@ -24,7 +33,7 @@ export class Discussion {
     isVotingEnabled = false;
     isBlocked = false;
 
-    constructor(obj: Discussion, matDialog: MatDialog) {
+    constructor(obj: Discussion, matDialog: MatDialog, votingService: VotingService, loggerService: LoggerService, discussionService: DiscussionService) {
         this._id = obj._id;
         this.title = obj.title;
         this.message = obj.message;
@@ -35,6 +44,9 @@ export class Discussion {
         this.voteTypes = obj.voteTypes ? obj.voteTypes : [];
         this.startDate = obj.startDate;
         this.endDate = obj.endDate;
+        this.votingService = votingService;
+        this.loggerService = loggerService;
+        this.discussionService = discussionService;
 
         this.matDialog = matDialog;
         this.resetEnability();
@@ -61,7 +73,7 @@ export class Discussion {
     }
 
     resetEnability() {
-        this.isVotingEnabled = !this.state || this.state === DISCUSSION_STATE.open.display  || this.state === DISCUSSION_STATE.reopened.display ? true : false;
+        this.isVotingEnabled = !this.state || this.state === DISCUSSION_STATE.open.display || this.state === DISCUSSION_STATE.reopened.display ? true : false;
     }
 
     resetBlockedState() {
@@ -110,7 +122,7 @@ export class Discussion {
     }
 
     isMyVote(voteType: IVoteType, user: IUser) {
-        return this.votes.some(v => v.user._id === user._id && voteType .ui_id=== v.voteType.ui_id);
+        return this.votes.some(v => v.user._id === user._id && voteType.ui_id === v.voteType.ui_id);
     }
 
     getVotes() {
@@ -145,11 +157,82 @@ export class Discussion {
     }
 
     getVoteCategoryCount(votetype?: IVoteType): number {
-      if (!votetype) return 0;
-  
-      const existingCategory = this.voteCategories.find(cat => cat.category.ui_id === votetype.ui_id)
-      if (!existingCategory) return 0;
-  
-      return existingCategory.votes.length;
+        if (!votetype) return 0;
+
+        const existingCategory = this.voteCategories.find(cat => cat.category.ui_id === votetype.ui_id)
+        if (!existingCategory) return 0;
+
+        return existingCategory.votes.length;
+    }
+
+    voteDiscussion(voteType: IVoteType, loginProfile?: IUser) {
+        if (!loginProfile) return;
+
+        const existingvote = this.existingVoteByType(loginProfile);
+        const data: IInputVoteWizard = {
+            message: existingvote ? existingvote.message : '',
+            voteType: voteType
+        }
+        const ref = this.matDialog.open(InputVoteWizardComponent,
+            {
+                panelClass: 'input-textarea-popup',
+                data: data,
+                maxHeight: '90vh',
+                minWidth: '90vw'
+            }
+        )
+        ref.afterClosed()
+            .pipe(take(1))
+            .subscribe(res => {
+                if (res) this.saveVote(res, voteType, loginProfile);
+            })
+
+    }
+
+    saveVote(message: string, voteType: IVoteType, loginProfile?: IUser) {
+        if (!loginProfile) return;
+
+        const existingvote = this.userHasAlreadyVoted(loginProfile);
+        const newVote = {
+            discussion: this._id,
+            message: message,
+            user: loginProfile._id,
+            voteType: voteType
+        };
+
+        (
+            existingvote
+                ? this.votingService.editVote(existingvote._id, newVote)
+                : this.votingService.addVote(newVote)
+        )
+            .pipe(take(1))
+            .subscribe({
+                next: (res) => {
+                    this.updateDiscussionVote(res.data, loginProfile)
+                },
+                error: (err: any) => {
+                    this.loggerService.showError(err.error.message)
+                }
+            });
+    }
+
+    updateDiscussionVote(vote: IVote, loginProfile?: IUser) {
+        if (!loginProfile) return;
+
+        const existingvote = this.userHasAlreadyVoted(loginProfile);
+        if (existingvote) {
+            this.updateVote(vote);
+        } else {
+            this.discussionService.vote(this._id, vote._id)
+                .pipe(take(1))
+                .subscribe({
+                    next: (res) => {
+                        if (res.data) this.addVote(vote);
+                    },
+                    error: (err: any) => {
+                        this.loggerService.showError(err.error.message)
+                    }
+                });
+        }
     }
 }

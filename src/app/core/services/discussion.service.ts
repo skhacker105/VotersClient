@@ -8,6 +8,8 @@ import { BehaviorSubject, map } from 'rxjs';
 import { ITimeline } from '../models/timeline';
 import { IScope } from '../models/scope';
 import { MatDialog } from '@angular/material/dialog';
+import { VotingService } from './voting.service';
+import { LoggerService } from './logger.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,19 +19,24 @@ export class DiscussionService {
   baseUrl = environment.basUrl + 'discussion/';
   selectedTimeLine = new BehaviorSubject<ITimeline | undefined>(undefined);
   selectedScope = new BehaviorSubject<IScope | undefined>(undefined);
-  constructor(public http: HttpClient, private matDialog: MatDialog) { }
+  constructor(
+    public http: HttpClient,
+    private matDialog: MatDialog,
+    private votingService: VotingService,
+    private loggerService: LoggerService
+  ) { }
 
 
   private Objectify(d: ServerResponse<Discussion>) {
-    d.data = new Discussion(d.data, this.matDialog)
+    d.data = new Discussion(d.data, this.matDialog, this.votingService, this.loggerService, this)
     return d;
   }
   private ObjectifyArr(darr: ServerResponse<Discussion[]>) {
-    darr.data = darr.data.map(d => new Discussion(d, this.matDialog));
+    darr.data = darr.data.map(d => new Discussion(d, this.matDialog, this.votingService, this.loggerService, this));
     return darr
   }
   private ObjectifyPagedArr(darr: ServerResponse<IGridConfig<Discussion[]>>) {
-    darr.data.data = darr.data.data?.map(d => new Discussion(d, this.matDialog));
+    darr.data.data = darr.data.data?.map(d => new Discussion(d, this.matDialog, this.votingService, this.loggerService, this));
     return darr
   }
 
@@ -57,7 +64,7 @@ export class DiscussionService {
   }
 
   updateState(id: string, newState: string) {
-    return this.http.put<ServerResponse<Discussion>>(this.baseUrl + 'updateState/' + id, {newState})
+    return this.http.put<ServerResponse<Discussion>>(this.baseUrl + 'updateState/' + id, { newState })
   }
 
   delete(id: string) {

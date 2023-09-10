@@ -6,7 +6,7 @@ export const COOL_COLORS = [
     '#077b8a',
     '#5c3c92',
     '#e2d810',
-    '#d9138a',
+    '#a8146d',
     '#12a4d9',
     '#322e2f',
     '#f3ca20',

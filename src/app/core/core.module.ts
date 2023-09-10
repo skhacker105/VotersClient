@@ -20,6 +20,7 @@ import { DiscussionStateIconPipe } from './pipe/discussion-state-icon.pipe';
 import { DiscussionStateDisplayPipe } from './pipe/discussion-state-display.pipe';
 import { DiscussionNextStateComponent } from './component/discussion-next-state/discussion-next-state.component';
 import { MatVoteTypeComponent } from './component/mat-vote-type/mat-vote-type.component';
+import { InputVoteWizardComponent } from './component/input-vote-wizard/input-vote-wizard..component';
 
 
 @NgModule({
@@ -39,7 +40,8 @@ import { MatVoteTypeComponent } from './component/mat-vote-type/mat-vote-type.co
     DiscussionStateIconPipe,
     DiscussionStateDisplayPipe,
     DiscussionNextStateComponent,
-    MatVoteTypeComponent
+    MatVoteTypeComponent,
+    InputVoteWizardComponent
   ],
   imports: [
     CommonModule,
@@ -64,7 +66,8 @@ import { MatVoteTypeComponent } from './component/mat-vote-type/mat-vote-type.co
     DiscussionStateIconPipe,
     DiscussionStateDisplayPipe,
     DiscussionNextStateComponent,
-    MatVoteTypeComponent
+    MatVoteTypeComponent,
+    InputVoteWizardComponent
   ]
 })
 export class CoreModule { }

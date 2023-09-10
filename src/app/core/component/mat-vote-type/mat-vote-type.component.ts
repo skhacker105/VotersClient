@@ -11,7 +11,7 @@ export class MatVoteTypeComponent {
 
   @Input() voteType: IVoteType | undefined;
   @Input() disabled = false;
-  @Input() matBadge = 0;
-  @Input() matBadgeHidden = true;
+  @Input() matBadgeCount = 0;
+  @Input() isMatBadgeHidden = true;
   @Output() voteTypeClick = new EventEmitter<IVoteType>();
 }

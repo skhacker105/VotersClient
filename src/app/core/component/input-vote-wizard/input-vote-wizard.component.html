@@ -1,0 +1,55 @@
+<!-- Big Screen -->
+
+<!-- Mobile -->
+<mat-stepper #stepper [(selectedIndex)]="selectedIndex" class="till-medium-screen flex-column">
+    <mat-step>
+        <ng-template matStepLabel>Detail</ng-template>
+        <ng-template [ngTemplateOutlet]="voteDetail"></ng-template>
+    </mat-step>
+    <mat-step>
+        <ng-template matStepLabel>Your views about your selection</ng-template>
+        <ng-template [ngTemplateOutlet]="messageInput"></ng-template>
+    </mat-step>
+</mat-stepper>
+
+<table class="full-width full-height standard-padding big-screen">
+    <tr class="vote-type-bigscreen-container">
+        <td class="equal-divide">
+            <ng-template [ngTemplateOutlet]="voteDetail" [ngTemplateOutletContext]="{hideAction:true}"></ng-template>
+        </td>
+        <td class="equal-divide">
+            <ng-template [ngTemplateOutlet]="messageInput"></ng-template>
+        </td>
+    </tr>
+</table>
+
+
+<!-- Vote Details Tempalte -->
+<ng-template #voteDetail let-hideAction="hideAction">
+    <div class="full-width flex-column">
+        <app-page-header [display]="data.voteType.name"></app-page-header>
+        <div [innerHTML]="data.voteType.profile" class="vote-type-profile flex-scrollable"></div>
+        <p align="end" *ngIf="!hideAction">
+            <button mat-raised-button mat-dialog-close>Cancel</button>
+            <button mat-raised-button color="primary" (click)="selectedIndex = 1">Vote Now</button>
+        </p>
+    </div>
+</ng-template>
+
+<!-- Vote Message Template -->
+<ng-template #messageInput>
+    <app-page-header [display]="'Say Something'"></app-page-header>
+    <mat-form-field class="full-width">
+        <textarea matInput [formControl]="message" style="display: none;" placeholder="Message"></textarea>
+        <quill-editor [formControl]="message" placeholder="Message">
+            <br>
+        </quill-editor>
+    </mat-form-field>
+    <p align="end">
+        <button mat-icon-button (click)="selectedIndex = 0" class="mobile">
+            <mat-icon>arrow_back_ios</mat-icon>
+        </button>
+        <button mat-raised-button mat-dialog-close>Cancel</button>
+        <button mat-raised-button color="primary" [mat-dialog-close]="message.value">Save</button>
+    </p>
+</ng-template>

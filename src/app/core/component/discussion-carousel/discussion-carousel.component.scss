@@ -5,7 +5,7 @@
     .action-buttons {
         float: right;
         position: absolute;
-        right: 0px;
+        right: 0;
         z-index: 1;
         padding-right: 16px;
         white-space: nowrap;
@@ -13,9 +13,7 @@
 
     .discussion-message {
         width: 100%;
-        padding: 10px;
-        padding-left: 16px;
-        padding-left: 16px;
+        padding: 10px 10px 10px 16px;
         max-width: -webkit-fill-available;
         overflow: hidden;
 
@@ -27,7 +25,7 @@
     .discussion-head {
         background-color: #c8efff99;
         border-top: solid 2px #76d5fd99;
-        
+
         ::ng-deep .mat-mdc-card-header-text {
             width: 100%;
         }
@@ -40,17 +38,24 @@
                 max-width: 80%;
                 overflow-x: hidden;
                 text-overflow: ellipsis;
+                white-space: nowrap;
+                font-size: 12px;
+                line-height: 43px;
             }
-            
+
         }
 
         .discussion-state {
             margin-left: -16px;
             margin-right: -9px;
+            font-size: 12px;
+            white-space: nowrap;
 
             .discussion-created-date {
                 line-height: 45px;
-                padding-right: 8px
+                padding-right: 8px;
+                font-size: 12px;
+                white-space: nowrap;
             }
         }
     }
@@ -67,7 +72,7 @@
     opacity: 0.2;
 }
 
-@media (max-width: 400px) {
+@media(max-width: 400px) {
 
     .discussion-card {
 
@@ -82,7 +87,7 @@
     }
 }
 
-@media (min-width: 401px) and (max-width: 760px) {
+@media(min-width: 401px) and (max-width: 760px) {
 
     .discussion-card {
 
@@ -97,7 +102,7 @@
     }
 }
 
-@media (min-width: 761px) and (max-width: 1000px) {
+@media(min-width: 761px) and (max-width: 1000px) {
 
     .discussion-card {
 
@@ -112,7 +117,7 @@
     }
 }
 
-@media (min-width: 1000px) {
+@media(min-width: 1000px) {
 
     .discussion-card {
 

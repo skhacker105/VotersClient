@@ -97,69 +97,9 @@ export class DiscussionDetailComponent implements OnInit, OnDestroy {
   }
 
   voteDiscussion(voteType: IVoteType) {
-    if (!this.discussion || !this.loginProfile) return;
 
-    const existingvote = this.discussion.existingVoteByType(this.loginProfile);
-    const data: IInputTextAreaData = { message: existingvote ? existingvote.message : '' }
-    const ref = this.dialog.open(InputTextAreaComponent,
-      {
-        panelClass: 'input-textarea-popup',
-        data: data
-      }
-    )
-    ref.afterClosed()
-      .pipe(takeUntil(this.isComponentIsActive))
-      .subscribe(res => {
-        if (res) this.saveVote(res, voteType);
-      })
+    this.discussion?.voteDiscussion(voteType, this.loginProfile)
 
-  }
-
-  saveVote(message: string, voteType: IVoteType) {
-    if (!this.discussion || !this.loginProfile) return;
-
-    const existingvote = this.discussion.userHasAlreadyVoted(this.loginProfile);
-    const newVote = {
-      discussion: this.discussion._id,
-      message: message,
-      user: this.loginProfile._id,
-      voteType: voteType
-    };
-
-    (
-      existingvote
-        ? this.votingService.editVote(existingvote._id, newVote)
-        : this.votingService.addVote(newVote)
-    )
-      .pipe(takeUntil(this.isComponentIsActive))
-      .subscribe({
-        next: (res) => {
-          this.updateDiscussionVote(res.data)
-        },
-        error: (err: any) => {
-          this.loggerService.showError(err.error.message)
-        }
-      });
-  }
-
-  updateDiscussionVote(vote: IVote) {
-    if (!this.discussion || !this.loginProfile) return;
-
-    const existingvote = this.discussion.userHasAlreadyVoted(this.loginProfile);
-    if (existingvote) {
-      if (this.discussion) this.discussion.updateVote(vote);
-    } else {
-      this.discussionService.vote(this.discussion._id, vote._id)
-        .pipe(takeUntil(this.isComponentIsActive))
-        .subscribe({
-          next: (res) => {
-            if (res.data && this.discussion) this.discussion.addVote(vote);
-          },
-          error: (err: any) => {
-            this.loggerService.showError(err.error.message)
-          }
-        });
-    }
   }
 
   handleDeleteVote(vote: IVote) {

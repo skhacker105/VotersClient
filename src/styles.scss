@@ -58,6 +58,7 @@ body {
     .flex-scrollable {
         flex: 1 auto !important;
         overflow-x: auto !important;
+        line-height: 77px;
     }
 }
 
@@ -68,6 +69,7 @@ body {
     .flex-scrollable {
         flex: 1 auto;
         overflow-y: auto;
+        line-height: 77px;
     }
 }
 
@@ -118,7 +120,6 @@ body {
     .mobile {
         display: inherit !important;
     }
-
     .bigscreen {
         display: none !important;
     }
@@ -200,4 +201,10 @@ body {
 .mat-badge-content {
     margin-top: 12px;
     margin-right: 10px;
+}
+
+.mat-mdc-icon-button.mat-accent {
+    --mdc-icon-button-icon-color: #d10047 !important;
+    --mat-mdc-button-persistent-ripple-color: #d10047 !important;
+    --mat-mdc-button-ripple-color: #d100471a !important;
 }
