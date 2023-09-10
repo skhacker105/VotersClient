@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { IVote } from '../../models/vote';
 import { DomSanitizer } from '@angular/platform-browser';
+import { HelperService } from '../../utilities/helper';
 
 @Component({
   selector: 'app-vote-carousel',
@@ -21,10 +22,6 @@ export class VoteCarouselComponent implements OnInit {
   }
 
   generateRandomColor() {
-    const randomBetween = (min: number, max: number) => min + Math.floor(Math.random() * (max - min + 1));
-    const r = randomBetween(80, 200);
-    const g = randomBetween(80, 200);
-    const b = randomBetween(80, 200);
-    this.color = `rgb(${r},${g},${b})`;
+    this.color = HelperService.generateRandomCoolColors(this.vote?.user.name)
   }
 }

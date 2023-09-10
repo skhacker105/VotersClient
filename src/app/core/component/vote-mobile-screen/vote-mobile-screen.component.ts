@@ -28,10 +28,5 @@ export class VoteMobileScreenComponent implements OnInit {
 
   generateRandomColor() {
     this.color = HelperService.generateRandomCoolColors(this.vote?.user.name)
-    // const randomBetween = (min: number, max: number) => min + Math.floor(Math.random() * (max - min + 1));
-    // const r = randomBetween(80, 200);
-    // const g = randomBetween(80, 200);
-    // const b = randomBetween(80, 200);
-    // this.color = `rgb(${r},${g},${b})`;
   }
 }
