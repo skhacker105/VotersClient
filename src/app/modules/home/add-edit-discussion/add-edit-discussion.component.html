@@ -1,4 +1,4 @@
-<app-page-header [display]="(id ? 'Edit' : 'Add') + '   Discussion'"></app-page-header>
+<app-page-header [display]="(id ? 'Edit' : 'Add') + '   Voice'" color="subheader-a"></app-page-header>
 
 <!-- Add Edit Discussion Form -->
 <form [formGroup]="discussionForm" (ngSubmit)="saveDiscussion()" class="standard-padding">
@@ -27,12 +27,12 @@
 
     <!-- Vote Types -->
     <div class="flex">
-        <button mat-icon-button type="button" routerLink="voteType" (click)="handleAddEditVoteType()">
+        <button mat-icon-button type="button" routerLink="voteType">
             <mat-icon>add_box</mat-icon>
         </button>
         <div class="flex-scrollable flex">
             <ng-container *ngFor="let voteType of VoteTypes;">
-                <app-mat-vote-type [voteType]="voteType" (voteTypeClick)="handleAddEditVoteType(voteType)">
+                <app-mat-vote-type [voteType]="voteType" (voteTypeClick)="navigateToVoteType(voteType)">
                 </app-mat-vote-type>
             </ng-container>
         </div>

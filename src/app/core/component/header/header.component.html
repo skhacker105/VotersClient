@@ -1,19 +1,30 @@
-<mat-toolbar class="header-container" color="primary">
-    <button mat-icon-button title="Home" routerLink="/home">
+<mat-toolbar class="header-container" color="page-header">
+    <button mat-icon-button="mat-icon-button" title="Home" routerLink="/home">
         <mat-icon>campaign</mat-icon>
     </button>
     <div class="header-title">Raise your voice</div>
     <div class="spacer"></div>
-    <button mat-icon-button title="Search">
-        <mat-icon>search</mat-icon>
-    </button>
-    <ng-container *ngIf="userService.isLoggedIn()">
-        <button mat-icon-button (click)="gotoAddDiscussion()" title="ADD Discussion">
-            <mat-icon>add_box</mat-icon>
-        </button>
 
-        <button mat-icon-button (click)="logout()" title="Logout">
-            <mat-icon>logout</mat-icon>
+    <button mat-icon-button="mat-icon-button" [matMenuTriggerFor]="menu">
+        <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+
+        <button mat-menu-item="mat-menu-item" title="Search">
+            <mat-icon>search</mat-icon>
+            <span>Search</span>
         </button>
-    </ng-container>
+        <ng-container *ngIf="userService.isLoggedIn()">
+            <button mat-menu-item="mat-menu-item" (click)="gotoAddDiscussion()" title="ADD Discussion">
+                <mat-icon>add_box</mat-icon>
+                <span>New Voice</span>
+            </button>
+
+            <button mat-menu-item="mat-menu-item" (click)="logout()" title="Logout">
+                <mat-icon>logout</mat-icon>
+                <span>Logout</span>
+            </button>
+        </ng-container>
+
+    </mat-menu>
 </mat-toolbar>

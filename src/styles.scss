@@ -10,31 +10,54 @@ body {
     height: 100%;
 }
 
+// MAT color values
+.mat-page-header:disabled {
+    background-color: inherit;
+    color: inherit;
+}
+.mat-page-header {
+    background-color: #33363b !important;
+    color: white;
+
+    mat-icon, div, span, p {
+        color: white;
+    }
+}
+
 .mat-subheader:disabled {
-    background-color: #8793d2 !important;
+    background-color: #368cbf !important;
+    color: white !important;
+}
+.mat-subheader {
+    background-color: #368cbf !important;
     color: white !important;
 }
 
-.mat-subheader {
-    background-color: #8793d2 !important;
-    color: white !important;
+.mat-subheader-a:disabled {
+    color: inherit !important;
+    background-color: inherit;
+    border-top: inherit;
+}
+.mat-subheader-a {
+    color: black !important;
+    background-color: #c8efff99 !important;
+    border-top: solid 2px #76d5fd99 !important;
 }
 
 .mat-matIcon-select:disabled {
     color: inherit !important;
 }
-
 .mat-matIcon-select {
     color: #c7339e !important;
 }
 
+// FLEX
 .flex {
     display: flex;
 
     .flex-scrollable {
         flex: 1 auto !important;
         overflow-x: auto !important;
-        height: 77px;
     }
 }
 
@@ -48,6 +71,7 @@ body {
     }
 }
 
+// GLOBAL CUSTOM CSS
 .invalid {
     color: red;
 }
@@ -158,6 +182,8 @@ body {
     }
 }
 
+
+// MAT classes override
 .mat-mdc-snack-bar-label {
     max-width: 300px;
 }

@@ -7,11 +7,14 @@
 
         <mat-card-header class="discussion-head">
             <mat-card-title class="discussion-title">
-                {{ discussion.title }}
+                <div class="page-header-display">
+                    {{ discussion.title }}
+                </div>
                 <div class="spacer"></div>
 
                 <!-- Pinch Out -->
-                <button mat-icon-button color="accent" class="bigscreen" [ngClass]="{ 'mobile': !isOwner }"
+                <button mat-icon-button color="accent" class="bigscreen"
+                    [ngClass]="{ 'mobile': !isOwner }"
                     [routerLink]="['/home/discussionDetail/', discussion._id]">
                     <mat-icon>pinch_zoom_out</mat-icon>
                 </button>
@@ -30,7 +33,8 @@
             </mat-card-title>
             <mat-card-subtitle class="discussion-state">
                 <div class="flex">
-                    <app-discussion-next-state [discussion]="discussion" [showControl]="isOwner"
+                    <app-discussion-next-state [discussion]="discussion"
+                        [showControl]="isOwner"
                         (changeState)="handleChangeState($event)">
                     </app-discussion-next-state>
 
@@ -45,13 +49,16 @@
         <div class="discussion-message" [innerHTML]="discussion.message">
         </div>
         <mat-card-actions class="flex">
-            <button mat-icon-button color="accent" [routerLink]="['/home/discussionDetail/', discussion._id]">
+            <button mat-icon-button color="accent"
+                [routerLink]="['/home/discussionDetail/', discussion._id]">
                 <mat-icon>pinch_zoom_out</mat-icon>
             </button>
             <div class="flex flex-scrollable">
                 <ng-container>
-                    <button mat-icon-button *ngFor="let allVoteType of discussion.voteTypes"
-                        (click)="voteDiscussion(allVoteType)" [attr.title]="allVoteType.name"
+                    <button mat-icon-button
+                        *ngFor="let allVoteType of discussion.voteTypes"
+                        (click)="voteDiscussion(allVoteType)"
+                        [attr.title]="allVoteType.name"
                         [disabled]="!discussion.isVotingEnabled || isMyVote(allVoteType) || isDeleted"
                         [matBadge]="getVoteCategoryCount(allVoteType)"
                         [matBadgeHidden]="getVoteCategoryCount(allVoteType) === 0">

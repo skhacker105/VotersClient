@@ -1,5 +1,6 @@
 .discussion-card {
-    // border: solid 1px black;
+    margin-bottom: 10px;
+    margin-top: 10px;
 
     .action-buttons {
         float: right;
@@ -24,6 +25,8 @@
     }
 
     .discussion-head {
+        background-color: #c8efff99;
+        border-top: solid 2px #76d5fd99;
         
         ::ng-deep .mat-mdc-card-header-text {
             width: 100%;
@@ -32,12 +35,18 @@
         .discussion-title {
             display: flex;
             width: 100%;
+
+            .page-header-display {
+                max-width: 80%;
+                overflow-x: hidden;
+                text-overflow: ellipsis;
+            }
+            
         }
 
         .discussion-state {
-            background-color: #eae7ff;
             margin-left: -16px;
-            margin-right: -8px;
+            margin-right: -9px;
 
             .discussion-created-date {
                 line-height: 45px;

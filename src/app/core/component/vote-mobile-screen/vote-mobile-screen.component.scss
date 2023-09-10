@@ -26,8 +26,14 @@
 
     .vote-user-name {
         white-space: nowrap;
-        color: #dfdfdf;
+        color: #ffffff;
         padding-right: 16px;
+    }
+
+    .vote-action {
+        mat-icon {
+            color: white;
+        }
     }
 
     .vote-message {
@@ -45,7 +51,7 @@
     .vote-date {
         text-align: end;
         white-space: nowrap;
-        color: #dfdfdf;
+        color: #ffffff;
         padding-right: 16px;
         padding-left: 16px;
     }

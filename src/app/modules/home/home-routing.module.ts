@@ -35,11 +35,6 @@ const routes: Routes = [
     path: 'discussionDetail/:id',
     component: DiscussionDetailComponent
   },
-  // {
-  //   path: 'addVoteType',
-  //   component: AddEditVoteTypeComponent,
-  //   canActivate: [IsAdminGuard]
-  // },
   {
     path: '*',
     redirectTo: ''

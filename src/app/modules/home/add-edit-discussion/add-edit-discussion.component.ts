@@ -21,6 +21,7 @@ import { HelperService } from 'src/app/core/utilities/helper';
 export class AddEditDiscussionComponent implements OnInit, OnDestroy {
 
   id: string | null | undefined;
+  ui_id: string | null | undefined;
   isComponentIsActive = new Subject<boolean>();
   loginProfile: IUser | undefined;
   matIcons = MATERIAL_ICONS.sort();
@@ -28,6 +29,7 @@ export class AddEditDiscussionComponent implements OnInit, OnDestroy {
     matIcon: 'matIcon',
     image: 'image'
   };
+  loadedDiscussion: Discussion | undefined;
   discussionForm = new FormGroup<any>({
     title: new FormControl<string>('', Validators.required),
     message: new FormControl<string>('', Validators.required),
@@ -48,7 +50,7 @@ export class AddEditDiscussionComponent implements OnInit, OnDestroy {
   typeFormDialogRef: MatDialogRef<any> | undefined;
   $filteredIcons: Observable<string[]> | undefined;
 
-  todayDate:Date = new Date();
+  todayDate: Date = new Date();
   allMaterialIcons = MATERIAL_ICONS;
 
   constructor(
@@ -67,6 +69,7 @@ export class AddEditDiscussionComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.id = this.route.snapshot.paramMap.get('id');
+    this.ui_id = this.route.snapshot.queryParamMap.get('ui_id');
     this.loginProfile = this.userService.getProfile();
     this.trackURLForVoteTypeForm();
     this.getDiscussion();
@@ -88,7 +91,23 @@ export class AddEditDiscussionComponent implements OnInit, OnDestroy {
   }
 
   triggerVoteTypePopupIfURL() {
-    if (this.router.url.indexOf('addDiscussion/voteType') >= 0) this.handleAddEditVoteType()
+    const isVoteTypeURL = (url: string, options: string[]) => options.some(o => url.indexOf(o) >= 0);
+
+    this.ui_id = this.route.snapshot.queryParamMap.get('ui_id');
+    console.log('isVoteTypeURL = ', isVoteTypeURL(this.router.url, [`addDiscussion/voteType`, `editDiscussion/${this.id}/voteType`]))
+    console.log(this.ui_id, this.loadedDiscussion)
+    if (!this.ui_id && isVoteTypeURL(this.router.url, [`addDiscussion/voteType`, `editDiscussion/${this.id}/voteType`]))
+      this.handleAddEditVoteType();
+      else if (this.ui_id && this.loadedDiscussion) {
+        const votetype =  this.loadedDiscussion.voteTypes.find(v => v.ui_id === this.ui_id)
+        console.log('voteType = ', votetype)
+        this.handleAddEditVoteType(votetype);
+      }
+      else if (this.ui_id && (this.discussionForm.controls['voteTypes'].value as IVoteType[]).length > 0) {
+        const votetype =  (this.discussionForm.controls['voteTypes'].value as IVoteType[]).find(v => v.ui_id === this.ui_id)
+        console.log('voteType = ', votetype)
+        this.handleAddEditVoteType(votetype);
+      }
   }
 
   getDiscussion() {
@@ -98,18 +117,32 @@ export class AddEditDiscussionComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.isComponentIsActive))
       .subscribe({
         next: res => {
-          this.redirectIfNotAllowed(res.data);
-          if (this.checkIfOwner(res.data))
-            this.discussionForm.patchValue(res.data)
-          else {
-            this.loggerService.showError('Not your discussion to edit.')
-            this.router.navigateByUrl('/');
-          }
+          this.prepareDiscussionObjectToEdit(res.data)
         },
         error: err => {
           this.loggerService.showError(err.error.message);
         }
       });
+  }
+
+  prepareDiscussionObjectToEdit(discussion?: Discussion) {
+    if (!discussion) return;
+
+    console.log('discussion = ', discussion)
+    this.loadedDiscussion = discussion;
+    this.redirectIfNotAllowed(discussion);
+    if (this.checkIfOwner(discussion)) {
+      this.discussionForm.patchValue(discussion);
+      if (this.ui_id) {
+        const voteType = discussion.voteTypes.find(v => v.ui_id === this.ui_id)
+        this.handleAddEditVoteType(voteType);
+        console.log('voteType = ', voteType)
+      }
+    }
+    else {
+      this.loggerService.showError('Not your discussion to edit.')
+      this.router.navigateByUrl('/');
+    }
   }
 
   redirectIfNotAllowed(discussion: Discussion) {
@@ -178,6 +211,11 @@ export class AddEditDiscussionComponent implements OnInit, OnDestroy {
     console.log('File = ', e)
   }
 
+  navigateToVoteType(voteType: IVoteType) {
+    if (this.id) this.router.navigateByUrl(`/home/editDiscussion/${this.id}/voteType?ui_id=${voteType.ui_id}`)
+    else this.router.navigateByUrl(`/home/addDiscussion/voteType?ui_id=${voteType.ui_id}`)
+  }
+
   saveDiscussion() {
     if (this.discussionForm.invalid) {
       this.loggerService.showError('Cannot submit incomplete form');
@@ -223,7 +261,6 @@ export class AddEditDiscussionComponent implements OnInit, OnDestroy {
     this.typeFormDialogRef.afterClosed()
       .pipe(take(1))
       .subscribe(() => {
-        console.log('url=', this.router.url)
         this.router.navigate(['./'], { relativeTo: this.route });
       })
   }
@@ -245,8 +282,10 @@ export class AddEditDiscussionComponent implements OnInit, OnDestroy {
 
     // Add or Update in Discussion Form
     const newVoteType: IVoteType = this.voteTypeForm.value;
-    if(!newVoteType.ui_id) this.addNewVoteType(newVoteType);
+    if (!newVoteType.ui_id) this.addNewVoteType(newVoteType);
     else this.updatewVoteType(newVoteType);
+    this.discussionForm.markAllAsTouched();
+    this.discussionForm.updateValueAndValidity();
   }
 
   addNewVoteType(newVoteType: IVoteType) {

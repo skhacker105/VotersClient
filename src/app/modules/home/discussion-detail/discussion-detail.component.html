@@ -1,23 +1,27 @@
 <ng-container *ngIf="discussion">
-    <app-page-header [display]="discussion.title">
+    <app-page-header [display]="discussion.title" color="subheader">
         <div class="action-buttons">
 
+            <!-- State -->
             <app-discussion-next-state [discussion]="discussion" [showControl]="isOwner" class="bigscreen"
                 (changeState)="handleChangeState($event)">
             </app-discussion-next-state>
 
+            <!-- Edit -->
             <button mat-icon-button color="primary"
                 *ngIf="isOwner && !discussion.isVotingEnabled && !discussion.isBlocked"
                 [routerLink]="['/home/editDiscussion/', discussion._id]">
                 <mat-icon>edit</mat-icon>
             </button>
+
+            <!-- Delete -->
             <button mat-icon-button color="warn" *ngIf="isOwner && !discussion.isVotingEnabled && !discussion.isBlocked"
                 (click)="handleDeleteDiscussion()">
                 <mat-icon>delete</mat-icon>
             </button>
         </div>
     </app-page-header>
-    <app-page-header class="mobile">
+    <app-page-header class="mobile" color="subheader-a">
         <app-discussion-next-state [discussion]="discussion" [showControl]="isOwner"
             (changeState)="handleChangeState($event)">
         </app-discussion-next-state>
