@@ -15,13 +15,13 @@
                 <!-- Pinch Out -->
                 <button mat-icon-button color="accent" class="bigscreen"
                     [ngClass]="{ 'mobile': !isOwner }"
-                    [routerLink]="['/home/discussionDetail/', discussion._id]">
+                    [routerLink]="['/discussion/discussionDetail/', discussion._id]">
                     <mat-icon>pinch_zoom_out</mat-icon>
                 </button>
                 <!-- Edit -->
                 <button mat-icon-button color="primary"
                     *ngIf="isOwner && !discussion.isVotingEnabled && !discussion.isBlocked"
-                    [routerLink]="['/home/editDiscussion/', discussion._id]">
+                    [routerLink]="['/discussion/editDiscussion/', discussion._id]">
                     <mat-icon>edit</mat-icon>
                 </button>
                 <!-- Delete -->
@@ -56,7 +56,7 @@
         </div>
         <mat-card-actions class="flex">
             <button mat-icon-button color="accent"
-                [routerLink]="['/home/discussionDetail/', discussion._id]">
+                [routerLink]="['/discussion/discussionDetail/', discussion._id]">
                 <mat-icon>pinch_zoom_out</mat-icon>
             </button>
             <div class="flex flex-scrollable">
@@ -65,7 +65,7 @@
                     <app-mat-vote-type [voteType]="voteType"
                         (voteTypeClick)="voteDiscussion(voteType)"
                         [attr.title]="voteType.name"
-                        [disabled]="!discussion.isVotingEnabled || isMyVote(voteType) || isDeleted"
+                        [disabled]="!discussion.isVotingEnabled || isMyVoteType(voteType) || isDeleted"
                         [matBadgeCount]="getVoteCategoryCount(voteType)"
                         [isMatBadgeHidden]="getVoteCategoryCount(voteType) === 0">
                     </app-mat-vote-type>

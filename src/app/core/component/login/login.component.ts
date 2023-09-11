@@ -1,10 +1,11 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { ServerResponse } from 'src/app/core/models/serverResponse';
 import { LoggerService } from 'src/app/core/services/logger.service';
 import { UserService } from 'src/app/core/services/user.service';
+import { IUser } from '../../models/user';
 
 @Component({
   selector: 'app-login',
@@ -13,14 +14,17 @@ import { UserService } from 'src/app/core/services/user.service';
 })
 export class LoginComponent implements OnDestroy {
 
+  @Input() redirectAfterLogin = true;
+  @Output() loginSuccessfull = new EventEmitter<void>();
+
   isComponentIsActive = new Subject<boolean>();
-  constructor(private userService: UserService, private router: Router, private loggerService: LoggerService){}
+  constructor(private userService: UserService, private router: Router, private loggerService: LoggerService) { }
 
   loginForm: FormGroup = new FormGroup({
     email: new FormControl<string>('', Validators.required),
     password: new FormControl<string>('', Validators.required)
   });
-  
+
 
   ngOnDestroy(): void {
     this.isComponentIsActive.next(true);
@@ -31,16 +35,18 @@ export class LoginComponent implements OnDestroy {
     if (this.loginForm.invalid) return;
 
     this.userService.login(this.loginForm.controls['email'].value, this.loginForm.controls['password'].value)
-    .pipe(
-      takeUntil(this.isComponentIsActive)
-    ).subscribe({
-      next: res => {
-        this.userService.saveSession(res.data);
-        this.router.navigateByUrl('/home');
-      },
-      error: (err: any) => {
-        this.loggerService.showError(err.error.message)
-      }
-    })
+      .pipe(
+        takeUntil(this.isComponentIsActive)
+      ).subscribe({
+        next: res => {
+          this.userService.saveSession(res.data);
+          if (this.redirectAfterLogin)
+            this.router.navigateByUrl('/home');
+          else this.loginSuccessfull.emit();
+        },
+        error: (err: any) => {
+          this.loggerService.showError(err.error.message)
+        }
+      })
   }
 }

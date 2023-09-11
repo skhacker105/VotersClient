@@ -1,39 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
-import { AddEditDiscussionComponent } from './add-edit-discussion/add-edit-discussion.component';
-// import { AddEditVoteTypeComponent } from './add-edit-vote-type/add-edit-vote-type.component';
-import { DiscussionDetailComponent } from './discussion-detail/discussion-detail.component';
-import { IsAdminGuard } from 'src/app/core/routeGuard/is-admin.guard';
 
 const routes: Routes = [
   {
     path: '',
     component: HomeComponent
-  },
-  {
-    path: 'addDiscussion',
-    component: AddEditDiscussionComponent,
-    children: [
-      {
-        path: 'voteType',
-        component: AddEditDiscussionComponent
-      }
-    ]
-  },
-  {
-    path: 'editDiscussion/:id',
-    component: AddEditDiscussionComponent,
-    children: [
-      {
-        path: 'voteType',
-        component: AddEditDiscussionComponent
-      }
-    ]
-  },
-  {
-    path: 'discussionDetail/:id',
-    component: DiscussionDetailComponent
   },
   {
     path: '*',

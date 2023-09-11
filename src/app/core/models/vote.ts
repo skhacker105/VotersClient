@@ -25,3 +25,12 @@ export interface IVoteType {
     createdBy: IUser;
     createdOn: Date;
 }
+
+export const isInstanceOfIVoteType = (obj: any): obj is IVoteType => {
+    try {
+        if (obj['ui_id']) return true;
+        return false;
+    } catch(e) {
+        return false;
+    }
+}

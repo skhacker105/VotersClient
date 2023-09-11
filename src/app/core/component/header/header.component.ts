@@ -17,6 +17,6 @@ export class HeaderComponent {
   }
 
   gotoAddDiscussion() {
-    this.router.navigateByUrl('/home/addDiscussion')
+    this.router.navigateByUrl('/discussion/addDiscussion')
   }
 }

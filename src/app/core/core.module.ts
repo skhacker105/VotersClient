@@ -21,6 +21,8 @@ import { DiscussionStateDisplayPipe } from './pipe/discussion-state-display.pipe
 import { DiscussionNextStateComponent } from './component/discussion-next-state/discussion-next-state.component';
 import { MatVoteTypeComponent } from './component/mat-vote-type/mat-vote-type.component';
 import { InputVoteWizardComponent } from './component/input-vote-wizard/input-vote-wizard..component';
+import { RegisterComponent } from './component/register/register.component';
+import { LoginComponent } from './component/login/login.component';
 
 
 @NgModule({
@@ -41,7 +43,9 @@ import { InputVoteWizardComponent } from './component/input-vote-wizard/input-vo
     DiscussionStateDisplayPipe,
     DiscussionNextStateComponent,
     MatVoteTypeComponent,
-    InputVoteWizardComponent
+    InputVoteWizardComponent,
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     CommonModule,
@@ -67,7 +71,9 @@ import { InputVoteWizardComponent } from './component/input-vote-wizard/input-vo
     DiscussionStateDisplayPipe,
     DiscussionNextStateComponent,
     MatVoteTypeComponent,
-    InputVoteWizardComponent
+    InputVoteWizardComponent,
+    LoginComponent,
+    RegisterComponent
   ]
 })
 export class CoreModule { }

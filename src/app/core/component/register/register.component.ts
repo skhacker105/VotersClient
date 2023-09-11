@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
@@ -11,6 +11,10 @@ import { UserService } from 'src/app/core/services/user.service';
 })
 export class RegisterComponent {
 
+
+  @Input() redirectAfterLogin = true;
+  @Output() registerSuccessfull = new EventEmitter<void>();
+  
   registerForm: FormGroup<any> = new FormGroup({
     email: new FormControl<string>('', Validators.required),
     name: new FormControl<string>('', Validators.required),
@@ -39,7 +43,9 @@ export class RegisterComponent {
       ).subscribe({
         next: res => {
           this.userService.saveSession(res.data);
-          this.router.navigateByUrl('/home');
+          if (this.redirectAfterLogin)
+            this.router.navigateByUrl('/home');
+          else this.registerSuccessfull.emit();
         },
         error: err => {
           console.log('Error: ', err);

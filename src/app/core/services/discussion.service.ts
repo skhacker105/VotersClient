@@ -10,6 +10,7 @@ import { IScope } from '../models/scope';
 import { MatDialog } from '@angular/material/dialog';
 import { VotingService } from './voting.service';
 import { LoggerService } from './logger.service';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -23,20 +24,21 @@ export class DiscussionService {
     public http: HttpClient,
     private matDialog: MatDialog,
     private votingService: VotingService,
-    private loggerService: LoggerService
+    private loggerService: LoggerService,
+    private userService: UserService
   ) { }
 
 
   private Objectify(d: ServerResponse<Discussion>) {
-    d.data = new Discussion(d.data, this.matDialog, this.votingService, this.loggerService, this)
+    d.data = new Discussion(d.data, this.matDialog, this.votingService, this.loggerService, this, this.userService)
     return d;
   }
   private ObjectifyArr(darr: ServerResponse<Discussion[]>) {
-    darr.data = darr.data.map(d => new Discussion(d, this.matDialog, this.votingService, this.loggerService, this));
+    darr.data = darr.data.map(d => new Discussion(d, this.matDialog, this.votingService, this.loggerService, this, this.userService));
     return darr
   }
   private ObjectifyPagedArr(darr: ServerResponse<IGridConfig<Discussion[]>>) {
-    darr.data.data = darr.data.data?.map(d => new Discussion(d, this.matDialog, this.votingService, this.loggerService, this));
+    darr.data.data = darr.data.data?.map(d => new Discussion(d, this.matDialog, this.votingService, this.loggerService, this, this.userService));
     return darr
   }
 

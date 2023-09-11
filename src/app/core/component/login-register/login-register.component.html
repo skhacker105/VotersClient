@@ -2,8 +2,14 @@
     <mat-card class="card bigscreen">
         <mat-card-content>
             <mat-tab-group mat-stretch-tabs="true">
-                <mat-tab label="LOGIN"><app-login></app-login></mat-tab>
-                <mat-tab label="REGISTER"><app-register></app-register></mat-tab>
+                <mat-tab label="LOGIN">
+                    <app-login [redirectAfterLogin]="dialogRef ? false : true" (loginSuccessfull)="emitSuccess()">
+                    </app-login>
+                </mat-tab>
+                <mat-tab label="REGISTER">
+                    <app-register [redirectAfterLogin]="dialogRef ? false : true" (registerSuccessfull)="emitSuccess()">
+                    </app-register>
+                </mat-tab>
             </mat-tab-group>
         </mat-card-content>
     </mat-card>

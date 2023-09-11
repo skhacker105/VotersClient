@@ -40,7 +40,7 @@ body {
 }
 .mat-subheader-a {
     color: black !important;
-    background-color: #c8efff99 !important;
+    background-color: #c8efffee !important;
     border-top: solid 2px #76d5fd99 !important;
 }
 
@@ -80,6 +80,8 @@ body {
 
 .fill-parent {
     max-height: -webkit-fill-available;
+    width: 100%;
+    height: 100%;
 }
 
 .sticky {

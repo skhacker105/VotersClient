@@ -11,15 +11,3 @@
   place-content: center;
   height: 100%;
 }
-
-@media (max-width: 480px) {
-  .card {
-    // min: none !important;
-  }
-}
-
-@media (min-width: 481px) {
-  .card {
-    // display: none !important;
-  }
-}

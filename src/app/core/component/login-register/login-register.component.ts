@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Optional, Output } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-login-register',
@@ -8,6 +9,10 @@ import { Component } from '@angular/core';
 export class LoginRegisterComponent {
 
   selectedTabIndex = 0;
+  @Output() successfull = new EventEmitter<void>();
+
+  constructor(@Optional() public dialogRef: MatDialogRef<LoginRegisterComponent>) {
+  }
 
   handleSwipe(direction: number): void {
     if (direction > 0 && this.selectedTabIndex === 0) {
@@ -15,5 +20,10 @@ export class LoginRegisterComponent {
     } else if (direction < 0 && this.selectedTabIndex === 1) {
       this.selectedTabIndex = 0
     }
+  }
+
+  emitSuccess() {
+    this.successfull.emit();
+    this.dialogRef?.close();
   }
 }

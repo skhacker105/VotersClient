@@ -142,7 +142,7 @@ export class AddEditDiscussionComponent implements OnInit, OnDestroy {
   redirectIfNotAllowed(discussion: Discussion) {
     if (discussion.isVotingEnabled || discussion.isBlocked) {
       this.loggerService.showError('Editting not allowed.')
-      this.router.navigate(['/home/discussionDetail', discussion._id]);
+      this.router.navigate(['/discussion/discussionDetail', discussion._id]);
     }
   }
 
@@ -206,8 +206,8 @@ export class AddEditDiscussionComponent implements OnInit, OnDestroy {
   }
 
   navigateToVoteType(voteType: IVoteType) {
-    if (this.id) this.router.navigateByUrl(`/home/editDiscussion/${this.id}/voteType?ui_id=${voteType.ui_id}`)
-    else this.router.navigateByUrl(`/home/addDiscussion/voteType?ui_id=${voteType.ui_id}`)
+    if (this.id) this.router.navigateByUrl(`/discussion/editDiscussion/${this.id}/voteType?ui_id=${voteType.ui_id}`)
+    else this.router.navigateByUrl(`/discussion/addDiscussion/voteType?ui_id=${voteType.ui_id}`)
   }
 
   saveDiscussion() {
@@ -225,7 +225,7 @@ export class AddEditDiscussionComponent implements OnInit, OnDestroy {
         takeUntil(this.isComponentIsActive)
       ).subscribe({
         next: res => {
-          this.router.navigate(['/home/discussionDetail/', res.data._id])
+          this.router.navigate(['/discussion/discussionDetail/', res.data._id])
         },
         error: err => {
           this.loggerService.showError(err.error.message);
@@ -235,7 +235,7 @@ export class AddEditDiscussionComponent implements OnInit, OnDestroy {
 
   cancelSaveDiscussion() {
     if (this.id) {
-      this.router.navigate(['/home/discussionDetail/', this.id]);
+      this.router.navigate(['/discussion/discussionDetail/', this.id]);
     } else {
       this.router.navigateByUrl('/discussionDetail');
     }

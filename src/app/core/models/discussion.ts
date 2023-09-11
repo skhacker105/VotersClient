@@ -10,6 +10,8 @@ import { LoggerService } from "../services/logger.service";
 import { DiscussionService } from "../services/discussion.service";
 import { InputVoteWizardComponent } from "../component/input-vote-wizard/input-vote-wizard..component";
 import { IInputVoteWizard } from "./input-vote-wizars";
+import { UserService } from "../services/user.service";
+import { LoginRegisterComponent } from "../component/login-register/login-register.component";
 
 export class Discussion {
     matDialog: MatDialog;
@@ -33,7 +35,14 @@ export class Discussion {
     isVotingEnabled = false;
     isBlocked = false;
 
-    constructor(obj: Discussion, matDialog: MatDialog, votingService: VotingService, loggerService: LoggerService, discussionService: DiscussionService) {
+    constructor(
+        obj: Discussion,
+        matDialog: MatDialog,
+        votingService: VotingService,
+        loggerService: LoggerService,
+        discussionService: DiscussionService,
+        public userService: UserService
+    ) {
         this._id = obj._id;
         this.title = obj.title;
         this.message = obj.message;
@@ -119,9 +128,18 @@ export class Discussion {
             this.votes.splice(index, 1, vote);
             this.categorizeVotes();
         }
+        this.voteTypes = JSON.parse(JSON.stringify(this.voteTypes))
     }
 
-    isMyVote(voteType: IVoteType, user: IUser) {
+    isMyVote(voteType: IVote, user?: IUser): boolean {
+        if (!user) return false;
+
+        return this.votes.some(v => v.user._id === user._id && voteType.voteType.ui_id === v.voteType.ui_id);
+    }
+
+    isMyVoteType(voteType: IVoteType, user?: IUser): boolean {
+        if (!user) return false;
+
         return this.votes.some(v => v.user._id === user._id && voteType.ui_id === v.voteType.ui_id);
     }
 
@@ -166,9 +184,9 @@ export class Discussion {
     }
 
     voteDiscussion(voteType: IVoteType, loginProfile?: IUser) {
-        if (!loginProfile) return;
+        // if (!loginProfile) return;
 
-        const existingvote = this.existingVoteByType(loginProfile);
+        const existingvote = loginProfile ? this.existingVoteByType(loginProfile) : loginProfile;
         const data: IInputVoteWizard = {
             message: existingvote ? existingvote.message : '',
             voteType: voteType
@@ -184,12 +202,35 @@ export class Discussion {
         ref.afterClosed()
             .pipe(take(1))
             .subscribe(res => {
-                if (res) this.saveVote(res, voteType, loginProfile);
+                if (res)
+                    if (loginProfile) this.saveVote(res, voteType, loginProfile);
+                    else this.requestLogin(res, voteType)
             })
 
     }
 
-    saveVote(message: string, voteType: IVoteType, loginProfile?: IUser) {
+    requestLogin(message: string, voteType: IVoteType) {
+        const ref = this.matDialog.open(LoginRegisterComponent,
+            {
+                panelClass: 'input-textarea-popup',
+                maxHeight: '99vh',
+                minWidth: '99vw'
+            }
+        )
+        ref.afterClosed()
+            .pipe(take(1))
+            .subscribe(res => {
+                const loginProfile = this.userService.getProfile();
+                if (!loginProfile) {
+                    this.loggerService.showError('Cannot Vote without login.');
+                    this.voteDiscussion(voteType, loginProfile)
+                } else {
+                    this.saveVote(message, voteType, loginProfile);
+                }
+            })
+    }
+
+    saveVote(message: string, voteType: IVoteType, loginProfile: IUser) {
         if (!loginProfile) return;
 
         const existingvote = this.userHasAlreadyVoted(loginProfile);
@@ -208,7 +249,8 @@ export class Discussion {
             .pipe(take(1))
             .subscribe({
                 next: (res) => {
-                    this.updateDiscussionVote(res.data, loginProfile)
+                    this.updateDiscussionVote(res.data, loginProfile);
+                    this.loggerService.showSuccess(`You Voted for "${voteType.name}".`)
                 },
                 error: (err: any) => {
                     this.loggerService.showError(err.error.message)

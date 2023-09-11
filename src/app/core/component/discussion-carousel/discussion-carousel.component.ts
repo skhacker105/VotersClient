@@ -2,14 +2,12 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Discussion } from '../../models/discussion';
 import { VotingService } from '../../services/voting.service';
 import { UserService } from '../../services/user.service';
-import { IVote, IVoteType } from '../../models/vote';
+import { IVoteType } from '../../models/vote';
 import { MatDialog } from '@angular/material/dialog';
-import { InputTextAreaComponent } from '../input-text-area/input-text-area.component';
 import { Subject, takeUntil } from 'rxjs';
 import { IUser } from '../../models/user';
 import { LoggerService } from '../../services/logger.service';
 import { DiscussionService } from '../../services/discussion.service';
-import { IInputTextAreaData } from '../../models/input-text-area';
 import { IConfirmationDialogData } from '../../models/confirmation-dialog.model';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 
@@ -60,9 +58,9 @@ export class DiscussionCarouselComponent implements OnInit, OnDestroy {
     return existingCategory.votes.length;
   }
 
-  isMyVote(votetype?: IVoteType): boolean {
+  isMyVoteType(votetype?: IVoteType): boolean {
     if (!this.discussion || !votetype || !this.loginProfile) return false;
-    return this.discussion.isMyVote(votetype, this.loginProfile);
+    return this.discussion.isMyVoteType(votetype, this.loginProfile);
   }
 
   handleDeleteDiscussion() {

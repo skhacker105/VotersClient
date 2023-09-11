@@ -18,6 +18,10 @@ const routes: Routes = [
     path: 'home',
     canActivate: [LoginGuard],
     loadChildren: () => import('./modules/home/home.module').then(m => m.HomeModule)
+  },
+  {
+    path: 'discussion',
+    loadChildren: () => import('./modules/discussion/discussion.module').then(m => m.DiscussionModule)
   }
 ];
 

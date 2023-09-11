@@ -10,7 +10,7 @@
             <!-- Edit -->
             <button mat-icon-button color="primary"
                 *ngIf="isOwner && !discussion.isVotingEnabled && !discussion.isBlocked"
-                [routerLink]="['/home/editDiscussion/', discussion._id]">
+                [routerLink]="['/discussion/editDiscussion/', discussion._id]">
                 <mat-icon>edit</mat-icon>
             </button>
 
@@ -35,11 +35,11 @@
     <app-page-header [display]="'Votes'" [needSpacer]="false"  color="subheader-a">
 
         <!-- Vote Types -->
-        <div *ngIf="loginProfile" class="flex flex-scrollable">
+        <div class="flex flex-scrollable">
             <ng-container *ngFor="let voteType of discussion.voteTypes">
                 <app-mat-vote-type [voteType]="voteType" (voteTypeClick)="voteDiscussion(voteType)"
                     [attr.title]="voteType.name"
-                    [disabled]="!discussion.isVotingEnabled || discussion.isMyVote(voteType, loginProfile)"
+                    [disabled]="!discussion.isVotingEnabled || discussion.isMyVoteType(voteType, loginProfile)"
                     [matBadgeCount]="discussion.getVoteCategoryCount(voteType)"
                     [isMatBadgeHidden]="discussion.getVoteCategoryCount(voteType) === 0">
                 </app-mat-vote-type>
@@ -49,12 +49,13 @@
 
     <!-- Vote List -->
     <ng-container *ngFor="let vote of discussion.getVotes()">
+
         <app-vote-big-screen [vote]="vote" class="bigscreen"
-            [showActionButton]="votingService.isOwner(vote, loginProfile) && discussion.isVotingEnabled"
+            [showActionButton]="discussion.isMyVote(vote, loginProfile) && discussion.isVotingEnabled"
             (onEditClick)="voteDiscussion(vote.voteType)" (onDeleteClick)="handleDeleteVote(vote)">
         </app-vote-big-screen>
         <app-vote-mobile-screen [vote]="vote" class="mobile"
-            [showActionButton]="votingService.isOwner(vote, loginProfile) && discussion.isVotingEnabled"
+            [showActionButton]="discussion.isMyVote(vote, loginProfile) && discussion.isVotingEnabled"
             (onEditClick)="voteDiscussion(vote.voteType)"
             (onDeleteClick)="handleDeleteVote(vote)"></app-vote-mobile-screen>
     </ng-container>
