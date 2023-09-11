@@ -4,8 +4,6 @@
 
     .vote-user-icon {
         padding: 5px;
-        vertical-align: top;
-        // background-color: #366f63;
 
         div {
             width: 20px;
@@ -19,6 +17,8 @@
                 font-size: 14px;
                 line-height: 20px;
                 width: 15px;
+                display: block;
+                margin-left: 2px;
             }
         }
     }
@@ -27,15 +27,11 @@
         white-space: nowrap;
         color: #ffffff;
         padding-right: 16px;
-        vertical-align: top;
-        // background-color: #366f63;
     }
 
     .vote-message {
         width: 100%;
-        padding: 8px;
-        padding-top: 16px;
-        padding-top: 16px;
+        padding: 16px 8px 8px;
         background-color: white;
 
         ::ng-deep p img {
@@ -44,7 +40,6 @@
     }
 
     .vote-date {
-        vertical-align: top;
         white-space: nowrap;
         color: #ffffff;
         padding-right: 16px;

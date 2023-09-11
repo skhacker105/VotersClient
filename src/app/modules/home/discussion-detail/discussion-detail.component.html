@@ -27,13 +27,15 @@
         </app-discussion-next-state>
     </app-page-header>
 
+    <!-- Discussion Message -->
     <div class="discussion-message" [innerHTML]="discussion.message">
     </div>
 
-    <app-page-header [display]="'Votes'" [needSpacer]="false">
+    <!-- Votes -->
+    <app-page-header [display]="'Votes'" [needSpacer]="false"  color="subheader-a">
 
+        <!-- Vote Types -->
         <div *ngIf="loginProfile" class="flex flex-scrollable">
-
             <ng-container *ngFor="let voteType of discussion.voteTypes">
                 <app-mat-vote-type [voteType]="voteType" (voteTypeClick)="voteDiscussion(voteType)"
                     [attr.title]="voteType.name"
@@ -44,6 +46,8 @@
             </ng-container>
         </div>
     </app-page-header>
+
+    <!-- Vote List -->
     <ng-container *ngFor="let vote of discussion.getVotes()">
         <app-vote-big-screen [vote]="vote" class="bigscreen"
             [showActionButton]="votingService.isOwner(vote, loginProfile) && discussion.isVotingEnabled"
