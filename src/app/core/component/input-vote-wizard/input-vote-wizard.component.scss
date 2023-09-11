@@ -1,7 +1,7 @@
 .vote-type-profile {
-    min-height: 50vh;
+    max-height: 60vh;
+    min-height: 30vh;
     overflow: auto;
-    max-height: calc(100% - 165px);
 
     ::ng-deep p img {
         max-width: 90% !important;
