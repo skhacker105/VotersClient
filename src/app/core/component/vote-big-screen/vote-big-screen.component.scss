@@ -9,8 +9,7 @@
             width: 20px;
             height: 20px;
             text-align: center;
-            border: solid 1px white;
-            color: white;
+            border: solid 1px;
             border-radius: 50%;
 
             .votetype-icon {
@@ -25,7 +24,6 @@
 
     .vote-user-name {
         white-space: nowrap;
-        color: #ffffff;
         padding-right: 16px;
     }
 
@@ -41,7 +39,6 @@
 
     .vote-date {
         white-space: nowrap;
-        color: #ffffff;
         padding-right: 16px;
         padding-left: 16px;
         // background-color: #366f63;

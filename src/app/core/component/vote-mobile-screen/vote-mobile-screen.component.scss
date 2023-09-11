@@ -3,6 +3,10 @@
     border-bottom: solid 1px #efefef;
     width: 100%;
 
+    tr {
+        line-height: 30px;
+    }
+
     .vote-user-icon {
         padding: 5px;
         width: 1px;
@@ -12,7 +16,6 @@
             height: 20px;
             text-align: center;
             border: solid 1px white;
-            color: white;
             border-radius: 50%;
 
             .votetype-icon {
@@ -33,9 +36,6 @@
 
     .vote-action {
         white-space: nowrap;
-        mat-icon {
-            color: white;
-        }
     }
 
     .vote-message {
@@ -51,7 +51,6 @@
     .vote-date {
         text-align: end;
         white-space: nowrap;
-        color: #ffffff;
         padding-right: 16px;
         padding-left: 16px;
     }

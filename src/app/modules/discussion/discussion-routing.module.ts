@@ -5,10 +5,11 @@ import { DiscussionDetailComponent } from './discussion-detail/discussion-detail
 import { LoginGuard } from 'src/app/core/routeGuard/login.guard';
 
 const routes: Routes = [
-  // {
-  //   path: '',
-  //   component: HomeComponent
-  // },
+  {
+    path: '',
+    pathMatch: 'full',
+    redirectTo: 'addDiscussion'
+  },
   {
     path: 'addDiscussion',
     canActivate: [LoginGuard],
@@ -33,11 +34,23 @@ const routes: Routes = [
   },
   {
     path: 'discussionDetail/:id',
-    component: DiscussionDetailComponent
+    component: DiscussionDetailComponent,
+    children: [
+      {
+        path: 'voteType',
+        component: DiscussionDetailComponent
+      }
+    ]
   },
   {
     path: '*',
-    redirectTo: ''
+    redirectTo: 'addDiscussion',
+    pathMatch: 'full'
+  },
+  {
+    path: '**',
+    redirectTo: 'addDiscussion',
+    pathMatch: 'full'
   }
 ];
 

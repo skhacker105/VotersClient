@@ -31,7 +31,7 @@
         <div [innerHTML]="data.voteType.profile" class="vote-type-profile flex-scrollable"></div>
         <p align="end" *ngIf="!hideAction">
             <button mat-raised-button mat-dialog-close>Cancel</button>
-            <button mat-raised-button color="primary" (click)="selectedIndex = 1">Vote Now</button>
+            <button mat-raised-button color="primary" (click)="selectedIndex = 1">Cast your Vote</button>
         </p>
     </div>
 </ng-template>
@@ -50,6 +50,6 @@
             <mat-icon>arrow_back_ios</mat-icon>
         </button>
         <button mat-raised-button mat-dialog-close>Cancel</button>
-        <button mat-raised-button color="primary" [mat-dialog-close]="message.value">Save</button>
+        <button mat-raised-button color="primary" [mat-dialog-close]="message.value">Vote Now</button>
     </p>
 </ng-template>

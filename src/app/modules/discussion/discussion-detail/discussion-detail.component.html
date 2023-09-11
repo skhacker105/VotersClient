@@ -37,7 +37,7 @@
         <!-- Vote Types -->
         <div class="flex flex-scrollable">
             <ng-container *ngFor="let voteType of discussion.voteTypes">
-                <app-mat-vote-type [voteType]="voteType" (voteTypeClick)="voteDiscussion(voteType)"
+                <app-mat-vote-type [voteType]="voteType" (voteTypeClick)="redirectToVoteType(voteType)"
                     [attr.title]="voteType.name"
                     [disabled]="!discussion.isVotingEnabled || discussion.isMyVoteType(voteType, loginProfile)"
                     [matBadgeCount]="discussion.getVoteCategoryCount(voteType)"
@@ -52,11 +52,11 @@
 
         <app-vote-big-screen [vote]="vote" class="bigscreen"
             [showActionButton]="discussion.isMyVote(vote, loginProfile) && discussion.isVotingEnabled"
-            (onEditClick)="voteDiscussion(vote.voteType)" (onDeleteClick)="handleDeleteVote(vote)">
+            (onEditClick)="redirectToVoteType(vote.voteType)" (onDeleteClick)="handleDeleteVote(vote)">
         </app-vote-big-screen>
         <app-vote-mobile-screen [vote]="vote" class="mobile"
             [showActionButton]="discussion.isMyVote(vote, loginProfile) && discussion.isVotingEnabled"
-            (onEditClick)="voteDiscussion(vote.voteType)"
+            (onEditClick)="redirectToVoteType(vote.voteType)"
             (onDeleteClick)="handleDeleteVote(vote)"></app-vote-mobile-screen>
     </ng-container>
 </ng-container>

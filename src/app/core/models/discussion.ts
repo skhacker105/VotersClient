@@ -12,8 +12,12 @@ import { InputVoteWizardComponent } from "../component/input-vote-wizard/input-v
 import { IInputVoteWizard } from "./input-vote-wizars";
 import { UserService } from "../services/user.service";
 import { LoginRegisterComponent } from "../component/login-register/login-register.component";
+import { ActivatedRoute, Router } from "@angular/router";
 
 export class Discussion {
+
+    route: ActivatedRoute;
+    router: Router;
     matDialog: MatDialog;
     votingService: VotingService;
     loggerService: LoggerService;
@@ -41,7 +45,9 @@ export class Discussion {
         votingService: VotingService,
         loggerService: LoggerService,
         discussionService: DiscussionService,
-        public userService: UserService
+        public userService: UserService,
+        router: Router,
+        route: ActivatedRoute
     ) {
         this._id = obj._id;
         this.title = obj.title;
@@ -56,6 +62,8 @@ export class Discussion {
         this.votingService = votingService;
         this.loggerService = loggerService;
         this.discussionService = discussionService;
+        this.route = route;
+        this.router = router;
 
         this.matDialog = matDialog;
         this.resetEnability();
@@ -196,7 +204,9 @@ export class Discussion {
                 panelClass: 'input-textarea-popup',
                 data: data,
                 maxHeight: '90vh',
-                minWidth: '90vw'
+                minWidth: '90vw',
+                enterAnimationDuration: '1000ms',
+                exitAnimationDuration: '500ms'
             }
         )
         ref.afterClosed()
@@ -206,6 +216,8 @@ export class Discussion {
                     if (loginProfile) this.saveVote(res, voteType, loginProfile);
                     else this.requestLogin(res, voteType)
             })
+
+        return ref.afterClosed();
 
     }
 
