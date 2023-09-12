@@ -1,7 +1,8 @@
 <div class="flex-column fill-parent">
     <app-header></app-header>
     <div class="flex-scrollable">
-        <router-outlet *ngIf="userService.hasLocationAccess.value"></router-outlet>
+        <router-outlet *ngIf="userService.hasLocationAccess.value && !userService.authLocationChanged"></router-outlet>
         <app-need-location-access *ngIf="!userService.hasLocationAccess.value"></app-need-location-access>
+        <app-auth-location-changed *ngIf="userService.authLocationChanged"></app-auth-location-changed>
     </div>
 </div>

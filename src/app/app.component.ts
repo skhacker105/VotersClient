@@ -18,7 +18,7 @@ export class AppComponent implements OnInit {
 
   trackLocationChange() {
     if (!this.userService.hasLocationAccess.value) this.loadGeoLocation();
-    // this.watchPosition();
+    this.watchPosition();
   }
 
   loadGeoLocation() {
@@ -44,7 +44,6 @@ export class AppComponent implements OnInit {
         console.log('Error while watching geo location = ', err)
       }
       this.userService.hasLocationAccess.next(pos === null ? undefined : pos);
-      console.log('New Post = ', pos)
     });
   }
 }

@@ -15,7 +15,7 @@
             width: 20px;
             height: 20px;
             text-align: center;
-            border: solid 1px white;
+            border: solid 1px;
             border-radius: 50%;
 
             .votetype-icon {
@@ -30,7 +30,6 @@
 
     .vote-user-name {
         white-space: nowrap;
-        color: #ffffff;
         padding-right: 16px;
     }
 

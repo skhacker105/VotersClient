@@ -23,6 +23,7 @@ import { MatVoteTypeComponent } from './component/mat-vote-type/mat-vote-type.co
 import { InputVoteWizardComponent } from './component/input-vote-wizard/input-vote-wizard..component';
 import { RegisterComponent } from './component/register/register.component';
 import { LoginComponent } from './component/login/login.component';
+import { AuthLocationChangedComponent } from './component/auth-location-changed/auth-location-changed.component';
 
 
 @NgModule({
@@ -45,7 +46,8 @@ import { LoginComponent } from './component/login/login.component';
     MatVoteTypeComponent,
     InputVoteWizardComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    AuthLocationChangedComponent
   ],
   imports: [
     CommonModule,
@@ -73,7 +75,8 @@ import { LoginComponent } from './component/login/login.component';
     MatVoteTypeComponent,
     InputVoteWizardComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    AuthLocationChangedComponent
   ]
 })
 export class CoreModule { }

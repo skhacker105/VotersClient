@@ -13,7 +13,8 @@ export class HeaderComponent {
 
   logout() {
     this.userService.clearSession();
-    this.router.navigateByUrl('/login')
+    this.router.navigateByUrl('/login');
+    this.userService.authLocationChanged = false;
   }
 
   gotoAddDiscussion() {

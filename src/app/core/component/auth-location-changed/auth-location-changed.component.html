@@ -1,0 +1,24 @@
+<mat-card class="full-width">
+    <mat-card-header>
+        <mat-card-title>Location Shifted</mat-card-title>
+        <mat-card-subtitle>You are not in the same place where you logged in.</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+        <mat-checkbox [checked]="alwaysAllowObj.alwaysAllow" (change)="handleAlwaysAllowPermission($event)">
+            Permanent access to register location change.
+        </mat-checkbox>
+    </mat-card-content>
+    <mat-card-content>
+        Please permit us to register your new address.
+    </mat-card-content>
+
+    <mat-card-footer align="center">
+        <button mat-raised-button (click)="logout()">
+            Logout
+        </button>
+        <button color="primary" mat-raised-button (click)="registerLocationChange()">
+            Register Location Update
+        </button>
+    </mat-card-footer>
+</mat-card>

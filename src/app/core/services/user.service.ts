@@ -15,6 +15,7 @@ export class UserService {
 
   baseUrl = environment.basUrl + 'users/';
   hasLocationAccess = new BehaviorSubject<Position | undefined>(undefined);
+  authLocationChanged = false;
   constructor(private http: HttpClient) { }
 
   login(email: string, password: string) {
@@ -23,6 +24,10 @@ export class UserService {
 
   register(email: string, password: string, name: string) {
     return this.http.post<ServerResponse<string>>(this.baseUrl + 'register', { email, password, name })
+  }
+
+  registerLocationChange() {
+    return this.http.get<ServerResponse<string>>(this.baseUrl + 'registerLocationChange')
   }
 
   saveSession(token: any): void {
@@ -85,5 +90,8 @@ export class UserService {
     return val ? val : '';
   }
 
-  
+  isAuthLocationChanged(changed: boolean) {
+    this.authLocationChanged = changed;
+  }
+
 }

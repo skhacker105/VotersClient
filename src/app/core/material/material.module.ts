@@ -23,6 +23,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatStepperModule } from '@angular/material/stepper';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 
 @NgModule({
@@ -52,7 +53,8 @@ import { MatStepperModule } from '@angular/material/stepper';
     MatListModule,
     MatRadioModule,
     MatFormFieldModule,
-    MatStepperModule
+    MatStepperModule,
+    MatCheckboxModule
   ],
   exports: [
     MatToolbarModule,
@@ -78,7 +80,8 @@ import { MatStepperModule } from '@angular/material/stepper';
     MatListModule,
     MatRadioModule,
     MatFormFieldModule,
-    MatStepperModule
+    MatStepperModule,
+    MatCheckboxModule
   ]
 })
 export class MaterialModule { }

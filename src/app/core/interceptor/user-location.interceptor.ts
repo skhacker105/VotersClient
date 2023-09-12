@@ -2,7 +2,7 @@
 import { Injectable } from '@angular/core';
 
 // RXJS
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 
 // HTTP
 import {
@@ -28,11 +28,22 @@ export class UrlLocationInterceptor implements HttpInterceptor {
           .set('longitude', this.userService.hasLocationAccess.value?.coords.longitude.toString())
       });
 
-      return next.handle(locationRequest);
+      return next.handle(locationRequest).pipe(
+        tap({
+          next: (res) => { },
+          error: (err) => {
+            if (err.status === 444) this.onAuthLocationChanged(err);
+          }
+        }
+        ));
     }
     else {
       return next.handle(request);
     }
+  }
+
+  onAuthLocationChanged(err: any) {
+    this.userService.isAuthLocationChanged(true)
   }
 
 }
