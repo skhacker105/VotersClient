@@ -9,7 +9,7 @@
             </app-discussion-next-state>
 
             <!-- Edit -->
-            <button mat-icon-button color="primary"
+            <button mat-icon-button color="local-primary"
                 *ngIf="isOwner && !discussion.isVotingEnabled && !discussion.isBlocked"
                 [routerLink]="['/discussion/editDiscussion/', discussion._id]">
                 <mat-icon>edit</mat-icon>

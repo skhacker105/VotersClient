@@ -24,11 +24,11 @@ body {
     }
 }
 
-.mat-primary:disabled {
+.mat-local-primary:disabled {
     background-color: inherit;
     color: inherit;
 }
-.mat-primary {
+.mat-local-primary {
     color: #95ddbf;
 
     mat-icon, div, span, p {
