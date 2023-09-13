@@ -1,13 +1,20 @@
 .discussion-next-state {
     display: flex;
-    color: #b1adad;
+    color: white;
+
+    .discussion-state-icon {
+        mat-icon {
+            color: white;
+        }
+    }
 
     .discussion-state {
         line-height: 47px;
-        font-size: 14px;
+        font-size: 12px;
     }
 }
 
+// Mobile
 @media (max-width: 480px) {
     .discussion-next-state {
 
@@ -17,6 +24,7 @@
     }
 }
 
+// All other than mobile
 @media (min-width: 481px) {
     .discussion-next-state {
 

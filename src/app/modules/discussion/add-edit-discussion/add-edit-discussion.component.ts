@@ -35,7 +35,10 @@ export class AddEditDiscussionComponent implements OnInit, OnDestroy {
     message: new FormControl<string>('', Validators.required),
     startDate: new FormControl<Date | undefined>(undefined),
     endDate: new FormControl<Date | undefined>(undefined),
-    voteTypes: new FormControl<IVoteType[]>([], [Validators.required, Validators.minLength(2)])
+    voteTypes: new FormControl<IVoteType[]>([], [Validators.required, Validators.minLength(2)]),
+    isRegistrationAllowed: new FormControl<boolean>(false),
+    registrationStartDate: new FormControl<Date | undefined>(undefined),
+    registrationEndDate: new FormControl<Date | undefined>(undefined)
   });
   voteTypeForm = new FormGroup<any>({
     _id: new FormControl<string>(''),
@@ -74,6 +77,7 @@ export class AddEditDiscussionComponent implements OnInit, OnDestroy {
     this.trackURLForVoteTypeForm();
     this.getDiscussion();
     this.handleChangeInIconOptions();
+    this.handleChangeInRegistrationCheck();
     this.handleSearchInMatIcon();
   }
 
@@ -96,14 +100,14 @@ export class AddEditDiscussionComponent implements OnInit, OnDestroy {
     this.ui_id = this.route.snapshot.queryParamMap.get('ui_id');
     if (!this.ui_id && isVoteTypeURL(this.router.url, [`addDiscussion/voteType`, `editDiscussion/${this.id}/voteType`]))
       this.handleAddEditVoteType();
-      else if (this.ui_id && this.loadedDiscussion) {
-        const votetype =  this.loadedDiscussion.voteTypes.find(v => v.ui_id === this.ui_id)
-        this.handleAddEditVoteType(votetype);
-      }
-      else if (this.ui_id && (this.discussionForm.controls['voteTypes'].value as IVoteType[]).length > 0) {
-        const votetype =  (this.discussionForm.controls['voteTypes'].value as IVoteType[]).find(v => v.ui_id === this.ui_id)
-        this.handleAddEditVoteType(votetype);
-      }
+    else if (this.ui_id && this.loadedDiscussion) {
+      const votetype = this.loadedDiscussion.voteTypes.find(v => v.ui_id === this.ui_id)
+      this.handleAddEditVoteType(votetype);
+    }
+    else if (this.ui_id && (this.discussionForm.controls['voteTypes'].value as IVoteType[]).length > 0) {
+      const votetype = (this.discussionForm.controls['voteTypes'].value as IVoteType[]).find(v => v.ui_id === this.ui_id)
+      this.handleAddEditVoteType(votetype);
+    }
   }
 
   getDiscussion() {
@@ -171,6 +175,21 @@ export class AddEditDiscussionComponent implements OnInit, OnDestroy {
           }
         },
         error: err => this.loggerService.showError('Unable to track Icon Option Change')
+      });
+  }
+
+  handleChangeInRegistrationCheck() {
+    this.discussionForm.controls['isRegistrationAllowed'].valueChanges
+      .pipe(takeUntil(this.isComponentIsActive))
+      .subscribe(isRegistrationAllowed => {
+
+        if (!isRegistrationAllowed) {
+          this.discussionForm.controls['registrationStartDate'].disable();
+          this.discussionForm.controls['registrationEndDate'].disable();
+        } else {
+          this.discussionForm.controls['registrationStartDate'].enable();
+          this.discussionForm.controls['registrationEndDate'].enable();
+        }
       });
   }
 

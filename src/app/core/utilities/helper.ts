@@ -22,4 +22,13 @@ export class HelperService {
         if (numStr <= 0) return COOL_COLORS[0];
         return COOL_COLORS[(numStr % COOL_COLORS.length)]
     }
+
+    static isTodayInDateRange(dt1: Date, dt2: Date): boolean {
+        const start = new Date(dt1).getTime();
+        const end_date = new Date(dt2);
+        end_date.setHours(23, 59, 59, 999);
+        const end = end_date.getTime();
+        const today = new Date().getTime();
+        return today >= start && today <= end;
+    }
 }

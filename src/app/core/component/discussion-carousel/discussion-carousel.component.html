@@ -5,6 +5,7 @@
 <ng-container *ngIf="discussion">
     <mat-card class="discussion-card" [ngClass]="{'deleted': isDeleted}">
 
+        <!-- Header -->
         <mat-card-header class="discussion-head">
             <mat-card-title class="discussion-title">
                 <div class="page-header-display">
@@ -33,7 +34,7 @@
             </mat-card-title>
             <mat-card-subtitle class="discussion-state">
 
-                <!-- STATE and DATE -->
+                <!-- STATE and More -->
                 <div class="flex">
 
                     <!-- STATE -->
@@ -43,17 +44,19 @@
                     </app-discussion-next-state>
 
                     <div class="spacer"></div>
-
-                    <!-- DATE -->
-                    <div class="discussion-created-date">
-                        {{ discussion.createdOn | date }}
-                    </div>
                 </div>
             </mat-card-subtitle>
+            <!-- <mat-card-subtitle class="discussion-state" *ngIf="headerInfoExpanded" @expandCollapseAnimation>
+                hello
+            </mat-card-subtitle> -->
 
         </mat-card-header>
+
+        <!-- Discussion Message -->
         <div class="discussion-message" [innerHTML]="discussion.message">
         </div>
+
+        <!-- Actions and Vote Types -->
         <mat-card-actions class="flex">
             <button mat-icon-button color="accent"
                 [routerLink]="['/discussion/discussionDetail/', discussion._id]">
@@ -72,6 +75,8 @@
                 </ng-container>
             </div>
         </mat-card-actions>
+
+        <!-- Votes -->
         <mat-card-content class="vote-messages">
             <ng-container *ngFor="let vote of discussion.getVotes()">
                 <app-vote-carousel [vote]="vote"></app-vote-carousel>

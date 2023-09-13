@@ -5,6 +5,7 @@ import { Subject, take, takeUntil } from 'rxjs';
 import { ConfirmationDialogComponent } from 'src/app/core/component/confirmation-dialog/confirmation-dialog.component';
 import { IConfirmationDialogData } from 'src/app/core/models/confirmation-dialog.model';
 import { Discussion } from 'src/app/core/models/discussion';
+import { IDiscussionState } from 'src/app/core/models/discussion-state';
 import { IUser } from 'src/app/core/models/user';
 import { IVote, IVoteType } from 'src/app/core/models/vote';
 import { DiscussionService } from 'src/app/core/services/discussion.service';
@@ -167,7 +168,7 @@ export class DiscussionDetailComponent implements OnInit, OnDestroy {
       });
   }
 
-  handleChangeState(newState: string) {
+  handleChangeState(newState: IDiscussionState) {
     if (!this.discussion) return;
     this.discussion.confirmForStateChange(newState)
       .then(result => {
@@ -176,7 +177,7 @@ export class DiscussionDetailComponent implements OnInit, OnDestroy {
       .catch(err => { this.loggerService.showError(err); console.log('error: ', err) })
   }
 
-  changeState(newState: string) {
+  changeState(newState: IDiscussionState) {
     if (!this.discussion) return;
 
     this.discussionService.updateState(this.discussion._id, newState)

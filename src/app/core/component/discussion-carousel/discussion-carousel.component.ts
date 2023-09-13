@@ -10,11 +10,14 @@ import { LoggerService } from '../../services/logger.service';
 import { DiscussionService } from '../../services/discussion.service';
 import { IConfirmationDialogData } from '../../models/confirmation-dialog.model';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
+import { IDiscussionState } from '../../models/discussion-state';
+import { ExpandCollapseAnimation } from '../../animations/expand-collapse.animation';
 
 @Component({
   selector: 'app-discussion-carousel',
   templateUrl: './discussion-carousel.component.html',
-  styleUrls: ['./discussion-carousel.component.scss']
+  styleUrls: ['./discussion-carousel.component.scss'],
+  animations: [ExpandCollapseAnimation]
 })
 export class DiscussionCarouselComponent implements OnInit, OnDestroy {
 
@@ -97,7 +100,7 @@ export class DiscussionCarouselComponent implements OnInit, OnDestroy {
       });
   }
 
-  handleChangeState(newState: string) {
+  handleChangeState(newState: IDiscussionState) {
     if (!this.discussion) return;
     this.discussion.confirmForStateChange(newState)
       .then(result => {
@@ -106,7 +109,7 @@ export class DiscussionCarouselComponent implements OnInit, OnDestroy {
       .catch(err => this.loggerService.showError(err))
   }
 
-  changeState(newState: string) {
+  changeState(newState: IDiscussionState) {
     if (!this.discussion) return;
 
     this.discussionService.updateState(this.discussion._id, newState)

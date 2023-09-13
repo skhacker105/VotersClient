@@ -34,6 +34,7 @@ export class AuthLocationChangedComponent implements OnInit, OnDestroy {
     if (!loginProfileId) this.router.navigateByUrl('/home');
     else {
       this.alwaysAllowObj.createdByUserId = loginProfileId
+      this.redirectIfPermissionGivenBefore();
     }
   }
 

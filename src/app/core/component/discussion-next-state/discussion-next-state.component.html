@@ -1,16 +1,17 @@
 <div *ngIf="discussion" class="discussion-next-state">
 
-    <button mat-icon-button disabled>
-        <mat-icon>{{ discussion.state | discussionStateIcon }}</mat-icon>
+    <button mat-icon-button disabled class="discussion-state-icon">
+        <mat-icon [ngClass]="discussion.stateObj?.className">{{ discussion.stateObj?.icon }}</mat-icon>
     </button>
-    <div class="discussion-state">
-        Vote {{ discussion.state | discussionStateDisplay }}
+    <div class="discussion-state" [ngClass]="discussion.stateObj?.className">
+        {{ discussion.stateObj?.text }}
     </div>
     <ng-container *ngIf="showControl">
         <ng-container *ngFor="let nextState of discussion.nextPossibleStates">
-            <button mat-icon-button color="accent" title="{{ nextState }}" (click)="changeState.emit(nextState)">
-                <mat-icon>
-                    {{ nextState | discussionStateIcon }}
+            <!-- {{ nextState.key | discussionStateIcon }} -->
+            <button mat-icon-button color="accent" title="{{ nextState.text }}" (click)="changeState.emit(nextState)">
+                <mat-icon [ngClass]="nextState.className">
+                    {{ nextState.key | discussionStateIcon }}
                 </mat-icon>
             </button>
         </ng-container>

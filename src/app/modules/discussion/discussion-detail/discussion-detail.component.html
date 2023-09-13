@@ -3,7 +3,8 @@
         <div class="action-buttons">
 
             <!-- State -->
-            <app-discussion-next-state [discussion]="discussion" [showControl]="isOwner" class="bigscreen"
+            <app-discussion-next-state [discussion]="discussion"
+                [showControl]="isOwner" class="bigscreen"
                 (changeState)="handleChangeState($event)">
             </app-discussion-next-state>
 
@@ -32,7 +33,7 @@
     </div>
 
     <!-- Votes -->
-    <app-page-header [display]="'Votes'" [needSpacer]="false"  color="subheader-a">
+    <app-page-header [display]="'Votes'" [needSpacer]="false" color="subheader-a">
 
         <!-- Vote Types -->
         <div class="flex flex-scrollable">

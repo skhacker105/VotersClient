@@ -9,20 +9,41 @@
         <input matInput formControlName="title">
     </mat-form-field>
 
-    <!-- Date Range -->
+    <!-- Voting Date Range -->
     <mat-form-field class="report-range">
-        <mat-label>Enter a date range</mat-label>
-        <mat-date-range-input [rangePicker]="picker" [min]="todayDate">
+        <mat-label>Voting Date Range</mat-label>
+        <mat-date-range-input [rangePicker]="picker">
             <input matStartDate formControlName="startDate" placeholder="Start date">
             <input matEndDate formControlName="endDate" placeholder="End date">
         </mat-date-range-input>
-        <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+        <mat-hint class="no-wrap">MM/DD/YYYY – MM/DD/YYYY</mat-hint>
         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-date-range-picker touchUi #picker></mat-date-range-picker>
 
         <mat-error *ngIf="discussionForm.controls['startDate'].hasError('matStartDateInvalid')">Invalid start
             date</mat-error>
         <mat-error *ngIf="discussionForm.controls['endDate'].hasError('matEndDateInvalid')">Invalid end date</mat-error>
+    </mat-form-field>
+
+    <!-- Is Registration Allowed -->
+    <mat-checkbox formControlName="isRegistrationAllowed" color="primary" class="report-reg-check">
+        Is Registration Allowed
+    </mat-checkbox>
+
+    <!-- Registration Date Range -->
+    <mat-form-field class="report-range" [attr.isRegistrationAllowed]="discussionForm.controls['isRegistrationAllowed'].value">
+        <mat-label>Registration Dates</mat-label>
+        <mat-date-range-input [rangePicker]="picker_reg" [min]="todayDate">
+            <input matStartDate formControlName="registrationStartDate" placeholder="Start date">
+            <input matEndDate formControlName="registrationEndDate" placeholder="End date">
+        </mat-date-range-input>
+        <mat-hint class="no-wrap">MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="picker_reg"></mat-datepicker-toggle>
+        <mat-date-range-picker touchUi #picker_reg></mat-date-range-picker>
+
+        <mat-error *ngIf="discussionForm.controls['registrationStartDate'].hasError('matStartDateInvalid')">Invalid start
+            date</mat-error>
+        <mat-error *ngIf="discussionForm.controls['registrationEndDate'].hasError('matEndDateInvalid')">Invalid end date</mat-error>
     </mat-form-field>
 
     <!-- Vote Types -->

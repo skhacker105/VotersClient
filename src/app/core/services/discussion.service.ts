@@ -11,7 +11,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { VotingService } from './voting.service';
 import { LoggerService } from './logger.service';
 import { UserService } from './user.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { IDiscussionState } from '../models/discussion-state';
 
 @Injectable({
   providedIn: 'root'
@@ -26,22 +26,20 @@ export class DiscussionService {
     private matDialog: MatDialog,
     private votingService: VotingService,
     private loggerService: LoggerService,
-    private userService: UserService,
-    private router: Router,
-    private route: ActivatedRoute
+    private userService: UserService
   ) { }
 
 
   private Objectify(d: ServerResponse<Discussion>) {
-    d.data = new Discussion(d.data, this.matDialog, this.votingService, this.loggerService, this, this.userService, this.router, this.route)
+    d.data = new Discussion(d.data, this.matDialog, this.votingService, this.loggerService, this, this.userService)
     return d;
   }
   private ObjectifyArr(darr: ServerResponse<Discussion[]>) {
-    darr.data = darr.data.map(d => new Discussion(d, this.matDialog, this.votingService, this.loggerService, this, this.userService, this.router, this.route));
+    darr.data = darr.data.map(d => new Discussion(d, this.matDialog, this.votingService, this.loggerService, this, this.userService));
     return darr
   }
   private ObjectifyPagedArr(darr: ServerResponse<IGridConfig<Discussion[]>>) {
-    darr.data.data = darr.data.data?.map(d => new Discussion(d, this.matDialog, this.votingService, this.loggerService, this, this.userService, this.router, this.route));
+    darr.data.data = darr.data.data?.map(d => new Discussion(d, this.matDialog, this.votingService, this.loggerService, this, this.userService));
     return darr
   }
 
@@ -68,8 +66,8 @@ export class DiscussionService {
     return this.http.put<ServerResponse<Discussion>>(this.baseUrl + 'edit/' + id, discussion)
   }
 
-  updateState(id: string, newState: string) {
-    return this.http.put<ServerResponse<Discussion>>(this.baseUrl + 'updateState/' + id, { newState })
+  updateState(id: string, newState: IDiscussionState) {
+    return this.http.put<ServerResponse<Discussion>>(this.baseUrl + 'updateState/' + id, { newState: newState.key })
   }
 
   delete(id: string) {

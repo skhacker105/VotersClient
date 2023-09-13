@@ -24,12 +24,24 @@ body {
     }
 }
 
+.mat-primary:disabled {
+    background-color: inherit;
+    color: inherit;
+}
+.mat-primary {
+    color: #95ddbf;
+
+    mat-icon, div, span, p {
+        color: #95ddbf;
+    }
+}
+
 .mat-subheader:disabled {
-    background-color: #368cbf !important;
+    background-color: #0d3e5c !important;
     color: white !important;
 }
 .mat-subheader {
-    background-color: #368cbf !important;
+    background-color: #0d3e5c !important;
     color: white !important;
 }
 
@@ -110,6 +122,31 @@ body {
     // width: 100px;
     max-width: 300px;
 
+}
+
+.no-wrap {
+    white-space: nowrap;
+}
+
+
+// DECESION STATES
+.decesion-state-draft {
+    color: #ffffff !important;
+}
+.decesion-state-open, .decesion-state-reopened {
+    color: #ffc800 !important;
+}
+.decesion-state-closed {
+    color: #000000 !important;
+}
+.decesion-state-blocked {
+    color: #9b9b9b !important;
+}
+.decesion-state-regOpen {
+    color: #50df61  !important;
+}
+.decesion-state-regClose {
+    color: #062876 !important;
 }
 
 // Media queries

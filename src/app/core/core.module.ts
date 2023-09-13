@@ -24,6 +24,7 @@ import { InputVoteWizardComponent } from './component/input-vote-wizard/input-vo
 import { RegisterComponent } from './component/register/register.component';
 import { LoginComponent } from './component/login/login.component';
 import { AuthLocationChangedComponent } from './component/auth-location-changed/auth-location-changed.component';
+import { DiscussionStateClassPipe } from './pipe/discussion-state-class.pipe';
 
 
 @NgModule({
@@ -42,6 +43,7 @@ import { AuthLocationChangedComponent } from './component/auth-location-changed/
     VoteCarouselComponent,
     DiscussionStateIconPipe,
     DiscussionStateDisplayPipe,
+    DiscussionStateClassPipe,
     DiscussionNextStateComponent,
     MatVoteTypeComponent,
     InputVoteWizardComponent,
@@ -71,6 +73,7 @@ import { AuthLocationChangedComponent } from './component/auth-location-changed/
     NeedLocationAccessComponent,
     DiscussionStateIconPipe,
     DiscussionStateDisplayPipe,
+    DiscussionStateClassPipe,
     DiscussionNextStateComponent,
     MatVoteTypeComponent,
     InputVoteWizardComponent,
