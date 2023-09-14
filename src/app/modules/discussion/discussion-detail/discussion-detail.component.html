@@ -12,14 +12,14 @@
 
             <!-- Edit -->
             <button mat-icon-button color="local-primary"
-                *ngIf="isOwner && !discussion.isVotingEnabled && !discussion.isRegistrationAllowed && !discussion.isBlocked"
+                *ngIf="isOwner && !discussion.isVotingEnabled && !discussion.isRegistrationEnabled && !discussion.isBlocked"
                 [routerLink]="['/discussion/editDiscussion/', discussion._id]">
                 <mat-icon>edit</mat-icon>
             </button>
 
             <!-- Delete -->
             <button mat-icon-button color="warn"
-                *ngIf="isOwner && !discussion.isVotingEnabled && !discussion.isRegistrationAllowed && !discussion.isBlocked"
+                *ngIf="isOwner && !discussion.isVotingEnabled && !discussion.isRegistrationEnabled && !discussion.isBlocked"
                 (click)="handleDeleteDiscussion()">
                 <mat-icon>delete</mat-icon>
             </button>
