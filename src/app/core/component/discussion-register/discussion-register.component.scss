@@ -3,6 +3,7 @@ div.discussion-register-button {
 }
 
 div.discussion-register-button::before, div.discussion-register-button::after {
+    content: "";
     border: 2px solid red;
     transition: all 0.5s;
     -webkit-animation: clippath 3s infinite linear;
