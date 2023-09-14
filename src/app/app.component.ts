@@ -13,12 +13,16 @@ export class AppComponent implements OnInit {
   constructor(public userService: UserService) {}
 
   ngOnInit(): void {
-    this.trackLocationChange();
+    this.userService.hasLocationAccess.next({coords: {
+      longitude: 78.348871, latitude: 17.4818972, accuracy: 0, altitude: 0,altitudeAccuracy: 0, heading: 0,speed: 0
+    },
+  timestamp: new Date().getTime()})
+    // this.trackLocationChange();
   }
 
   trackLocationChange() {
     if (!this.userService.hasLocationAccess.value) this.loadGeoLocation();
-    this.watchPosition();
+    // this.watchPosition();
   }
 
   loadGeoLocation() {
