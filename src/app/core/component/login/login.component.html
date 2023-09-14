@@ -2,14 +2,16 @@
     <mat-form-field class="full-width">
         <mat-label>Email</mat-label>
         <input matInput formControlName="email">
+        <mat-error>Required</mat-error>
     </mat-form-field>
     <mat-form-field class="full-width">
         <mat-label>Password</mat-label>
         <input matInput formControlName="password" type="password">
+        <mat-error>Required</mat-error>
     </mat-form-field>
 
     <div class="flex">
         <div class="spacer"></div>
-        <button mat-raised-button color="primary" type="submit">Login</button>
+        <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid">Login</button>
     </div>
 </form>

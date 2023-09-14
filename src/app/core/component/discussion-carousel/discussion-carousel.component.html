@@ -14,8 +14,7 @@
                 <div class="spacer"></div>
 
                 <!-- Pinch Out -->
-                <button mat-icon-button color="accent" class="bigscreen"
-                    [ngClass]="{ 'mobile': !isOwner }"
+                <button mat-icon-button color="accent" class="bigscreen" [ngClass]="{ 'mobile': !isOwner }"
                     [routerLink]="['/discussion/discussionDetail/', discussion._id]">
                     <mat-icon>pinch_zoom_out</mat-icon>
                 </button>
@@ -38,8 +37,7 @@
                 <div class="flex">
 
                     <!-- STATE -->
-                    <app-discussion-next-state [discussion]="discussion"
-                        [showControl]="isOwner"
+                    <app-discussion-next-state [discussion]="discussion" [showControl]="isOwner"
                         (changeState)="handleChangeState($event)">
                     </app-discussion-next-state>
 
@@ -49,24 +47,50 @@
 
         </mat-card-header>
 
+        <!-- Voting Dates -->
+        <mat-card-header *ngIf="discussion.startDate && discussion.endDate" class="discussion-dates-headers">
+            <mat-card-subtitle>
+
+                <div class="date-lable"><b>Voting dates </b></div>
+                <div class="spacer"></div>
+                <div>
+                    <span class="no-wrap">{{ discussion.startDate | date: 'dd MMM, YY' }}</span>
+                    <span class="no-wrap"><b> ~to~ </b></span>
+                    <span class="no-wrap">{{ discussion.endDate | date: 'dd MMM, YY' }}</span>
+                </div>
+            </mat-card-subtitle>
+        </mat-card-header>
+
+        <!-- Registration Dates -->
+        <mat-card-header *ngIf="discussion.registrationStartDate && discussion.registrationEndDate"
+            class="discussion-dates-headers">
+            <mat-card-subtitle>
+
+                <div class="date-lable"><b>Registration dates </b></div>
+                <div class="spacer"></div>
+                <div>
+                    {{ discussion.registrationStartDate | date: 'dd MMM, YY' }}
+                    <b> ~to~ </b> {{ discussion.registrationEndDate | date: 'dd MMM, YY' }}
+                </div>
+            </mat-card-subtitle>
+        </mat-card-header>
+
         <!-- Discussion Message -->
         <div class="discussion-message" [innerHTML]="discussion.message">
         </div>
 
         <!-- Actions and Vote Types -->
         <mat-card-actions class="flex">
-            
+
             <!-- Pinch Select -->
-            <button mat-icon-button color="accent"
-                [routerLink]="['/discussion/discussionDetail/', discussion._id]">
+            <button mat-icon-button color="accent" [routerLink]="['/discussion/discussionDetail/', discussion._id]">
                 <mat-icon>pinch_zoom_out</mat-icon>
             </button>
 
             <!-- Vote Types -->
             <div class="flex flex-scrollable" *ngIf="!discussion.isRegistrationEnabled">
                 <ng-container *ngFor="let voteType of discussion.voteTypes">
-                    <app-mat-vote-type [voteType]="voteType"
-                        (voteTypeClick)="voteDiscussion(voteType)"
+                    <app-mat-vote-type [voteType]="voteType" (voteTypeClick)="voteDiscussion(voteType)"
                         [attr.title]="voteType.name"
                         [disabled]="!discussion.isVotingEnabled || isMyVoteType(voteType) || isDeleted"
                         [matBadgeCount]="getVoteCategoryCount(voteType)"
@@ -75,8 +99,8 @@
                 </ng-container>
             </div>
 
-            <!-- Vote Types -->
-            <div class="flex flex-scrollable" *ngIf="discussion.isRegistrationEnabled">
+            <!-- Register -->
+            <div class="flex flex-scrollable">
                 <app-discussion-register [discussion]="discussion"></app-discussion-register>
             </div>
         </mat-card-actions>

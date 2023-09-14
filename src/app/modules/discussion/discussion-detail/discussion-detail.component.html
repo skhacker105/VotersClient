@@ -2,6 +2,9 @@
     <app-page-header [display]="discussion.title" color="subheader">
         <div class="action-buttons">
 
+            <!-- Registration -->
+            <app-discussion-register [discussion]="discussion"></app-discussion-register>
+
             <!-- State -->
             <app-discussion-next-state [discussion]="discussion" [showControl]="isOwner" class="bigscreen"
                 (changeState)="handleChangeState($event)">
@@ -9,14 +12,14 @@
 
             <!-- Edit -->
             <button mat-icon-button color="local-primary"
-                *ngIf="isOwner && !discussion.isVotingEnabled && !discussion.isBlocked"
+                *ngIf="isOwner && !discussion.isVotingEnabled && !discussion.isRegistrationAllowed && !discussion.isBlocked"
                 [routerLink]="['/discussion/editDiscussion/', discussion._id]">
                 <mat-icon>edit</mat-icon>
             </button>
 
             <!-- Delete -->
             <button mat-icon-button color="warn"
-                *ngIf="isOwner && !discussion.isVotingEnabled && !discussion.isBlocked"
+                *ngIf="isOwner && !discussion.isVotingEnabled && !discussion.isRegistrationAllowed && !discussion.isBlocked"
                 (click)="handleDeleteDiscussion()">
                 <mat-icon>delete</mat-icon>
             </button>
@@ -27,6 +30,35 @@
             (changeState)="handleChangeState($event)">
         </app-discussion-next-state>
     </app-page-header>
+
+    <!-- Voting & Registration Dates -->
+    <div class="discussion-dates">
+
+        <!-- Registration Dates -->
+        <ng-container *ngIf="discussion.registrationStartDate" [ngTemplateOutlet]="dateDisplay"
+            [ngTemplateOutletContext]="{
+            dateValue: discussion.registrationStartDate,
+            title: 'Registration Start Date'
+        }">
+        </ng-container>
+        <ng-container *ngIf="discussion.registrationEndDate" [ngTemplateOutlet]="dateDisplay" [ngTemplateOutletContext]="{
+            dateValue: discussion.registrationEndDate,
+            title: 'Registration End Dates'
+        }">
+        </ng-container>
+
+        <!-- Voting Dates -->
+        <ng-container *ngIf="discussion.startDate" [ngTemplateOutlet]="dateDisplay" [ngTemplateOutletContext]="{
+            dateValue: discussion.startDate,
+            title: 'Voting Start Date'
+        }">
+        </ng-container>
+        <ng-container *ngIf="discussion.endDate" [ngTemplateOutlet]="dateDisplay" [ngTemplateOutletContext]="{
+            dateValue: discussion.endDate,
+            title: 'Voting End Dates'
+        }">
+        </ng-container>
+    </div>
 
     <!-- Discussion Message -->
     <div class="discussion-message" [innerHTML]="discussion.message">
@@ -62,3 +94,21 @@
     </ng-container>
 </ng-container>
 <br><br>
+
+
+<ng-template #dateDisplay let-dateValue="dateValue" let-title="title">
+    <div class="date-display-container" [ngClass]="{ 'past-date': isLessThanToday(dateValue) }">
+        <div class="date-display-header">
+            {{ title }}
+        </div>
+        <div class="date-display-subheader">
+            {{ dateValue | date: 'YYYY' }}
+        </div>
+        <div class="date-display-body">
+            {{ dateValue | date: 'dd' }}
+        </div>
+        <div class="date-display-footer">
+            {{ dateValue | date: 'EEEE' }}
+        </div>
+    </div>
+</ng-template>

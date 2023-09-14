@@ -1,5 +1,11 @@
 div.discussion-register-button {
     display: block;
+
+    .register-now-button{
+      background-color: yellow;
+      border-radius: 0px;
+      height: 48px;
+    }
 }
 
 div.discussion-register-button::before, div.discussion-register-button::after {

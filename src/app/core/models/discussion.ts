@@ -51,11 +51,11 @@ export class Discussion {
         this.createdOn = obj.createdOn;
         this.state = obj.state;
         this.isRegistrationAllowed = obj.isRegistrationAllowed;
-        this.registrationStartDate = obj.registrationStartDate;
-        this.registrationEndDate = obj.registrationEndDate;
+        this.registrationStartDate = obj.registrationStartDate ? new Date(obj.registrationStartDate) : obj.registrationStartDate;
+        this.registrationEndDate = obj.registrationEndDate ? new Date(obj.registrationEndDate) : obj.registrationEndDate;
         this.voteTypes = obj.voteTypes ? obj.voteTypes : [];
-        this.startDate = obj.startDate;
-        this.endDate = obj.endDate;
+        this.startDate = obj.startDate ? new Date(obj.startDate) : obj.startDate;
+        this.endDate = obj.endDate ? new Date(obj.endDate) : obj.endDate;
 
         this.votingService = votingService;
         this.loggerService = loggerService;

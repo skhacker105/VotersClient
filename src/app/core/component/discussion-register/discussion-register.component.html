@@ -1,5 +1,5 @@
-<div *ngIf="discussion" class="discussion-register-button"  class="discussion-register-button">
-    <button *ngIf="discussion" type="button" mat-button color="primary">
+<div *ngIf="discussion && discussion.isRegistrationEnabled" class="discussion-register-button"  class="discussion-register-button">
+    <button *ngIf="discussion" type="button" mat-button color="primary" class="register-now-button">
         Register Now
         <mat-icon>playlist_add</mat-icon>
     </button>

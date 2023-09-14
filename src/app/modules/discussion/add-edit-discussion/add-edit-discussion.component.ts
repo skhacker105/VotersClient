@@ -12,6 +12,9 @@ import { LoggerService } from 'src/app/core/services/logger.service';
 import { UserService } from 'src/app/core/services/user.service';
 import { VotingService } from 'src/app/core/services/voting.service';
 import { HelperService } from 'src/app/core/utilities/helper';
+import Quill from 'quill'
+import BlotFormatter from 'quill-blot-formatter';
+Quill.register('modules/blotFormatter', BlotFormatter);
 
 @Component({
   selector: 'app-add-edit-discussion',
@@ -52,6 +55,9 @@ export class AddEditDiscussionComponent implements OnInit, OnDestroy {
   @ViewChild('newVoteTypeForm', { static: true }) newVoteTypeForm!: TemplateRef<any>;
   typeFormDialogRef: MatDialogRef<any> | undefined;
   $filteredIcons: Observable<string[]> | undefined;
+  quillConfig = {
+    blotFormatter: { }
+  }
 
   todayDate: Date = new Date();
   allMaterialIcons = MATERIAL_ICONS;

@@ -26,6 +26,7 @@ import { LoginComponent } from './component/login/login.component';
 import { AuthLocationChangedComponent } from './component/auth-location-changed/auth-location-changed.component';
 import { DiscussionStateClassPipe } from './pipe/discussion-state-class.pipe';
 import { DiscussionRegisterComponent } from './component/discussion-register/discussion-register.component';
+import { DisplayMessageComponent } from './component/display-message/display-message.component';
 
 
 @NgModule({
@@ -51,13 +52,14 @@ import { DiscussionRegisterComponent } from './component/discussion-register/dis
     LoginComponent,
     RegisterComponent,
     AuthLocationChangedComponent,
-    DiscussionRegisterComponent
+    DiscussionRegisterComponent,
+    DisplayMessageComponent
   ],
   imports: [
     CommonModule,
     MaterialModule,
     RouterModule,
-    QuillModule,
+    QuillModule.forRoot(),
     ReactiveFormsModule
   ],
   exports: [
@@ -81,7 +83,8 @@ import { DiscussionRegisterComponent } from './component/discussion-register/dis
     InputVoteWizardComponent,
     LoginComponent,
     RegisterComponent,
-    AuthLocationChangedComponent
+    AuthLocationChangedComponent,
+    DiscussionRegisterComponent
   ]
 })
 export class CoreModule { }

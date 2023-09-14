@@ -1,18 +1,124 @@
 .discussion-message {
-    width: calc(100% - 32px);
-    padding: 16px;
+  width: calc(100% - 32px);
+  padding: 16px;
 
-    ::ng-deep p img {
-        max-width: 90% !important;
-    }
+  ::ng-deep p img {
+    max-width: 90% !important;
+  }
 }
 
 .action-buttons {
-    display: flex;
-    background-color: #006995;
+  display: flex;
+  background-color: #006995;
+  margin-right: -15px;
 }
 
 .state-control-container {
-    background-color: #c8efff99;
-    border-top: solid 2px #76d5fd99;
+  background-color: #c8efff99;
+  border-top: solid 2px #76d5fd99;
+}
+
+.discussion-dates {
+    display: flex;
+    flex-wrap: wrap;
+    line-height: 30px;
+    justify-content: center;
+
+    .past-date {
+        color: #939393 !important;
+        background: #c1c1c1 !important;
+
+        .date-display-header {
+            color: #c9c9c9 !important;
+            background: #1174bb;
+            background: linear-gradient(to bottom right, #4875a3 0%, #044378 100%) !important;
+        }
+    }
+
+    .date-display-container {
+        font-variant: normal;
+        font-style: normal;
+        font-weight: normal;
+        color: black;
+        background: white;
+        background: linear-gradient(to bottom right, #fff 0%, #eee 100%);
+        border: 1px solid #888;
+        border-radius: 3px;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+
+        .date-display-header {
+            order: 1;
+            font-size: 0.75em;
+            padding: 0.1em 0;
+            padding: 16px;
+
+            font-family: "Oswald", sans-serif;
+            text-transform: uppercase;
+            color: white;
+            background: #1174bb;
+            background: linear-gradient(to bottom right, #66a1dd 0%, #005caa 100%);
+        }
+
+        .date-display-subheader {
+            order: 2;
+            font-size: 0.6125em;
+        }
+
+        .date-display-body {
+            order: 3;
+            font-size: 1.5em;
+        }
+
+        .date-display-footer {
+            order: 4;
+            font-size: 0.87750em;
+        }
+    }
+}
+
+@media (max-width: 300px) {
+    .date-display-container {
+        font-size: 18px;
+        width: calc(100% - 8px);
+        min-width: calc(100% - 8px);
+        margin: 3px;
+    }
+}
+
+@media (min-width: 251px) and (max-width: 400px) {
+    .date-display-container {
+        font-size: 18px;
+        width: calc(50% - 12px);
+        min-width: calc(50% - 12px);
+        margin: 5px;
+    }
+}
+
+@media (min-width: 401px) and (max-width: 760px) {
+    .date-display-container {
+        font-size: 20px;
+        width: calc(50% - 22px);
+        min-width: calc(50% - 22px);
+        margin: 10px;
+    }
+}
+
+@media (min-width: 761px) and (max-width: 1000px) {
+    .date-display-container {
+        font-size: 20px;
+        width: calc(25% - 32px);
+        min-width: calc(25% - 32px);
+        margin: 15px;
+    }
+}
+
+@media (min-width: 1000px) {
+    .date-display-container {
+        font-size: 25px;
+        width: 200px;
+        min-width: 200px;
+        margin: 16px;
+    }
 }

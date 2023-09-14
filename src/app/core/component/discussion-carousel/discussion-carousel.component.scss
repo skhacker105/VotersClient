@@ -1,134 +1,145 @@
 .discussion-card {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 
-    .action-buttons {
-        float: right;
-        position: absolute;
-        right: 0;
-        z-index: 1;
-        padding-right: 16px;
-        white-space: nowrap;
+  .discussion-dates-headers {
+    border-bottom: solid 1px #dfdfdf;
+
+    .date-lable {
+      font-weight: 400;
+      color: black;
     }
 
-    .discussion-message {
+    ::ng-deep .mat-mdc-card-header-text {
+      width: calc(100% - 32px) !important;
+
+      .mat-mdc-card-subtitle {
         width: 100%;
-        padding: 10px 10px 10px 16px;
-        max-width: -webkit-fill-available;
-        overflow: hidden;
+        display: flex !important;
+        font-size: smaller;
+        letter-spacing: 0.8px;
+      }
+    }
+  }
 
-        ::ng-deep p img {
-            max-width: 90% !important;
-        }
+  .action-buttons {
+    float: right;
+    position: absolute;
+    right: 0;
+    z-index: 1;
+    padding-right: 16px;
+    white-space: nowrap;
+  }
+
+  .discussion-message {
+    width: 100%;
+    padding: 10px 10px 10px 16px;
+    max-width: -webkit-fill-available;
+    overflow: hidden;
+
+    ::ng-deep p img {
+      max-width: 90% !important;
+    }
+  }
+
+  .discussion-head {
+    background-color: #006995;
+    border-top: solid 2px #0d3e5c;
+
+    ::ng-deep .mat-mdc-card-header-text {
+      width: 100%;
     }
 
-    .discussion-head {
-        background-color: #006995;
-        border-top: solid 2px #0d3e5c;
+    .discussion-title {
+      display: flex;
+      width: 100%;
 
-        ::ng-deep .mat-mdc-card-header-text {
-            width: 100%;
-        }
-
-        .discussion-title {
-            display: flex;
-            width: 100%;
-
-            .page-header-display {
-                max-width: 80%;
-                overflow-x: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-                font-size: 12px;
-                line-height: 43px;
-                color: aqua;
-                font-family: sans-serif;
-            }
-
-        }
-
-        .discussion-state {
-            margin-left: -16px;
-            margin-right: -9px;
-            font-size: 12px;
-            white-space: nowrap;
-
-            .discussion-created-date {
-                line-height: 46px;
-                padding-right: 8px;
-                font-size: 12px;
-                white-space: nowrap;
-            }
-        }
-    }
-
-    .vote-messages {
-        // background-color: red;
-        overflow: auto;
+      .page-header-display {
+        max-width: 80%;
         overflow-x: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: 12px;
+        line-height: 43px;
+        color: aqua;
+        font-family: sans-serif;
+      }
     }
+
+    .discussion-state {
+      margin-left: -16px;
+      margin-right: -9px;
+      font-size: 12px;
+      white-space: nowrap;
+
+      .discussion-created-date {
+        line-height: 46px;
+        padding-right: 8px;
+        font-size: 12px;
+        white-space: nowrap;
+      }
+    }
+  }
+
+  .vote-messages {
+    // background-color: red;
+    overflow: auto;
+    overflow-x: hidden;
+  }
 }
 
 .deleted {
-    border: solid 1px black;
-    opacity: 0.2;
+  border: solid 1px black;
+  opacity: 0.2;
 }
 
-@media(max-width: 400px) {
-
-    .discussion-card {
-
-        .discussion-message {
-            height: 100px;
-            max-height: 100px;
-        }
-
-        .vote-messages {
-            max-height: 200px;
-        }
+@media (max-width: 400px) {
+  .discussion-card {
+    .discussion-message {
+      height: 100px;
+      max-height: 100px;
     }
+
+    .vote-messages {
+      max-height: 200px;
+    }
+  }
 }
 
-@media(min-width: 401px) and (max-width: 760px) {
-
-    .discussion-card {
-
-        .discussion-message {
-            height: 120px;
-            max-height: 120px;
-        }
-
-        .vote-messages {
-            max-height: 250px;
-        }
+@media (min-width: 401px) and (max-width: 760px) {
+  .discussion-card {
+    .discussion-message {
+      height: 120px;
+      max-height: 120px;
     }
+
+    .vote-messages {
+      max-height: 250px;
+    }
+  }
 }
 
-@media(min-width: 761px) and (max-width: 1000px) {
-
-    .discussion-card {
-
-        .discussion-message {
-            height: 150px;
-            max-height: 150px;
-        }
-
-        .vote-messages {
-            max-height: 300px;
-        }
+@media (min-width: 761px) and (max-width: 1000px) {
+  .discussion-card {
+    .discussion-message {
+      height: 150px;
+      max-height: 150px;
     }
+
+    .vote-messages {
+      max-height: 300px;
+    }
+  }
 }
 
-@media(min-width: 1000px) {
-
-    .discussion-card {
-
-        .discussion-message {
-            height: 250px;
-            max-height: 250px;
-        }
-
-        .vote-messages {
-            max-height: 300px;
-        }
+@media (min-width: 1000px) {
+  .discussion-card {
+    .discussion-message {
+      height: 250px;
+      max-height: 250px;
     }
+
+    .vote-messages {
+      max-height: 300px;
+    }
+  }
 }

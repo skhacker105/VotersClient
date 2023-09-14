@@ -1,3 +1,7 @@
+.discuss-description {
+    line-height: 30px;
+}
+
 .icon-list-item {
     height: auto !important;
 }
@@ -60,7 +64,7 @@
     }
 
     .report-range {
-        display: none;
+        display: block;
     }
     .report-range[isRegistrationAllowed="true"] {
         display: block;

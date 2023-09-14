@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { UserService } from 'src/app/core/services/user.service';
+import { MustMatchValidatorFunction } from '../../validators/match-pass-cpass.directive';
 
 @Component({
   selector: 'app-register',
@@ -11,16 +12,17 @@ import { UserService } from 'src/app/core/services/user.service';
 })
 export class RegisterComponent {
 
-
   @Input() redirectAfterLogin = true;
   @Output() registerSuccessfull = new EventEmitter<void>();
   
   registerForm: FormGroup<any> = new FormGroup({
-    email: new FormControl<string>('', Validators.required),
+    email: new FormControl<string>('', [Validators.required, Validators.email]),
     name: new FormControl<string>('', Validators.required),
     password: new FormControl<string>('', Validators.required),
     cpassword: new FormControl<string>('', Validators.required)
-  }); isComponentIsActive = new Subject<boolean>();
+  }, {validators: MustMatchValidatorFunction});
+  
+  isComponentIsActive = new Subject<boolean>();
 
   constructor(private userService: UserService, private router: Router) { }
 

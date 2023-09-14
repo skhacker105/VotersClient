@@ -1,0 +1,65 @@
+.error-message {
+    color: red;
+    line-height: 30px;
+}
+
+.message-container {
+    display: flex;
+    padding-right: 12px;
+    font-size: 12px;
+
+    mat-icon {
+        padding-right: 10px;
+        font-size: 14px;
+        line-height: 30px;
+    }
+}
+
+
+@media(max-width: 480px) {
+    .message-container {
+        padding-right: 12px;
+        font-size: 12px;
+
+        mat-icon {
+            padding-right: 12px;
+            font-size: 14px;
+        }
+    }
+}
+
+@media(min-width: 481px) and (max-width: 760px) {
+    .message-container {
+        padding-right: 15px;
+        font-size: 12px;
+
+        mat-icon {
+            padding-right: 15px;
+            font-size: 14px;
+        }
+    }
+}
+
+@media(min-width: 761px) and (max-width: 1000px) {
+    .message-container {
+        padding-right: 15px;
+        font-size: 16px;
+
+        mat-icon {
+            padding-right: 15px;
+            font-size: 24px;
+        }
+    }
+}
+
+@media(min-width: 1001px) {
+    .message-container {
+        padding-right: 16px;
+        font-size: 16px;
+
+        mat-icon {
+            padding-right: 16px;
+            font-size: 24px;
+        }
+    }
+}

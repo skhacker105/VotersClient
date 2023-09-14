@@ -1,0 +1,6 @@
+<div class="message-container" [ngClass]="{
+    'error-message': isError
+}">
+    <mat-icon class="message-icon">{{ isError ? 'error' : 'info'}}</mat-icon>
+    <div class="message">{{message}}</div>
+</div>

@@ -187,4 +187,11 @@ export class DiscussionDetailComponent implements OnInit, OnDestroy {
         error: err => this.loggerService.showError(err)
       })
   }
+
+  isLessThanToday(dt: Date): boolean {
+    const today = new Date();
+    const newDT = new Date(dt);
+    newDT.setHours(23,59,59,999);
+    return newDT.getTime() < today.getTime()
+  }
 }
