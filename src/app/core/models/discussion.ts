@@ -64,6 +64,7 @@ export class Discussion {
         this.resetStateObject();
         this.resetVotingEnability();
         this.resetBlockedState();
+        this.resetRegistrationEnability();
         this.resetNextStates();
         this.categorizeVotes();
     }
@@ -88,6 +89,10 @@ export class Discussion {
     resetVotingEnability() {
         this.isVotingEnabled = (this.state === DISCUSSION_STATE['open'].key || this.state === DISCUSSION_STATE['reopened'].key)
         // && (!this.startDate || !this.endDate || HelperService.isTodayInDateRange(this.startDate, this.endDate));
+    }
+
+    resetRegistrationEnability() {
+        this.isRegistrationEnabled = this.state === DISCUSSION_STATE['regOpen'].key
     }
 
     resetBlockedState() {
@@ -187,6 +192,7 @@ export class Discussion {
         this.resetStateObject();
         this.resetVotingEnability();
         this.resetBlockedState();
+        this.resetRegistrationEnability();
         this.resetNextStates();
     }
 

@@ -25,6 +25,7 @@ import { RegisterComponent } from './component/register/register.component';
 import { LoginComponent } from './component/login/login.component';
 import { AuthLocationChangedComponent } from './component/auth-location-changed/auth-location-changed.component';
 import { DiscussionStateClassPipe } from './pipe/discussion-state-class.pipe';
+import { DiscussionRegisterComponent } from './component/discussion-register/discussion-register.component';
 
 
 @NgModule({
@@ -49,7 +50,8 @@ import { DiscussionStateClassPipe } from './pipe/discussion-state-class.pipe';
     InputVoteWizardComponent,
     LoginComponent,
     RegisterComponent,
-    AuthLocationChangedComponent
+    AuthLocationChangedComponent,
+    DiscussionRegisterComponent
   ],
   imports: [
     CommonModule,

@@ -1,0 +1,53 @@
+div.discussion-register-button {
+    display: block;
+}
+
+div.discussion-register-button::before, div.discussion-register-button::after {
+    border: 2px solid red;
+    transition: all 0.5s;
+    -webkit-animation: clippath 3s infinite linear;
+            animation: clippath 3s infinite linear;
+    border-radius: 10px;
+  }
+  div.discussion-register-button::after {
+    -webkit-animation: clippath 3s infinite -1.5s linear;
+            animation: clippath 3s infinite -1.5s linear;
+  }
+  
+  @-webkit-keyframes clippath {
+    0%, 100% {
+      -webkit-clip-path: inset(0 0 98% 0);
+              clip-path: inset(0 0 98% 0);
+    }
+    25% {
+      -webkit-clip-path: inset(0 98% 0 0);
+              clip-path: inset(0 98% 0 0);
+    }
+    50% {
+      -webkit-clip-path: inset(98% 0 0 0);
+              clip-path: inset(98% 0 0 0);
+    }
+    75% {
+      -webkit-clip-path: inset(0 0 0 98%);
+              clip-path: inset(0 0 0 98%);
+    }
+  }
+  
+  @keyframes clippath {
+    0%, 100% {
+      -webkit-clip-path: inset(0 0 98% 0);
+              clip-path: inset(0 0 98% 0);
+    }
+    25% {
+      -webkit-clip-path: inset(0 98% 0 0);
+              clip-path: inset(0 98% 0 0);
+    }
+    50% {
+      -webkit-clip-path: inset(98% 0 0 0);
+              clip-path: inset(98% 0 0 0);
+    }
+    75% {
+      -webkit-clip-path: inset(0 0 0 98%);
+              clip-path: inset(0 0 0 98%);
+    }
+  }

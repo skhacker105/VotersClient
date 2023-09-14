@@ -21,13 +21,13 @@
                 </button>
                 <!-- Edit -->
                 <button mat-icon-button color="local-primary"
-                    *ngIf="isOwner && !discussion.isVotingEnabled && !discussion.isBlocked"
+                    *ngIf="isOwner && !discussion.isVotingEnabled && !discussion.isRegistrationEnabled && !discussion.isBlocked"
                     [routerLink]="['/discussion/editDiscussion/', discussion._id]">
                     <mat-icon>edit</mat-icon>
                 </button>
                 <!-- Delete -->
                 <button mat-icon-button color="warn"
-                    *ngIf="isOwner && !discussion.isVotingEnabled && !discussion.isBlocked"
+                    *ngIf="isOwner && !discussion.isVotingEnabled && !discussion.isRegistrationEnabled && !discussion.isBlocked"
                     (click)="handleDeleteDiscussion()">
                     <mat-icon>delete</mat-icon>
                 </button>
@@ -46,9 +46,6 @@
                     <div class="spacer"></div>
                 </div>
             </mat-card-subtitle>
-            <!-- <mat-card-subtitle class="discussion-state" *ngIf="headerInfoExpanded" @expandCollapseAnimation>
-                hello
-            </mat-card-subtitle> -->
 
         </mat-card-header>
 
@@ -58,13 +55,16 @@
 
         <!-- Actions and Vote Types -->
         <mat-card-actions class="flex">
+            
+            <!-- Pinch Select -->
             <button mat-icon-button color="accent"
                 [routerLink]="['/discussion/discussionDetail/', discussion._id]">
                 <mat-icon>pinch_zoom_out</mat-icon>
             </button>
-            <div class="flex flex-scrollable">
-                <ng-container *ngFor="let voteType of discussion.voteTypes">
 
+            <!-- Vote Types -->
+            <div class="flex flex-scrollable" *ngIf="!discussion.isRegistrationEnabled">
+                <ng-container *ngFor="let voteType of discussion.voteTypes">
                     <app-mat-vote-type [voteType]="voteType"
                         (voteTypeClick)="voteDiscussion(voteType)"
                         [attr.title]="voteType.name"
@@ -73,6 +73,11 @@
                         [isMatBadgeHidden]="getVoteCategoryCount(voteType) === 0">
                     </app-mat-vote-type>
                 </ng-container>
+            </div>
+
+            <!-- Vote Types -->
+            <div class="flex flex-scrollable" *ngIf="discussion.isRegistrationEnabled">
+                <app-discussion-register [discussion]="discussion"></app-discussion-register>
             </div>
         </mat-card-actions>
 

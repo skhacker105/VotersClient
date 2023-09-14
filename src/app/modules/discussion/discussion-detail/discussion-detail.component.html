@@ -3,8 +3,7 @@
         <div class="action-buttons">
 
             <!-- State -->
-            <app-discussion-next-state [discussion]="discussion"
-                [showControl]="isOwner" class="bigscreen"
+            <app-discussion-next-state [discussion]="discussion" [showControl]="isOwner" class="bigscreen"
                 (changeState)="handleChangeState($event)">
             </app-discussion-next-state>
 
@@ -16,7 +15,8 @@
             </button>
 
             <!-- Delete -->
-            <button mat-icon-button color="warn" *ngIf="isOwner && !discussion.isVotingEnabled && !discussion.isBlocked"
+            <button mat-icon-button color="warn"
+                *ngIf="isOwner && !discussion.isVotingEnabled && !discussion.isBlocked"
                 (click)="handleDeleteDiscussion()">
                 <mat-icon>delete</mat-icon>
             </button>
