@@ -14,12 +14,50 @@
     }
 }
 
+.option-select-image {
+    width: 50px;
+
+    .option-select-title {
+        padding-top: 10px;
+        position: relative;
+        z-index: 100;
+        bottom: 3px;
+        font-size: 12px;
+        width: 30px;
+        text-overflow: ellipsis;
+        text-align: center;
+        display: block;
+        overflow: hidden;
+    }
+
+    img {
+        max-width: 30px;
+        max-height: 30px;
+        border-radius: 50%;
+    }
+}
+
+.option-select-image:disabled {
+    img {
+        opacity: 0.5;
+    }
+}
+
 @media (max-width: 480px) {
     .option-select-icon {
         width: 70px !important;
+
+        .option-select-title {
+            width: 50px !important;
+        }
     }
 
-    .option-select-title {
+    .option-select-image {
         width: 50px !important;
+
+        .option-select-title {
+            padding-top: 4px;
+            width: 30px !important;
+        }
     }
 }

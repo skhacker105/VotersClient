@@ -3,10 +3,22 @@
     [matBadge]="matBadgeCount"
     [matBadgeHidden]="isMatBadgeHidden"
     [matBadgeDisabled]="disabled"
-    *ngIf="voteType"
+    *ngIf="voteType && voteType.matIcon"
     type="button"
     class="option-select-icon"
     >
     <mat-icon>{{ voteType.matIcon }}</mat-icon>
+    <span class="option-select-title">{{ voteType.name }}</span>
+</button>
+
+<button mat-icon-button (click)="voteTypeClick.emit(voteType)"
+    [attr.title]="voteType.name" [disabled]="disabled"
+    [matBadge]="matBadgeCount"
+    [matBadgeHidden]="isMatBadgeHidden"
+    [matBadgeDisabled]="disabled"
+    *ngIf="voteType && voteType.image"
+    type="button"
+    class="option-select-image">
+    <img md-fab-image [src]="voteType.image" (click)="voteTypeClick.emit(voteType)">
     <span class="option-select-title">{{ voteType.name }}</span>
 </button>

@@ -181,8 +181,9 @@
                                 [disabled]="voteTypeForm.controls['iconOption'].value !== iconOptions.image">
                                 <mat-icon>upload</mat-icon>
                                 <span>Select Image</span>
-                                <input #fileInput type="file" (change)="onFileInput($event)" style="display:none;" />
+                                <input #fileInput type="file" accept=".png, .jpg, .jpeg" (change)="handleFileInput($event)" style="display:none;" />
                             </button>
+                            <img class="votetype-image" [src]="voteTypeForm.controls['image'].value" *ngIf="voteTypeForm.controls['image'].value">
                         </span>
                     </mat-list-item>
                 </mat-list>

@@ -24,6 +24,17 @@
     line-height: 30px;
     justify-content: center;
 
+    .today-date {
+        color: #c71111 !important;
+        background: #ffffff !important;
+
+        .date-display-header {
+            color: #ffffff !important;
+            background: #1174bb;
+            background: linear-gradient(to bottom right, #6ab3ff 0%, #008aff 100%) !important;
+        }
+    }
+
     .past-date {
         color: #939393 !important;
         background: #c1c1c1 !important;

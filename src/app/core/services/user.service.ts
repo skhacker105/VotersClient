@@ -13,6 +13,10 @@ import { Position } from '@capacitor/geolocation';
 })
 export class UserService {
 
+  // standard icon dimesntions
+  standardIconHeight = 60;
+  standardIconWidth = 60;
+
   baseUrl = environment.basUrl + 'users/';
   hasLocationAccess = new BehaviorSubject<Position | undefined>(undefined);
   authLocationChanged = false;

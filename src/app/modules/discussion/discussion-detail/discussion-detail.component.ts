@@ -194,4 +194,10 @@ export class DiscussionDetailComponent implements OnInit, OnDestroy {
     newDT.setHours(23,59,59,999);
     return newDT.getTime() < today.getTime()
   }
+
+  isToday(dt: Date): boolean {
+    const today = new Date();
+    const newDT = new Date(dt);
+    return today.getDate() === newDT.getDate() && today.getMonth() === newDT.getMonth() && today.getFullYear() === newDT.getFullYear();
+  }
 }

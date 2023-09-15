@@ -1,4 +1,10 @@
-import { Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
@@ -12,17 +18,16 @@ import { LoggerService } from 'src/app/core/services/logger.service';
 import { UserService } from 'src/app/core/services/user.service';
 import { VotingService } from 'src/app/core/services/voting.service';
 import { HelperService } from 'src/app/core/utilities/helper';
-import Quill from 'quill'
+import Quill from 'quill';
 import BlotFormatter from 'quill-blot-formatter';
 Quill.register('modules/blotFormatter', BlotFormatter);
 
 @Component({
   selector: 'app-add-edit-discussion',
   templateUrl: './add-edit-discussion.component.html',
-  styleUrls: ['./add-edit-discussion.component.scss']
+  styleUrls: ['./add-edit-discussion.component.scss'],
 })
 export class AddEditDiscussionComponent implements OnInit, OnDestroy {
-
   id: string | null | undefined;
   ui_id: string | null | undefined;
   isComponentIsActive = new Subject<boolean>();
@@ -30,7 +35,7 @@ export class AddEditDiscussionComponent implements OnInit, OnDestroy {
   matIcons = MATERIAL_ICONS.sort();
   iconOptions = {
     matIcon: 'matIcon',
-    image: 'image'
+    image: 'image',
   };
   loadedDiscussion: Discussion | undefined;
   discussionForm = new FormGroup<any>({
@@ -38,26 +43,33 @@ export class AddEditDiscussionComponent implements OnInit, OnDestroy {
     message: new FormControl<string>('', Validators.required),
     startDate: new FormControl<Date | undefined>(undefined),
     endDate: new FormControl<Date | undefined>(undefined),
-    voteTypes: new FormControl<IVoteType[]>([], [Validators.required, Validators.minLength(2)]),
+    voteTypes: new FormControl<IVoteType[]>(
+      [],
+      [Validators.required, Validators.minLength(2)]
+    ),
     isRegistrationAllowed: new FormControl<boolean>(false),
     registrationStartDate: new FormControl<Date | undefined>(undefined),
-    registrationEndDate: new FormControl<Date | undefined>(undefined)
+    registrationEndDate: new FormControl<Date | undefined>(undefined),
   });
   voteTypeForm = new FormGroup<any>({
     _id: new FormControl<string>(''),
     ui_id: new FormControl<string>(''),
-    iconOption: new FormControl<string | undefined>(undefined, Validators.required),
+    iconOption: new FormControl<string | undefined>(
+      undefined,
+      Validators.required
+    ),
     matIcon: new FormControl<string>(''),
-    image: new FormControl<File | undefined>(undefined),
+    image: new FormControl<string | undefined>(undefined),
     name: new FormControl<string>('', Validators.required),
-    profile: new FormControl<string>('')
+    profile: new FormControl<string>(''),
   });
-  @ViewChild('newVoteTypeForm', { static: true }) newVoteTypeForm!: TemplateRef<any>;
+  @ViewChild('newVoteTypeForm', { static: true })
+  newVoteTypeForm!: TemplateRef<any>;
   typeFormDialogRef: MatDialogRef<any> | undefined;
   $filteredIcons: Observable<string[]> | undefined;
   quillConfig = {
-    blotFormatter: { }
-  }
+    blotFormatter: {},
+  };
 
   todayDate: Date = new Date();
   allMaterialIcons = MATERIAL_ICONS;
@@ -70,7 +82,7 @@ export class AddEditDiscussionComponent implements OnInit, OnDestroy {
     private userService: UserService,
     public votingService: VotingService,
     private matDialog: MatDialog
-  ) { }
+  ) {}
 
   get VoteTypes(): IVoteType[] {
     return this.discussionForm.controls['voteTypes'].value as IVoteType[];
@@ -94,24 +106,39 @@ export class AddEditDiscussionComponent implements OnInit, OnDestroy {
 
   trackURLForVoteTypeForm() {
     this.triggerVoteTypePopupIfURL();
-    this.router.events.pipe(takeUntil(this.isComponentIsActive))
-      .subscribe(event => {
+    this.router.events
+      .pipe(takeUntil(this.isComponentIsActive))
+      .subscribe((event) => {
         if (event instanceof NavigationEnd) this.triggerVoteTypePopupIfURL();
-      })
+      });
   }
 
   triggerVoteTypePopupIfURL() {
-    const isVoteTypeURL = (url: string, options: string[]) => options.some(o => url.indexOf(o) >= 0);
+    const isVoteTypeURL = (url: string, options: string[]) =>
+      options.some((o) => url.indexOf(o) >= 0);
 
     this.ui_id = this.route.snapshot.queryParamMap.get('ui_id');
-    if (!this.ui_id && isVoteTypeURL(this.router.url, [`addDiscussion/voteType`, `editDiscussion/${this.id}/voteType`]))
+    if (
+      !this.ui_id &&
+      isVoteTypeURL(this.router.url, [
+        `addDiscussion/voteType`,
+        `editDiscussion/${this.id}/voteType`,
+      ])
+    )
       this.handleAddEditVoteType();
     else if (this.ui_id && this.loadedDiscussion) {
-      const votetype = this.loadedDiscussion.voteTypes.find(v => v.ui_id === this.ui_id)
+      const votetype = this.loadedDiscussion.voteTypes.find(
+        (v) => v.ui_id === this.ui_id
+      );
       this.handleAddEditVoteType(votetype);
-    }
-    else if (this.ui_id && (this.discussionForm.controls['voteTypes'].value as IVoteType[]).length > 0) {
-      const votetype = (this.discussionForm.controls['voteTypes'].value as IVoteType[]).find(v => v.ui_id === this.ui_id)
+    } else if (
+      this.ui_id &&
+      (this.discussionForm.controls['voteTypes'].value as IVoteType[]).length >
+        0
+    ) {
+      const votetype = (
+        this.discussionForm.controls['voteTypes'].value as IVoteType[]
+      ).find((v) => v.ui_id === this.ui_id);
       this.handleAddEditVoteType(votetype);
     }
   }
@@ -119,15 +146,16 @@ export class AddEditDiscussionComponent implements OnInit, OnDestroy {
   getDiscussion() {
     if (!this.id) return;
 
-    this.discussionService.get(this.id)
+    this.discussionService
+      .get(this.id)
       .pipe(takeUntil(this.isComponentIsActive))
       .subscribe({
-        next: res => {
-          this.prepareDiscussionObjectToEdit(res.data)
+        next: (res) => {
+          this.prepareDiscussionObjectToEdit(res.data);
         },
-        error: err => {
+        error: (err) => {
           this.loggerService.showError(err.error.message);
-        }
+        },
       });
   }
 
@@ -139,26 +167,29 @@ export class AddEditDiscussionComponent implements OnInit, OnDestroy {
     if (this.checkIfOwner(discussion)) {
       this.discussionForm.patchValue(discussion);
       if (this.ui_id) {
-        const voteType = discussion.voteTypes.find(v => v.ui_id === this.ui_id)
+        const voteType = discussion.voteTypes.find(
+          (v) => v.ui_id === this.ui_id
+        );
         this.handleAddEditVoteType(voteType);
       }
-    }
-    else {
-      this.loggerService.showError('Not your discussion to edit.')
+    } else {
+      this.loggerService.showError('Not your discussion to edit.');
       this.router.navigateByUrl('/');
     }
   }
 
   redirectIfNotAllowed(discussion: Discussion) {
     if (discussion.isVotingEnabled || discussion.isBlocked) {
-      this.loggerService.showError('Editting not allowed.')
+      this.loggerService.showError('Editting not allowed.');
       this.router.navigate(['/discussion/discussionDetail', discussion._id]);
     }
   }
 
   checkIfOwner(d: Discussion): boolean {
     if (!this.loginProfile) return false;
+
     if (d.createdBy._id !== this.loginProfile._id) return false;
+
     return true;
   }
 
@@ -166,29 +197,33 @@ export class AddEditDiscussionComponent implements OnInit, OnDestroy {
     this.voteTypeForm.controls['iconOption'].valueChanges
       .pipe(takeUntil(this.isComponentIsActive))
       .subscribe({
-        next: iconOption => {
+        next: (iconOption) => {
           this.disableAllIconOptions();
           this.voteTypeForm.markAsTouched();
           switch (iconOption) {
             case this.iconOptions.matIcon:
               this.voteTypeForm.controls['matIcon'].enable();
-              this.voteTypeForm.controls['matIcon'].addValidators(Validators.required);
+              this.voteTypeForm.controls['matIcon'].addValidators(
+                Validators.required
+              );
               break;
             case this.iconOptions.image:
               this.voteTypeForm.controls['image'].enable();
-              this.voteTypeForm.controls['image'].addValidators(Validators.required);
+              this.voteTypeForm.controls['image'].addValidators(
+                Validators.required
+              );
               break;
           }
         },
-        error: err => this.loggerService.showError('Unable to track Icon Option Change')
+        error: (err) =>
+          this.loggerService.showError('Unable to track Icon Option Change'),
       });
   }
 
   handleChangeInRegistrationCheck() {
     this.discussionForm.controls['isRegistrationAllowed'].valueChanges
       .pipe(takeUntil(this.isComponentIsActive))
-      .subscribe(isRegistrationAllowed => {
-
+      .subscribe((isRegistrationAllowed) => {
         if (!isRegistrationAllowed) {
           this.discussionForm.controls['registrationStartDate'].disable();
           this.discussionForm.controls['registrationEndDate'].disable();
@@ -200,18 +235,21 @@ export class AddEditDiscussionComponent implements OnInit, OnDestroy {
   }
 
   handleSearchInMatIcon() {
-    this.$filteredIcons = this.voteTypeForm.controls['matIcon'].valueChanges
-      .pipe(
-        takeUntil(this.isComponentIsActive),
-        startWith(''),
-        map(value => this._filter(value || ''))
-      )
+    this.$filteredIcons = this.voteTypeForm.controls[
+      'matIcon'
+    ].valueChanges.pipe(
+      takeUntil(this.isComponentIsActive),
+      startWith(''),
+      map((value) => this._filter(value || ''))
+    );
   }
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
 
-    return this.matIcons.filter(option => option.toLowerCase().includes(filterValue));
+    return this.matIcons.filter((option) =>
+      option.toLowerCase().includes(filterValue)
+    );
   }
 
   disableAllIconOptions() {
@@ -226,13 +264,49 @@ export class AddEditDiscussionComponent implements OnInit, OnDestroy {
     this.voteTypeForm.controls['matIcon'].markAllAsTouched();
   }
 
-  onFileInput(e: any) {
-    console.log('File = ', e)
+  handleFileInput(e: any) {
+    try {
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.resizeImage(reader.result).then((imageURL) => {
+          this.voteTypeForm.controls['image'].patchValue(imageURL);
+        });
+      };
+      reader.readAsDataURL(e.target.files[0]);
+    } catch (e) {
+      console.log('Error in image read: ', e);
+    }
+  }
+
+  resizeImage(imageURL: any): Promise<any> {
+    const standardIconHeight = this.userService.standardIconHeight;
+    const standardIconWidth = this.userService.standardIconWidth;
+    return new Promise((resolve) => {
+      const image = new Image();
+      image.onload = function () {
+        const canvas = document.createElement('canvas');
+        canvas.width = standardIconHeight;
+        canvas.height = standardIconWidth;
+        const ctx = canvas.getContext('2d');
+        if (ctx != null) {
+          ctx.drawImage(image, 0, 0, standardIconHeight, standardIconWidth);
+        }
+        var data = canvas.toDataURL('image/jpeg', 1);
+        resolve(data);
+      };
+      image.src = imageURL;
+    });
   }
 
   navigateToVoteType(voteType: IVoteType) {
-    if (this.id) this.router.navigateByUrl(`/discussion/editDiscussion/${this.id}/voteType?ui_id=${voteType.ui_id}`)
-    else this.router.navigateByUrl(`/discussion/addDiscussion/voteType?ui_id=${voteType.ui_id}`)
+    if (this.id)
+      this.router.navigateByUrl(
+        `/discussion/editDiscussion/${this.id}/voteType?ui_id=${voteType.ui_id}`
+      );
+    else
+      this.router.navigateByUrl(
+        `/discussion/addDiscussion/voteType?ui_id=${voteType.ui_id}`
+      );
   }
 
   saveDiscussion() {
@@ -241,20 +315,18 @@ export class AddEditDiscussionComponent implements OnInit, OnDestroy {
       return;
     }
 
-    (
-      this.id
-        ? this.discussionService.update(this.id, this.discussionForm.value)
-        : this.discussionService.add(this.discussionForm.value)
+    (this.id
+      ? this.discussionService.update(this.id, this.discussionForm.value)
+      : this.discussionService.add(this.discussionForm.value)
     )
-      .pipe(
-        takeUntil(this.isComponentIsActive)
-      ).subscribe({
-        next: res => {
-          this.router.navigate(['/discussion/discussionDetail/', res.data._id])
+      .pipe(takeUntil(this.isComponentIsActive))
+      .subscribe({
+        next: (res) => {
+          this.router.navigate(['/discussion/discussionDetail/', res.data._id]);
         },
-        error: err => {
+        error: (err) => {
           this.loggerService.showError(err.error.message);
-        }
+        },
       });
   }
 
@@ -270,23 +342,23 @@ export class AddEditDiscussionComponent implements OnInit, OnDestroy {
     this.voteTypeForm.reset();
     this.disableAllIconOptions();
     if (voteType) this.voteTypeForm.patchValue(voteType);
-    this.typeFormDialogRef = this.matDialog.open(this.newVoteTypeForm,
-      {
-        width: '100vw',
-        maxWidth: 'none'
-      }
-    );
 
-    this.typeFormDialogRef.afterClosed()
+    this.typeFormDialogRef = this.matDialog.open(this.newVoteTypeForm, {
+      width: '100vw',
+      maxWidth: 'none',
+    });
+
+    this.typeFormDialogRef
+      .afterClosed()
       .pipe(take(1))
       .subscribe(() => {
         this.router.navigate(['./'], { relativeTo: this.route });
-      })
+      });
   }
 
   handleVoteTypeSubmit() {
     // Mark as touched
-    Object.keys(this.voteTypeForm.controls).forEach(field => {
+    Object.keys(this.voteTypeForm.controls).forEach((field) => {
       const control = this.voteTypeForm.get(field) as FormControl;
       control.markAsTouched({ onlySelf: true });
       control.updateValueAndValidity();
@@ -303,12 +375,14 @@ export class AddEditDiscussionComponent implements OnInit, OnDestroy {
     const newVoteType: IVoteType = this.voteTypeForm.value;
     if (!newVoteType.ui_id) this.addNewVoteType(newVoteType);
     else this.updatewVoteType(newVoteType);
+
     this.discussionForm.markAllAsTouched();
     this.discussionForm.updateValueAndValidity();
   }
 
   addNewVoteType(newVoteType: IVoteType) {
-    let voteTypes = this.discussionForm.controls['voteTypes'].value as IVoteType[];
+    let voteTypes = this.discussionForm.controls['voteTypes']
+      .value as IVoteType[];
     voteTypes = voteTypes ? voteTypes : [];
     newVoteType.ui_id = HelperService.NEWID(16);
     voteTypes.push(newVoteType);
@@ -316,18 +390,20 @@ export class AddEditDiscussionComponent implements OnInit, OnDestroy {
   }
 
   updatewVoteType(existingVoteType: IVoteType) {
-    let voteTypes = this.discussionForm.controls['voteTypes'].value as IVoteType[];
+    let voteTypes = this.discussionForm.controls['voteTypes']
+      .value as IVoteType[];
     if (!voteTypes) return;
 
-    let existing = voteTypes.find(vt => vt.ui_id === existingVoteType.ui_id)
+    let existing = voteTypes.find((vt) => vt.ui_id === existingVoteType.ui_id);
     if (!existing) return;
 
-    existing.iconOption = existingVoteType.iconOption
-    existing.image = existingVoteType.image
-    existing.matIcon = existingVoteType.matIcon
-    existing.name = existingVoteType.name
-    existing.profile = existingVoteType.profile
-    this.discussionForm.controls['voteTypes'].setValue(JSON.parse(JSON.stringify(voteTypes)));
+    existing.iconOption = existingVoteType.iconOption;
+    existing.image = existingVoteType.image;
+    existing.matIcon = existingVoteType.matIcon;
+    existing.name = existingVoteType.name;
+    existing.profile = existingVoteType.profile;
+    this.discussionForm.controls['voteTypes'].setValue(
+      JSON.parse(JSON.stringify(voteTypes))
+    );
   }
-
 }

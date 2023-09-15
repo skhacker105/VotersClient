@@ -64,7 +64,7 @@
     <div class="discussion-message" [innerHTML]="discussion.message">
     </div>
 
-    <!-- Votes -->
+    <!-- Votes Types for Voting -->
     <app-page-header [display]="'Votes'" [needSpacer]="false" color="subheader-a">
 
         <!-- Vote Types -->
@@ -97,7 +97,11 @@
 
 
 <ng-template #dateDisplay let-dateValue="dateValue" let-title="title">
-    <div class="date-display-container" [ngClass]="{ 'past-date': isLessThanToday(dateValue) }">
+    <div class="date-display-container" [ngClass]="
+    {
+        'past-date': isLessThanToday(dateValue),
+        'today-date': isToday(dateValue)
+    }">
         <div class="date-display-header">
             {{ title }}
         </div>

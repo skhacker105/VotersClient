@@ -4,6 +4,11 @@
 
 .icon-list-item {
     height: auto !important;
+
+    .votetype-image {
+        padding-left: 10px;
+        border-radius: 50%;
+    }
 }
 
 .selected-mat-icon {
