@@ -90,7 +90,7 @@
             <!-- Vote Types -->
             <div class="flex flex-scrollable" *ngIf="!discussion.isRegistrationEnabled">
                 <ng-container *ngFor="let voteType of discussion.voteTypes">
-                    <app-mat-vote-type [voteType]="voteType" (voteTypeClick)="voteDiscussion(voteType)"
+                    <app-mat-vote-type [voteType]="voteType" (voteTypeClick)="gotoVoteDiscussion(voteType)"
                         [attr.title]="voteType.name"
                         [disabled]="!discussion.isVotingEnabled || isMyVoteType(voteType) || isDeleted"
                         [matBadgeCount]="getVoteCategoryCount(voteType)"

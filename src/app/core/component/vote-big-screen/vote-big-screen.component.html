@@ -7,9 +7,8 @@
                 </div>
             </td> -->
             <td class="vote-user-icon">
-                <div>
-                    <mat-icon class="votetype-icon">{{ vote.voteType.matIcon }}</mat-icon>
-                </div>
+                <app-mat-vote-type [voteType]="vote.voteType" class="votetype-icon" [disabled]="true">
+                </app-mat-vote-type>
             </td>
             <td class="vote-user-name">
                 {{ vote.user.name }}

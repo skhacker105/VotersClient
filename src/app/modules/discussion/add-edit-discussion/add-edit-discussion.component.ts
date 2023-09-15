@@ -28,6 +28,7 @@ Quill.register('modules/blotFormatter', BlotFormatter);
   styleUrls: ['./add-edit-discussion.component.scss'],
 })
 export class AddEditDiscussionComponent implements OnInit, OnDestroy {
+  
   id: string | null | undefined;
   ui_id: string | null | undefined;
   isComponentIsActive = new Subject<boolean>();
