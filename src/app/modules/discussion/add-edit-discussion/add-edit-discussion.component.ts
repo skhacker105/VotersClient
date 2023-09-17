@@ -269,7 +269,7 @@ export class AddEditDiscussionComponent implements OnInit, OnDestroy {
     try {
       const reader = new FileReader();
       reader.onload = () => {
-        this.resizeImage(reader.result).then((imageURL) => {
+        this.userService.resizeImage(reader.result).then((imageURL) => {
           this.voteTypeForm.controls['image'].patchValue(imageURL);
         });
       };
@@ -277,26 +277,6 @@ export class AddEditDiscussionComponent implements OnInit, OnDestroy {
     } catch (e) {
       console.log('Error in image read: ', e);
     }
-  }
-
-  resizeImage(imageURL: any): Promise<any> {
-    const standardIconHeight = this.userService.standardIconHeight;
-    const standardIconWidth = this.userService.standardIconWidth;
-    return new Promise((resolve) => {
-      const image = new Image();
-      image.onload = function () {
-        const canvas = document.createElement('canvas');
-        canvas.width = standardIconHeight;
-        canvas.height = standardIconWidth;
-        const ctx = canvas.getContext('2d');
-        if (ctx != null) {
-          ctx.drawImage(image, 0, 0, standardIconHeight, standardIconWidth);
-        }
-        var data = canvas.toDataURL('image/jpeg', 1);
-        resolve(data);
-      };
-      image.src = imageURL;
-    });
   }
 
   navigateToVoteType(voteType: IVoteType) {

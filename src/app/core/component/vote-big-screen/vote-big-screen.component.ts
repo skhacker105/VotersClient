@@ -6,8 +6,7 @@ import { HelperService } from '../../utilities/helper';
 @Component({
   selector: 'app-vote-big-screen',
   templateUrl: './vote-big-screen.component.html',
-  styleUrls: ['./vote-big-screen.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./vote-big-screen.component.scss']
 })
 export class VoteBigScreenComponent implements OnInit {
 

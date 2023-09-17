@@ -11,7 +11,7 @@
                 </app-mat-vote-type>
             </td>
             <td class="vote-user-name">
-                {{ vote.user.name }}
+                <app-user-icon [user]="vote.user"></app-user-icon>
             </td>
             <td class="vote-date">
                 {{ vote.createdOn | date }}

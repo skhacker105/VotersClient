@@ -1,0 +1,90 @@
+<div class="container">
+    <div class="background-img">
+        <div class="box">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <div class="content flex-column">
+                <!-- Account Header -->
+                <h2>
+                    Account
+                </h2>
+
+                <!-- User Image -->
+                <div class="image-avatar flex-scrollable">
+
+                    <!-- No Image Message -->
+                    <ng-container *ngIf="!personalInfoForm.controls['avatar'].value">
+                        <div> No Image Uploaded </div>
+                    </ng-container>
+
+                    <!-- User Image -->
+                    <ng-container *ngIf="personalInfoForm.controls['avatar'].value">
+                        <img class="user-image" [src]="personalInfoForm.controls['avatar'].value">
+                    </ng-container>
+                </div>
+
+                <!-- Image Action Buttons  -->
+                <div class="image-action" *ngIf="isMyProfile">
+
+
+                    <!-- Image Upload -->
+                    <input #fileInput type="file" accept=".png, .jpg, .jpeg" (change)="handleFileInput($event)"
+                        style="display:none;" />
+
+                    <!-- Mobile Button -->
+                    <button type="button" mat-icon-button class="mobile upload-image" (click)="fileInput.click()">
+                        <mat-icon>upload</mat-icon>
+                    </button>
+                    <!-- Big screen Icon -->
+                    <button type="button" mat-button class="bigscreen upload-image" (click)="fileInput.click()">
+                        <mat-icon>upload</mat-icon>
+                        Upload
+                    </button>
+
+
+                    <!-- Image Delete -->
+                    <!-- Mobile Button -->
+                    <button type="button" mat-icon-button class="mobile delete-image" (click)="handleDeleteAvatar()">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                    <!-- Big screen Icon -->
+                    <button type="button" mat-button class="bigscreen delete-image" (click)="handleDeleteAvatar()">
+                        <mat-icon>delete</mat-icon>
+                        Delete
+                    </button>
+                </div>
+
+                <!-- User Name -->
+                <div class="user-name" *ngIf="personalInfoForm.controls['name'].value">
+
+                    <!-- Display Name: Non Editting -->
+                    <div *ngIf="!isEditting" expandCollapseAnimation>
+                        <div> {{personalInfoForm.controls['name'].value}} </div>
+                        <button type="button" mat-icon-button (click)="isEditting = true" *ngIf="isMyProfile" color="local-primary">
+                            <mat-icon>edit</mat-icon>
+                        </button>
+                    </div>
+
+                    <!-- Edit Name Form -->
+                    <div *ngIf="isEditting && isMyProfile" expandCollapseAnimation>
+                        <form [formGroup]="personalInfoForm" (ngSubmit)="saveChanges()">
+                            <mat-form-field>
+                                <mat-label>Name</mat-label>
+                                <input matInput [formControl]="personalInfoForm.controls['name']">
+                            </mat-form-field>
+                            <button type="submit" mat-icon-button>
+                                <mat-icon>navigate_next</mat-icon>
+                            </button>
+                            <button type="button" mat-icon-button (click)="cancelNameChange()">
+                                <mat-icon>cancel</mat-icon>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

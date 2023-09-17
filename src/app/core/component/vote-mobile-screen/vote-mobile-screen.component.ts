@@ -6,8 +6,7 @@ import { HelperService } from '../../utilities/helper';
 @Component({
   selector: 'app-vote-mobile-screen',
   templateUrl: './vote-mobile-screen.component.html',
-  styleUrls: ['./vote-mobile-screen.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./vote-mobile-screen.component.scss']
 })
 export class VoteMobileScreenComponent implements OnInit {
 

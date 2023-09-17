@@ -19,6 +19,6 @@
     *ngIf="voteType && voteType.image"
     type="button"
     class="option-select-image">
-    <img md-fab-image [src]="voteType.image" (click)="voteTypeClick.emit(voteType)">
+    <img md-fab-image [src]="voteType.image">
     <span class="option-select-title">{{ voteType.name }}</span>
 </button>

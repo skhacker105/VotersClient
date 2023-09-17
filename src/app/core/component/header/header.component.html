@@ -1,41 +1,73 @@
 <mat-toolbar class="header-container" color="page-header">
+
+    <!-- Left Header -->
     <button mat-icon-button title="Home" routerLink="/home">
         <mat-icon>campaign</mat-icon>
     </button>
     <div class="header-title">Raise your voice</div>
+
     <div class="spacer"></div>
 
     <!-- Big screen -->
     <div class="flex bigscreen">
+        <!-- Search -->
         <button mat-icon-button title="Search">
             <mat-icon>search</mat-icon>
         </button>
+
+        <!-- LoggedIn Controls -->
         <ng-container *ngIf="userService.isLoggedIn()">
+
+            <!-- Add Discussion -->
             <button mat-icon-button (click)="gotoAddDiscussion()" title="ADD Discussion">
                 <mat-icon>add_box</mat-icon>
             </button>
 
+            <!-- User Account -->
+            <button mat-icon-button title="Account Info" routerLink="/account" *ngIf="!userService.getAvatar()">
+                <mat-icon>account_circle</mat-icon>
+            </button>
+
+            <app-user-icon [user]="userService.getProfile()" [avatar]="userService.getAvatar()"
+                *ngIf="userService.getAvatar()">
+            </app-user-icon>
+
+            <!-- Logout -->
             <button mat-icon-button (click)="logout()" title="Logout">
                 <mat-icon>logout</mat-icon>
             </button>
         </ng-container>
     </div>
 
+    <!-- Small Screen -->
     <button mat-icon-button class="mobile" [matMenuTriggerFor]="menu">
         <mat-icon>more_vert</mat-icon>
     </button>
     <mat-menu #menu="matMenu">
 
+        <!-- Generic controls -->
         <button mat-menu-item title="Search">
             <mat-icon>search</mat-icon>
             <span>Search</span>
         </button>
+        <!-- LoggedIn Controls -->
         <ng-container *ngIf="userService.isLoggedIn()">
+
+            <!-- Add Discussion -->
             <button mat-menu-item (click)="gotoAddDiscussion()" title="ADD Discussion">
                 <mat-icon>add_box</mat-icon>
                 <span>New Voice</span>
             </button>
 
+            <!-- User Account -->
+            <button mat-menu-item title="Account Info" routerLink="/account">
+                <mat-icon *ngIf="!userService.getAvatar()">account_circle</mat-icon>
+                <img md-fab-image [src]="userService.getAvatar()" *ngIf="userService.getAvatar()"
+                    [style.width.px]="25" [style.height.px]="25">
+                <span>Account</span>
+            </button>
+
+            <!-- Logout -->
             <button mat-menu-item (click)="logout()" title="Logout">
                 <mat-icon>logout</mat-icon>
                 <span>Logout</span>

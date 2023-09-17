@@ -11,7 +11,7 @@ import {DiscussionService} from '../services/discussion.service';
 import {InputVoteWizardComponent} from '../component/input-vote-wizard/input-vote-wizard..component';
 import {IInputVoteWizard} from './input-vote-wizars';
 import {UserService} from '../services/user.service';
-import {LoginRegisterComponent} from '../component/login-register/login-register.component';
+import {LoginRegisterComponent} from '../../modules/login-register/login-register/login-register.component';
 import {IDiscussionState} from './discussion-state';
 import {HelperService} from '../utilities/helper';
 

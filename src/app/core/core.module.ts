@@ -27,6 +27,7 @@ import { AuthLocationChangedComponent } from './component/auth-location-changed/
 import { DiscussionStateClassPipe } from './pipe/discussion-state-class.pipe';
 import { DiscussionRegisterComponent } from './component/discussion-register/discussion-register.component';
 import { DisplayMessageComponent } from './component/display-message/display-message.component';
+import { UserIconComponent } from './component/user-icon/user-icon.component';
 
 
 @NgModule({
@@ -53,7 +54,8 @@ import { DisplayMessageComponent } from './component/display-message/display-mes
     RegisterComponent,
     AuthLocationChangedComponent,
     DiscussionRegisterComponent,
-    DisplayMessageComponent
+    DisplayMessageComponent,
+    UserIconComponent
   ],
   imports: [
     CommonModule,

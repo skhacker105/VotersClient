@@ -1,11 +1,9 @@
 import { Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Subject, takeUntil } from 'rxjs';
-import { ServerResponse } from 'src/app/core/models/serverResponse';
+import { Subject, take, takeUntil } from 'rxjs';
 import { LoggerService } from 'src/app/core/services/logger.service';
 import { UserService } from 'src/app/core/services/user.service';
-import { IUser } from '../../models/user';
 
 @Component({
   selector: 'app-login',
@@ -39,7 +37,13 @@ export class LoginComponent implements OnDestroy {
         takeUntil(this.isComponentIsActive)
       ).subscribe({
         next: res => {
+          if (!res.data) {
+            this.loggerService.showError('Login failed');
+            return;
+          }
+
           this.userService.saveSession(res.data);
+          this.loadUserAvatar(res.data)
           if (this.redirectAfterLogin)
             this.router.navigateByUrl('/home');
           else this.loginSuccessfull.emit();
@@ -48,5 +52,22 @@ export class LoginComponent implements OnDestroy {
           this.loggerService.showError(err.error.message)
         }
       })
+  }
+
+  loadUserAvatar(token: string) {
+
+      const userProfile = this.userService.getProfile(token);
+      if (!userProfile) return;
+
+      this.userService.loadUserAvatar(userProfile._id)
+        .pipe(take(1))
+        .subscribe({
+          next: avatarRes => {
+            if (avatarRes.data)
+            this.userService.saveAvatar(avatarRes.data)
+          },
+          error: err => {}
+        })
+
   }
 }

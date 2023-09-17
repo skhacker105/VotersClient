@@ -1,0 +1,4 @@
+<button mat-icon-button (click)="gotoUserAccount()" [disabled]="disabled" type="button" class="user-select-image">
+    <img md-fab-image [src]="loadedAvatar" *ngIf="loadedAvatar">
+    <span class="user-select-title" *ngIf="user">{{ user.name }}</span>
+</button>
