@@ -1,5 +1,5 @@
 <div *ngIf="discussion && discussion.isRegistrationEnabled" class="discussion-register-button"  class="discussion-register-button">
-    <button *ngIf="discussion" type="button" mat-button color="primary" class="register-now-button">
+    <button *ngIf="discussion" type="button" mat-button color="primary" class="register-now-button" [routerLink]="['/discussion/register/', discussion._id]">
         Register Now
         <mat-icon>playlist_add</mat-icon>
     </button>

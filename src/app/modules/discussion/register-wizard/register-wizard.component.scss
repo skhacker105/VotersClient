@@ -1,0 +1,85 @@
+.register-form-container {
+    ::ng-deep .owl-prev, ::ng-deep .owl-next {
+        height: 30px !important;
+        color: black !important;
+        line-height: 30px;
+    }
+}
+
+.discussion-dates {
+    display: flex;
+    flex-wrap: wrap;
+    line-height: 30px;
+    justify-content: center;
+
+    .today-date {
+        color: #c71111 !important;
+        background: #ffffff !important;
+
+        .date-display-header {
+            color: #ffffff !important;
+            background: #1174bb;
+            background: linear-gradient(to bottom right, #6ab3ff 0%, #008aff 100%) !important;
+        }
+    }
+
+    .past-date {
+        color: #939393 !important;
+        background: #c1c1c1 !important;
+
+        .date-display-header {
+            color: #c9c9c9 !important;
+            background: #1174bb;
+            background: linear-gradient(to bottom right, #4875a3 0%, #044378 100%) !important;
+        }
+    }
+
+    .date-display-container {
+        font-variant: normal;
+        font-style: normal;
+        font-weight: normal;
+        color: black;
+        background: white;
+        background: linear-gradient(to bottom right, #fff 0%, #eee 100%);
+        border: 1px solid #888;
+        border-radius: 3px;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+
+        .date-display-header {
+            order: 1;
+            font-size: 0.75em;
+            padding: 0.1em 0;
+            padding: 16px;
+
+            font-family: "Oswald", sans-serif;
+            text-transform: uppercase;
+            color: white;
+            background: #1174bb;
+            background: linear-gradient(to bottom right, #66a1dd 0%, #005caa 100%);
+        }
+
+        .date-display-subheader {
+            order: 2;
+            font-size: 0.6125em;
+        }
+
+        .date-display-body {
+            order: 3;
+            font-size: 1.5em;
+        }
+
+        .date-display-footer {
+            order: 4;
+            font-size: 0.87750em;
+        }
+    }
+}
+
+.profile-name {
+    flex: 1 auto;
+    text-align: center;
+    margin: auto;
+    font-size: 20px;
+}

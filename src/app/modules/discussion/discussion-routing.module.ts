@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AddEditDiscussionComponent } from './add-edit-discussion/add-edit-discussion.component';
 import { DiscussionDetailComponent } from './discussion-detail/discussion-detail.component';
 import { LoginGuard } from 'src/app/core/routeGuard/login.guard';
+import { RegisterWizardComponent } from './register-wizard/register-wizard.component';
 
 const routes: Routes = [
   {
@@ -41,6 +42,11 @@ const routes: Routes = [
         component: DiscussionDetailComponent
       }
     ]
+  },
+  {
+    path: 'register/:id',
+    canActivate: [LoginGuard],
+    component: RegisterWizardComponent
   },
   {
     path: '*',

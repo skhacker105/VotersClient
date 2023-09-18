@@ -1,52 +1,57 @@
-import {MatDialog} from '@angular/material/dialog';
-import {DISCUSSION_STATE} from '../constants/discussion-state';
-import {IUser} from './user';
-import {IVote, IVoteType, VoteCategory} from './vote';
-import {IConfirmationDialogData} from './confirmation-dialog.model';
-import {take} from 'rxjs';
-import {ConfirmationDialogComponent} from '../component/confirmation-dialog/confirmation-dialog.component';
-import {VotingService} from '../services/voting.service';
-import {LoggerService} from '../services/logger.service';
-import {DiscussionService} from '../services/discussion.service';
-import {InputVoteWizardComponent} from '../component/input-vote-wizard/input-vote-wizard..component';
-import {IInputVoteWizard} from './input-vote-wizars';
-import {UserService} from '../services/user.service';
-import {LoginRegisterComponent} from '../../modules/login-register/login-register/login-register.component';
-import {IDiscussionState} from './discussion-state';
-import {HelperService} from '../utilities/helper';
+import { MatDialog } from '@angular/material/dialog';
+import { DISCUSSION_STATE } from '../constants/discussion-state';
+import { IUser } from './user';
+import { IRegisterCategory, IRegisterVoteType, IVote, IVoteType, VoteCategory } from './vote';
+import { IConfirmationDialogData } from './confirmation-dialog.model';
+import { take } from 'rxjs';
+import { ConfirmationDialogComponent } from '../component/confirmation-dialog/confirmation-dialog.component';
+import { VotingService } from '../services/voting.service';
+import { LoggerService } from '../services/logger.service';
+import { DiscussionService } from '../services/discussion.service';
+import { InputVoteWizardComponent } from '../component/input-vote-wizard/input-vote-wizard..component';
+import { IInputVoteWizard } from './input-vote-wizars';
+import { UserService } from '../services/user.service';
+import { LoginRegisterComponent } from '../../modules/login-register/login-register/login-register.component';
+import { IDiscussionState } from './discussion-state';
+import { REGISTRATION_STATE } from '../constants/registration-state';
 
 export class Discussion {
-    matDialog : MatDialog;
-    votingService : VotingService;
-    loggerService : LoggerService;
-    discussionService : DiscussionService;
+    matDialog: MatDialog;
+    votingService: VotingService;
+    loggerService: LoggerService;
+    discussionService: DiscussionService;
 
-    _id : string;
-    title : string;
-    message : string;
-    private votes : IVote[] = [];
-    isRegistrationAllowed : boolean;
-    registrationStartDate : Date;
-    registrationEndDate : Date;
-    createdBy : IUser;
-    createdOn : Date;
-    private state : string;
+    _id: string;
+    title: string;
+    message: string;
+    private votes: IVote[] = [];
+    isRegistrationAllowed: boolean;
+    registrationStartDate: Date;
+    registrationEndDate: Date;
+    createdBy: IUser;
+    createdOn: Date;
+    private state: string;
     startDate?: Date;
     endDate?: Date;
-    voteTypes : IVoteType[];
+    voteTypes: IVoteType[];
+    registrations: IRegisterVoteType[];
 
-    stateObj : IDiscussionState | undefined;
-    voteCategories : VoteCategory[] = [];
-    nextPossibleStates : IDiscussionState[] = [];
+    stateObj: IDiscussionState | undefined;
+    voteCategories: VoteCategory[] = [];
+    registrationCategories: IRegisterCategory[] = [];
+    nextPossibleStates: IDiscussionState[] = [];
     isVotingEnabled = false;
     isRegistrationEnabled = false;
     isBlocked = false;
 
-    constructor(obj : Discussion, matDialog : MatDialog, votingService : VotingService, loggerService : LoggerService, discussionService : DiscussionService, public userService : UserService) {
+    constructor(
+        obj: Discussion, matDialog: MatDialog, votingService: VotingService,
+        loggerService: LoggerService, discussionService: DiscussionService, public userService: UserService) {
         this._id = obj._id;
         this.title = obj.title;
         this.message = obj.message;
         this.votes = obj.votes;
+        this.registrations = this.prepareRegistrations(obj.registrations);
         this.createdBy = obj.createdBy;
         this.createdOn = obj.createdOn;
         this.state = obj.state;
@@ -67,12 +72,41 @@ export class Discussion {
         this.resetRegistrationEnability();
         this.resetNextStates();
         this.categorizeVotes();
+        this.categorizeRegistrations();
+    }
+
+    prepareRegistrations(regs: IRegisterVoteType[]): IRegisterVoteType[] {
+        return (regs ? regs : []).map(r => {
+            try {
+                r.nextPossibleStates = REGISTRATION_STATE[r.state].nextStates
+            } catch (err) {
+                console.log('There was error while preparing Registrations');
+            }
+            return r;
+        });
+    }
+
+    categorizeRegistrations() {
+        const uniqueRegistrationTypes = this.registrations.reduce((arr, val) => {
+            let existing: IRegisterCategory | undefined = arr.find((cat) => cat.category === val.state);
+            if (!existing) {
+                existing = {
+                    category: val.state,
+                    votes: [val]
+                };
+                arr.push(existing);
+            } else {
+                existing.votes.push(val);
+            }
+            return arr;
+        }, [] as IRegisterCategory[]);
+        this.registrationCategories = uniqueRegistrationTypes;
     }
 
     categorizeVotes() {
         const uniqueVoteTypes = this.votes.reduce((arr, val) => {
-            let existing: VoteCategory |undefined = arr.find((cat) => cat.category.ui_id === val.voteType.ui_id);
-            if (! existing) {
+            let existing: VoteCategory | undefined = arr.find((cat) => cat.category.ui_id === val.voteType.ui_id);
+            if (!existing) {
                 existing = {
                     category: val.voteType,
                     votes: [val]
@@ -106,6 +140,7 @@ export class Discussion {
                 state.className = DISCUSSION_STATE[state.key].className;
                 return !state.neededForRegistration || inclusive ? true : false
             });
+
         } catch (err) {
             console.log('There was error while fetching next possible states');
         }
@@ -114,25 +149,25 @@ export class Discussion {
     resetStateObject() {
         try {
             this.stateObj = DISCUSSION_STATE[this.state]
-        } catch(e) {
+        } catch (e) {
             this.stateObj = undefined;
         }
     }
 
-    userHasAlreadyVoted(user : IUser) {
+    userHasAlreadyVoted(user: IUser) {
         return this.votes.find((v) => v.user._id === user._id);
     }
 
-    existingVoteByType(user : IUser) {
+    existingVoteByType(user: IUser) {
         return this.votes.find((v) => v.user._id === user._id);
     }
 
-    addVote(vote : IVote) {
+    addVote(vote: IVote) {
         this.votes.push(vote);
         this.categorizeVotes();
     }
 
-    updateVote(vote : IVote) {
+    updateVote(vote: IVote) {
         const index = this.votes.findIndex((v) => v._id === vote._id);
         if (index >= 0) {
             this.votes.splice(index, 1, vote);
@@ -141,19 +176,19 @@ export class Discussion {
         this.voteTypes = JSON.parse(JSON.stringify(this.voteTypes));
     }
 
-    isMyVote(voteType : IVote, user? : IUser): boolean {
-        if (!user) 
+    isMyVote(voteType: IVote, user?: IUser): boolean {
+        if (!user)
             return false;
-        
+
 
 
         return this.votes.some((v) => v.user._id === user._id && voteType.voteType.ui_id === v.voteType.ui_id);
     }
 
-    isMyVoteType(voteType : IVoteType, user? : IUser): boolean {
-        if (!user) 
+    isMyVoteType(voteType: IVoteType, user?: IUser): boolean {
+        if (!user)
             return false;
-        
+
 
 
         return this.votes.some((v) => v.user._id === user._id && voteType.ui_id === v.voteType.ui_id);
@@ -163,31 +198,28 @@ export class Discussion {
         return this.votes; // JSON.parse(JSON.stringify(this.votes));
     }
 
-    confirmForStateChange(newState : IDiscussionState) {
+    confirmForStateChange(newState: IDiscussionState) {
         return new Promise((resolve, reject) => {
-            if (this.nextPossibleStates.findIndex((s) => s.key === newState.key) === -1) 
-                return reject(`Cannot set "${
-                    this.title
-                }" to "${newState}".`);
-            
+            if (this.nextPossibleStates.findIndex((s) => s.key === newState.key) === -1)
+                return reject(`Cannot set "${this.title
+                    }" to "${newState}".`);
+
 
 
             const config: IConfirmationDialogData = {
-                message: `${
-                    newState.text.toUpperCase()
-                } "${
-                    this.title
-                }"?`,
+                message: `${newState.text.toUpperCase()
+                    } "${this.title
+                    }"?`,
                 okDisplay: newState.text.toUpperCase(),
                 cancelDisplay: 'Cancel',
                 color: 'warn'
             };
-            const ref = this.matDialog['open'](ConfirmationDialogComponent, {data: config});
+            const ref = this.matDialog['open'](ConfirmationDialogComponent, { data: config });
             ref.afterClosed().pipe(take(1)).subscribe((result) => resolve(result));
         });
     }
 
-    changeState(newState : IDiscussionState) {
+    changeState(newState: IDiscussionState) {
         this.state = newState.key;
         this.resetStateObject();
         this.resetVotingEnability();
@@ -196,22 +228,22 @@ export class Discussion {
         this.resetNextStates();
     }
 
-    getVoteCategoryCount(votetype? : IVoteType): number {
-        if (!votetype) 
+    getVoteCategoryCount(votetype?: IVoteType): number {
+        if (!votetype)
             return 0;
-        
+
 
 
         const existingCategory = this.voteCategories.find((cat) => cat.category.ui_id === votetype.ui_id);
-        if (! existingCategory) 
+        if (!existingCategory)
             return 0;
-        
+
 
 
         return existingCategory.votes.length;
     }
 
-    voteDiscussion(voteType : IVoteType, loginProfile? : IUser) { // if (!loginProfile) return;
+    voteDiscussion(voteType: IVoteType, loginProfile?: IUser) { // if (!loginProfile) return;
 
         const existingvote = loginProfile ? this.existingVoteByType(loginProfile) : loginProfile;
         const data: IInputVoteWizard = {
@@ -227,20 +259,20 @@ export class Discussion {
             exitAnimationDuration: '500ms'
         });
         ref.afterClosed().pipe(take(1)).subscribe((res) => {
-            if (res) 
-                if (loginProfile) 
+            if (res)
+                if (loginProfile)
                     this.saveVoteToDB(res, voteType, loginProfile);
-                
-             else 
-                this.requestLogin(res, voteType);
-            
+
+                else
+                    this.requestLogin(res, voteType);
+
 
         });
 
         return ref.afterClosed();
     }
 
-    requestLogin(message : string, voteType : IVoteType) {
+    requestLogin(message: string, voteType: IVoteType) {
         const ref = this.matDialog['open'](LoginRegisterComponent, {
             panelClass: 'input-textarea-popup',
             maxHeight: '99vh',
@@ -248,7 +280,7 @@ export class Discussion {
         });
         ref.afterClosed().pipe(take(1)).subscribe((res) => {
             const loginProfile = this.userService.getProfile();
-            if (! loginProfile) {
+            if (!loginProfile) {
                 this.loggerService.showError('Cannot Vote without login.');
                 this.voteDiscussion(voteType, loginProfile);
             } else {
@@ -257,10 +289,10 @@ export class Discussion {
         });
     }
 
-    saveVoteToDB(message : string, voteType : IVoteType, loginProfile : IUser) {
-        if (!loginProfile) 
+    saveVoteToDB(message: string, voteType: IVoteType, loginProfile: IUser) {
+        if (!loginProfile)
             return;
-        
+
 
 
         const existingvote = this.userHasAlreadyVoted(loginProfile);
@@ -274,20 +306,19 @@ export class Discussion {
         (existingvote ? this.votingService.editVote(existingvote._id, newVote) : this.votingService.addVote(newVote)).pipe(take(1)).subscribe({
             next: (res) => {
                 this.updateDiscussionVoteInDB(res.data, loginProfile);
-                this.loggerService.showSuccess(`You Voted for "${
-                    voteType.name
-                }".`);
+                this.loggerService.showSuccess(`You Voted for "${voteType.name
+                    }".`);
             },
-            error: (err : any) => {
+            error: (err: any) => {
                 this.loggerService.showError(err.error.message);
             }
         });
     }
 
-    updateDiscussionVoteInDB(vote : IVote, loginProfile? : IUser) {
-        if (!loginProfile) 
+    updateDiscussionVoteInDB(vote: IVote, loginProfile?: IUser) {
+        if (!loginProfile)
             return;
-        
+
 
         const existingvote = this.userHasAlreadyVoted(loginProfile);
         if (existingvote) {
@@ -295,12 +326,12 @@ export class Discussion {
         } else {
             this.discussionService.vote(this._id, vote._id).pipe(take(1)).subscribe({
                 next: (res) => {
-                    if (res.data) 
+                    if (res.data)
                         this.addVote(vote);
-                    
+
 
                 },
-                error: (err : any) => {
+                error: (err: any) => {
                     this.loggerService.showError(err.error.message);
                 }
             });

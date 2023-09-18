@@ -1,3 +1,4 @@
+import { IRegistrationState } from "./registration-state";
 import { IUser } from "./user";
 
 export interface IVote {
@@ -24,6 +25,16 @@ export interface IVoteType {
     profile?: string;
     createdBy: IUser;
     createdOn: Date;
+}
+
+export interface IRegisterVoteType extends IVoteType {
+    state: string;
+    nextPossibleStates: IRegistrationState[];
+}
+
+export interface IRegisterCategory {
+    category: string;
+    votes: IRegisterVoteType[];
 }
 
 export const isInstanceOfIVoteType = (obj: any): obj is IVoteType => {

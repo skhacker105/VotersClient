@@ -21,6 +21,10 @@ export class DiscussionService {
   baseUrl = environment.basUrl + 'discussion/';
   selectedTimeLine = new BehaviorSubject<ITimeline | undefined>(undefined);
   selectedScope = new BehaviorSubject<IScope | undefined>(undefined);
+  iconOptions = {
+    matIcon: 'matIcon',
+    image: 'image',
+  };
   constructor(
     public http: HttpClient,
     private matDialog: MatDialog,

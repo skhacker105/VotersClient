@@ -20,6 +20,8 @@ import { VotingService } from 'src/app/core/services/voting.service';
 import { HelperService } from 'src/app/core/utilities/helper';
 import Quill from 'quill';
 import BlotFormatter from 'quill-blot-formatter';
+import { IConfirmationDialogData } from 'src/app/core/models/confirmation-dialog.model';
+import { ConfirmationDialogComponent } from 'src/app/core/component/confirmation-dialog/confirmation-dialog.component';
 Quill.register('modules/blotFormatter', BlotFormatter);
 
 @Component({
@@ -28,16 +30,12 @@ Quill.register('modules/blotFormatter', BlotFormatter);
   styleUrls: ['./add-edit-discussion.component.scss'],
 })
 export class AddEditDiscussionComponent implements OnInit, OnDestroy {
-  
+
   id: string | null | undefined;
   ui_id: string | null | undefined;
   isComponentIsActive = new Subject<boolean>();
   loginProfile: IUser | undefined;
   matIcons = MATERIAL_ICONS.sort();
-  iconOptions = {
-    matIcon: 'matIcon',
-    image: 'image',
-  };
   loadedDiscussion: Discussion | undefined;
   discussionForm = new FormGroup<any>({
     title: new FormControl<string>('', Validators.required),
@@ -77,13 +75,13 @@ export class AddEditDiscussionComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
-    private discussionService: DiscussionService,
+    public discussionService: DiscussionService,
     private loggerService: LoggerService,
     private router: Router,
     private userService: UserService,
     public votingService: VotingService,
     private matDialog: MatDialog
-  ) {}
+  ) { }
 
   get VoteTypes(): IVoteType[] {
     return this.discussionForm.controls['voteTypes'].value as IVoteType[];
@@ -135,7 +133,7 @@ export class AddEditDiscussionComponent implements OnInit, OnDestroy {
     } else if (
       this.ui_id &&
       (this.discussionForm.controls['voteTypes'].value as IVoteType[]).length >
-        0
+      0
     ) {
       const votetype = (
         this.discussionForm.controls['voteTypes'].value as IVoteType[]
@@ -202,13 +200,13 @@ export class AddEditDiscussionComponent implements OnInit, OnDestroy {
           this.disableAllIconOptions();
           this.voteTypeForm.markAsTouched();
           switch (iconOption) {
-            case this.iconOptions.matIcon:
+            case this.discussionService.iconOptions.matIcon:
               this.voteTypeForm.controls['matIcon'].enable();
               this.voteTypeForm.controls['matIcon'].addValidators(
                 Validators.required
               );
               break;
-            case this.iconOptions.image:
+            case this.discussionService.iconOptions.image:
               this.voteTypeForm.controls['image'].enable();
               this.voteTypeForm.controls['image'].addValidators(
                 Validators.required
@@ -290,6 +288,14 @@ export class AddEditDiscussionComponent implements OnInit, OnDestroy {
       );
   }
 
+  cancelSaveDiscussion() {
+    if (this.id) {
+      this.router.navigate(['/discussion/discussionDetail/', this.id]);
+    } else {
+      this.router.navigateByUrl('/discussionDetail');
+    }
+  }
+
   saveDiscussion() {
     if (this.discussionForm.invalid) {
       this.loggerService.showError('Cannot submit incomplete form');
@@ -311,14 +317,6 @@ export class AddEditDiscussionComponent implements OnInit, OnDestroy {
       });
   }
 
-  cancelSaveDiscussion() {
-    if (this.id) {
-      this.router.navigate(['/discussion/discussionDetail/', this.id]);
-    } else {
-      this.router.navigateByUrl('/discussionDetail');
-    }
-  }
-
   handleAddEditVoteType(voteType?: IVoteType) {
     this.voteTypeForm.reset();
     this.disableAllIconOptions();
@@ -327,6 +325,7 @@ export class AddEditDiscussionComponent implements OnInit, OnDestroy {
     this.typeFormDialogRef = this.matDialog.open(this.newVoteTypeForm, {
       width: '100vw',
       maxWidth: 'none',
+      data: {voteType}
     });
 
     this.typeFormDialogRef
@@ -362,8 +361,7 @@ export class AddEditDiscussionComponent implements OnInit, OnDestroy {
   }
 
   addNewVoteType(newVoteType: IVoteType) {
-    let voteTypes = this.discussionForm.controls['voteTypes']
-      .value as IVoteType[];
+    let voteTypes = this.discussionForm.controls['voteTypes'].value as IVoteType[];
     voteTypes = voteTypes ? voteTypes : [];
     newVoteType.ui_id = HelperService.NEWID(16);
     voteTypes.push(newVoteType);
@@ -386,5 +384,35 @@ export class AddEditDiscussionComponent implements OnInit, OnDestroy {
     this.discussionForm.controls['voteTypes'].setValue(
       JSON.parse(JSON.stringify(voteTypes))
     );
+  }
+
+  handleDeleteVoteType(voteType: IVoteType) {
+
+    const config: IConfirmationDialogData = {
+      message: `Delete "${voteType.name}"?`,
+      okDisplay: 'Delete',
+      cancelDisplay: 'Cancel',
+      color: 'warn'
+    };
+    const ref = this.matDialog.open(ConfirmationDialogComponent, {
+      data: config
+    })
+    ref.afterClosed()
+      .pipe(takeUntil(this.isComponentIsActive))
+      .subscribe(result => {
+        result ? this.deleteVoteType(voteType) : null
+      })
+  }
+
+  deleteVoteType(voteType: IVoteType) {
+    this.typeFormDialogRef?.close();
+    if (!voteType.ui_id) return;
+
+    let voteTypes = this.discussionForm.controls['voteTypes'].value as IVoteType[];
+    const idx = voteTypes.findIndex(vt => vt.ui_id === voteType.ui_id);
+    if (idx < 0) return;
+
+    voteTypes.splice(idx, 1);
+    this.discussionForm.controls['voteTypes'].setValue(voteTypes);
   }
 }

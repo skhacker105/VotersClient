@@ -31,6 +31,10 @@
         </app-discussion-next-state>
     </app-page-header>
 
+    <!-- Discussion Message -->
+    <div class="discussion-message" [innerHTML]="discussion.message">
+    </div>
+
     <!-- Voting & Registration Dates -->
     <div class="discussion-dates">
 
@@ -58,10 +62,6 @@
             title: 'Voting End Dates'
         }">
         </ng-container>
-    </div>
-
-    <!-- Discussion Message -->
-    <div class="discussion-message" [innerHTML]="discussion.message">
     </div>
 
     <!-- Votes Types for Voting -->

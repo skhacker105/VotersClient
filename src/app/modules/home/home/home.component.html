@@ -14,9 +14,7 @@
     <owl-carousel-o [options]="customOptions" (translated)="handleSlidedData($event)" class="bigscreen">
       <ng-template carouselSlide *ngFor="let discussion of myDiscussions.data; let i = index;">
         <ng-template [ngTemplateOutlet]="discussioncrousel" [ngTemplateOutletContext]="{
-        discussion: discussion,
-        length: myDiscussions.data.length,
-        i: i
+        discussion: discussion
       }"></ng-template>
       </ng-template>
     </owl-carousel-o>

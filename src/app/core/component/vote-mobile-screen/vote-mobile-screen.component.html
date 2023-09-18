@@ -1,6 +1,6 @@
 <ng-container *ngIf="vote">
-    <table class="vote-container" cellspacing="0" [style.background]="color">
-        <tr>
+    <table class="vote-container" cellspacing="0">
+        <tr [style.background]="color">
             <!-- <td class="vote-user-icon">
                 <div>
                     {{ vote.user.name[0] }}
@@ -10,20 +10,20 @@
                 <app-mat-vote-type [voteType]="vote.voteType" class="votetype-icon" [disabled]="true">
                 </app-mat-vote-type>
             </td>
-            <td class="vote-user-name">
+            <td class="vote-user-name" colspan="2">
                 <app-user-icon [user]="vote.user"></app-user-icon>
             </td>
-            <td class="vote-date">
+            <td class="vote-date" colspan="2">
                 {{ vote.createdOn | date }}
-            </td>
-            <td class="vote-action">
-                <mat-icon (click)="onEditClick.emit()" *ngIf="showActionButton">edit</mat-icon>
-                &nbsp;
-                <mat-icon (click)="onDeleteClick.emit()" *ngIf="showActionButton">delete</mat-icon>
             </td>
         </tr>
         <tr>
             <td [innerHtml]="sanitaizedData" *ngIf="sanitaizedData" class="vote-message" colspan="4">
+            </td>
+            <td>
+                <mat-icon (click)="onEditClick.emit()" *ngIf="showActionButton">edit</mat-icon>
+                &nbsp;
+                <mat-icon (click)="onDeleteClick.emit()" *ngIf="showActionButton">delete</mat-icon>
             </td>
         </tr>
     </table>

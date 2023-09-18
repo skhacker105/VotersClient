@@ -14,6 +14,7 @@ export class UserIconComponent implements OnInit, OnDestroy {
   @Input() avatar: string | undefined;
   @Input() user: IUser | undefined;
   @Input() disabled = false;
+  @Input() size = 30;
 
   loadedAvatar: string | undefined;
   isComponentIsActive = new Subject<boolean>();

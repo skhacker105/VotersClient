@@ -86,7 +86,8 @@ import { UserIconComponent } from './component/user-icon/user-icon.component';
     LoginComponent,
     RegisterComponent,
     AuthLocationChangedComponent,
-    DiscussionRegisterComponent
+    DiscussionRegisterComponent,
+    UserIconComponent
   ]
 })
 export class CoreModule { }

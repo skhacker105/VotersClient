@@ -1,0 +1,109 @@
+<!-- Registeration Carousel -->
+<div class="flex-column">
+    <owl-carousel-o [options]="customOptions" (translated)="handleSlidedData($event)" class="register-form-container">
+        <ng-template carouselSlide>
+            <ng-template [ngTemplateOutlet]="discussionDetail"></ng-template>
+        </ng-template>
+        <ng-template carouselSlide>
+            <ng-template [ngTemplateOutlet]="profileDetail"></ng-template>
+        </ng-template>
+    </owl-carousel-o>
+</div>
+
+<!-- Slide 1: Discussion Details -->
+<ng-template #discussionDetail>
+    <div class="flex-column" *ngIf="discussion">
+        <app-page-header [display]="discussion.title" color="subheader"></app-page-header>
+
+        <div class="flex-scrollable">
+            <!-- Discussion Message -->
+            <div class="discussion-message" [innerHTML]="discussion.message">
+            </div>
+
+            <!-- Voting & Registration Dates -->
+            <div class="discussion-dates">
+
+                <!-- Registration Dates -->
+                <ng-container *ngIf="discussion.registrationStartDate" [ngTemplateOutlet]="dateDisplay"
+                    [ngTemplateOutletContext]="{
+            dateValue: discussion.registrationStartDate,
+            title: 'Registration Start Date'
+        }">
+                </ng-container>
+                <ng-container *ngIf="discussion.registrationEndDate" [ngTemplateOutlet]="dateDisplay"
+                    [ngTemplateOutletContext]="{
+            dateValue: discussion.registrationEndDate,
+            title: 'Registration End Dates'
+        }">
+                </ng-container>
+
+                <!-- Voting Dates -->
+                <ng-container *ngIf="discussion.startDate" [ngTemplateOutlet]="dateDisplay" [ngTemplateOutletContext]="{
+            dateValue: discussion.startDate,
+            title: 'Voting Start Date'
+        }">
+                </ng-container>
+                <ng-container *ngIf="discussion.endDate" [ngTemplateOutlet]="dateDisplay" [ngTemplateOutletContext]="{
+            dateValue: discussion.endDate,
+            title: 'Voting End Dates'
+        }">
+                </ng-container>
+            </div>
+        </div>
+
+    </div>
+</ng-template>
+
+<!-- Slide 2: Create Profile -->
+<ng-template #profileDetail>
+    <form [formGroup]="voteTypeForm" class="flex-scrollable">
+
+        <div class="flex">
+            <!-- User Image -->
+            <app-user-icon [avatar]="voteTypeForm.controls['image'].value" [size]="100"></app-user-icon>
+
+            <!-- Name -->
+            <div class="profile-name">
+                {{voteTypeForm.controls['name'].value}}
+            </div>
+        </div>
+
+        <!-- Profile -->
+        <mat-form-field class="full-width">
+            <textarea matInput formControlName="profile" style="display: none;"></textarea>
+            <quill-editor formControlName="profile" placeholder="Profile / Promotion">
+                <br>
+            </quill-editor>
+        </mat-form-field>
+
+        <p align="end" class="standard-padding">
+            <button mat-raised-button color="primary">
+                Submit For Approval
+            </button>
+        </p>
+
+    </form>
+</ng-template>
+
+
+
+<ng-template #dateDisplay let-dateValue="dateValue" let-title="title">
+    <div class="date-display-container" [ngClass]="
+    {
+        'past-date': isLessThanToday(dateValue),
+        'today-date': isToday(dateValue)
+    }">
+        <div class="date-display-header">
+            {{ title }}
+        </div>
+        <div class="date-display-subheader">
+            {{ dateValue | date: 'YYYY' }}
+        </div>
+        <div class="date-display-body">
+            {{ dateValue | date: 'dd' }}
+        </div>
+        <div class="date-display-footer">
+            {{ dateValue | date: 'EEEE' }}
+        </div>
+    </div>
+</ng-template>
