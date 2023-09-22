@@ -14,6 +14,7 @@ import { UserService } from '../services/user.service';
 import { LoginRegisterComponent } from '../../modules/login-register/login-register/login-register.component';
 import { IDiscussionState } from './discussion-state';
 import { REGISTRATION_STATE } from '../constants/registration-state';
+import { IRegistrationState } from './registration-state';
 
 export class Discussion {
     matDialog: MatDialog;
@@ -36,10 +37,13 @@ export class Discussion {
     voteTypes: IVoteType[];
     registrations: IRegisterVoteType[];
 
+    isDiscussionOwner = false;
     stateObj: IDiscussionState | undefined;
     voteCategories: VoteCategory[] = [];
-    registrationCategories: IRegisterCategory[] = [];
     nextPossibleStates: IDiscussionState[] = [];
+    registrationCategories: IRegisterCategory[] = [];
+    myRegistration: IRegisterVoteType | undefined;
+
     isVotingEnabled = false;
     isRegistrationEnabled = false;
     isBlocked = false;
@@ -51,7 +55,6 @@ export class Discussion {
         this.title = obj.title;
         this.message = obj.message;
         this.votes = obj.votes;
-        this.registrations = this.prepareRegistrations(obj.registrations);
         this.createdBy = obj.createdBy;
         this.createdOn = obj.createdOn;
         this.state = obj.state;
@@ -61,6 +64,8 @@ export class Discussion {
         this.voteTypes = obj.voteTypes ? obj.voteTypes : [];
         this.startDate = obj.startDate ? new Date(obj.startDate) : obj.startDate;
         this.endDate = obj.endDate ? new Date(obj.endDate) : obj.endDate;
+
+        this.isDiscussionOwner = this.createdBy._id === this.userService.getProfile()?._id;
 
         this.votingService = votingService;
         this.loggerService = loggerService;
@@ -72,18 +77,28 @@ export class Discussion {
         this.resetRegistrationEnability();
         this.resetNextStates();
         this.categorizeVotes();
+
+        this.registrations = this.prepareRegistrations(obj.registrations);
         this.categorizeRegistrations();
     }
 
     prepareRegistrations(regs: IRegisterVoteType[]): IRegisterVoteType[] {
         return (regs ? regs : []).map(r => {
-            try {
-                r.nextPossibleStates = REGISTRATION_STATE[r.state].nextStates
-            } catch (err) {
-                console.log('There was error while preparing Registrations');
-            }
+            this.updateRegistrationState(r);
+            if (r.createdBy._id === this.userService.getProfile()?._id) this.myRegistration = r;
             return r;
         });
+    }
+
+    updateRegistrationState(r: IRegisterVoteType) {
+        try {
+            r.stateObj = REGISTRATION_STATE[r.state];
+            const isProfileOwner = r.createdBy._id === this.userService.getProfile()?._id;
+            r.nextPossibleStates = REGISTRATION_STATE[r.state].nextStates
+                .filter(nxt => (!nxt.neededForMember && this.isDiscussionOwner) || (nxt.neededForMember && isProfileOwner));
+        } catch (err) {
+            console.log('There was error while preparing Registrations');
+        }
     }
 
     categorizeRegistrations() {
@@ -92,11 +107,11 @@ export class Discussion {
             if (!existing) {
                 existing = {
                     category: val.state,
-                    votes: [val]
+                    registrations: [val]
                 };
                 arr.push(existing);
             } else {
-                existing.votes.push(val);
+                existing.registrations.push(val);
             }
             return arr;
         }, [] as IRegisterCategory[]);
@@ -122,7 +137,6 @@ export class Discussion {
 
     resetVotingEnability() {
         this.isVotingEnabled = (this.state === DISCUSSION_STATE['open'].key || this.state === DISCUSSION_STATE['reopened'].key)
-        // && (!this.startDate || !this.endDate || HelperService.isTodayInDateRange(this.startDate, this.endDate));
     }
 
     resetRegistrationEnability() {
@@ -201,10 +215,7 @@ export class Discussion {
     confirmForStateChange(newState: IDiscussionState) {
         return new Promise((resolve, reject) => {
             if (this.nextPossibleStates.findIndex((s) => s.key === newState.key) === -1)
-                return reject(`Cannot set "${this.title
-                    }" to "${newState}".`);
-
-
+                return reject(`Cannot set "${this.title}" to "${newState}".`);
 
             const config: IConfirmationDialogData = {
                 message: `${newState.text.toUpperCase()
@@ -336,5 +347,67 @@ export class Discussion {
                 }
             });
         }
+    }
+
+    updateRegisteredProfile(profile: IRegisterVoteType) {
+        const idx = this.registrations.findIndex(r => r._id === profile._id);
+        if (idx >= 0) this.registrations.splice(idx, 1, profile);
+        else this.registrations.push(profile);
+        this.registrations = this.prepareRegistrations(this.registrations);
+        this.categorizeRegistrations();
+    }
+
+    // Registration
+    confirmRegistrationStateChange(registration: IRegisterVoteType, newState: IRegistrationState) {
+        return new Promise((resolve, reject) => {
+            if (registration.nextPossibleStates.findIndex((s) => s.key === newState.key) === -1)
+                return reject(`Cannot set "${registration.name}" to "${newState}".`);
+
+            const config: IConfirmationDialogData = {
+                message: `${newState.text} ${registration.name} Profile?`,
+                okDisplay: newState.text.toUpperCase(),
+                cancelDisplay: 'Cancel',
+                color: 'warn'
+            };
+            const ref = this.matDialog['open'](ConfirmationDialogComponent, { data: config });
+            ref.afterClosed().pipe(take(1)).subscribe((result) => resolve(result));
+        });
+    }
+
+    changeRegistrationState(registration: IRegisterVoteType, newState: IRegistrationState) {
+        const reg = this.registrations.find(r => r._id === registration._id);
+        if (reg) {
+            reg.state = newState.key;
+            reg.stateObj = newState;
+            if (newState.key === REGISTRATION_STATE['approved'].key) this.handleApprove(registration);
+            else if (newState.key === REGISTRATION_STATE['draft'].key) this.handleUnApprove(registration);
+            this.updateRegistrationState(reg);
+            this.categorizeRegistrations();
+        }
+    }
+
+    private handleApprove(registration: IRegisterVoteType) {
+        if (this.voteTypes.some(vt => vt.ui_id === registration.ui_id)) return;
+        this.voteTypes.push(registration);
+    }
+
+    private handleUnApprove(registration: IRegisterVoteType) {
+        const idx = this.voteTypes.findIndex(vt => vt.ui_id === registration.ui_id);
+        if (idx < 0) return;
+        this.voteTypes.splice(idx, 1);
+    }
+
+    getRegistrationCount(registrationState: string): number {
+        const regcat = this.registrationCategories.find(rc => rc.category === registrationState);
+        if (regcat) return regcat.registrations.length;
+        else return 0;
+    }
+
+    getPendingRegistrationCount(): number {
+        return this.getRegistrationCount(REGISTRATION_STATE['pendingApproval'].key);
+    }
+
+    getApprovedRegistrationCount(): number {
+        return this.getRegistrationCount(REGISTRATION_STATE['approved'].key);
     }
 }

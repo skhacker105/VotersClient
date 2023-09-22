@@ -1,0 +1,93 @@
+.category-registrations {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+
+    .registration-card {
+
+        .registration-profile {
+            ::ng-deep p img {
+                max-width: 90% !important;
+            }
+        }
+
+        .registration-edit {
+            position: absolute;
+            z-index: 9999;
+            right: 0;
+            top: 0;
+        }
+
+        mat-card-title {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 200px;
+        }
+
+        mat-card-content {
+            max-height: 60%;
+            overflow: hidden;
+            border-top: solid 1px #a0a0a0;
+            height: 100px;
+            min-height: 100px;
+            max-height: 100px;
+        }
+    }
+}
+
+@media(max-width: 480px) {
+    .registration-card {
+        width: 92%;
+        min-width: 92%;
+        margin: auto;
+
+        mat-card-title {
+            max-width: 150px !important;
+        }
+
+        mat-card-content {
+            padding-top: 5px;
+        }
+    }
+}
+
+@media(min-width: 481px) and (max-width: 800px) {
+    .registration-card {
+        width: 46%;
+        min-width: 46%;
+        margin: auto;
+
+        mat-card-title {
+            max-width: 150px !important;
+        }
+
+        mat-card-content {
+            padding-top: 10px;
+        }
+    }
+}
+
+@media(min-width: 801px) and (max-width: 1200px) {
+    .registration-card {
+        width: 32%;
+        min-width: 32%;
+        margin: auto;
+
+        mat-card-content {
+            padding-top: 16px;
+        }
+    }
+}
+
+@media(min-width: 1201px) {
+    .registration-card {
+        width: 25%;
+        min-width: 25%;
+        margin-top: 16px !important;
+        margin-bottom: 16px !important;
+
+        mat-card-content {
+            padding-top: 16px;
+        }
+    }
+}

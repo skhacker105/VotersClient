@@ -1,5 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Discussion } from '../../models/discussion';
+import { IRegistrationState } from '../../models/registration-state';
 
 @Component({
   selector: 'app-discussion-register',
@@ -8,4 +9,5 @@ import { Discussion } from '../../models/discussion';
 })
 export class DiscussionRegisterComponent {
   @Input() discussion: Discussion | undefined;
+  @Output() changeState = new EventEmitter<IRegistrationState>();
 }

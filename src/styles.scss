@@ -24,6 +24,18 @@ body {
     }
 }
 
+.mat-disabled:disabled {
+    background-color: inherit;
+    color: inherit;
+}
+.mat-disabled {
+    color: #00b6ff;
+
+    mat-icon, div, span, p {
+        color: #00b6ff;
+    }
+}
+
 .mat-local-primary:disabled {
     background-color: inherit;
     color: inherit;
@@ -118,12 +130,6 @@ body {
     width: 1px;
 }
 
-.logger-container {
-    // width: 100px;
-    max-width: 300px;
-
-}
-
 .no-wrap {
     white-space: nowrap;
 }
@@ -147,6 +153,20 @@ body {
 }
 .decesion-state-regClose {
     color: #062876 !important;
+}
+
+// REGISTRATION STATES
+.registration-state-draft {
+    color: #d1af91 !important;
+}
+.registration-state-pending {
+    color: #d1af91 !important;
+}
+.registration-state-approved {
+    color: #d1af91 !important;
+}
+.registration-state-rejected {
+    color: #d1af91 !important;
 }
 
 // Media queries
@@ -224,10 +244,6 @@ body {
 
 
 // MAT classes override
-.mat-mdc-snack-bar-label {
-    max-width: 300px;
-}
-
 .mdc-snackbar__surface {
     padding-right: 0px !important;
     min-width: inherit !important;

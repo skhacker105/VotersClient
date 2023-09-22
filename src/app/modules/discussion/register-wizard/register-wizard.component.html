@@ -56,15 +56,23 @@
 
 <!-- Slide 2: Create Profile -->
 <ng-template #profileDetail>
-    <form [formGroup]="voteTypeForm" class="flex-scrollable">
+    <app-registration-next-state [registration]="existingRegistration" *ngIf="existingRegistration"
+    [isDiscussionOwner]="discussion ?  discussion.isDiscussionOwner : false"
+        (changeState)="handleRegistrationStateChange($event)">
+    </app-registration-next-state>
+    <form [formGroup]="voteTypeForm" (ngSubmit)="submitProfile()">
 
         <div class="flex">
             <!-- User Image -->
-            <app-user-icon [avatar]="voteTypeForm.controls['image'].value" [size]="100"></app-user-icon>
+            <app-user-icon [avatar]="voteTypeForm.controls['image'].value" *ngIf="voteTypeForm.controls['image'].value"
+                [size]="100">
+            </app-user-icon>
 
             <!-- Name -->
             <div class="profile-name">
-                {{voteTypeForm.controls['name'].value}}
+                <span> {{voteTypeForm.controls['name'].value}} </span>
+                is registering for
+                <span>"{{ discussion?.title }}"</span>
             </div>
         </div>
 
@@ -77,8 +85,13 @@
         </mat-form-field>
 
         <p align="end" class="standard-padding">
-            <button mat-raised-button color="primary">
-                Submit For Approval
+            <button mat-raised-button [routerLink]="['/discussion/discussionDetail/', id]" type="button"
+                [disabled]="!isEdittingAllowed">
+                Cancel
+            </button>
+            &nbsp;
+            <button mat-raised-button color="primary" type="submit" [disabled]="!isEdittingAllowed">
+                Save
             </button>
         </p>
 

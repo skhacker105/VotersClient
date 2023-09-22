@@ -12,6 +12,7 @@ import { VotingService } from './voting.service';
 import { LoggerService } from './logger.service';
 import { UserService } from './user.service';
 import { IDiscussionState } from '../models/discussion-state';
+import { IRegisterVoteType } from '../models/vote';
 
 @Injectable({
   providedIn: 'root'
@@ -80,6 +81,18 @@ export class DiscussionService {
 
   vote(id: string, voteId: string) {
     return this.http.post<ServerResponse<string>>(this.baseUrl + 'voteFor/' + id, { voteId })
+  }
+
+  registerProfile(id: string, profile: any) {
+    return this.http.post<ServerResponse<IRegisterVoteType>>(this.baseUrl + `registerProfile/${id}`, profile);
+  }
+
+  updateProfile(id: string, profile: any) {
+    return this.http.post<ServerResponse<IRegisterVoteType>>(this.baseUrl + `updateProfile/${id}`, profile);
+  }
+
+  updateRegistrationState(id: string, registration_id: string, newState: string) {
+    return this.http.put<ServerResponse<string>>(this.baseUrl + `${id}/updateRegistrationState/${registration_id}`, {newState});
   }
 
 }

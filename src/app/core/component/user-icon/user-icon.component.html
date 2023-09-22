@@ -1,5 +1,6 @@
-<button mat-icon-button (click)="gotoUserAccount()" [disabled]="disabled" type="button" class="user-select-image">
+<button mat-icon-button (click)="gotoUserAccount()" [style.min-width.px]="size" [disabled]="disabled" type="button"
+    class="user-select-image">
     <img md-fab-image [src]="loadedAvatar" *ngIf="loadedAvatar" [style.width.px]="size" [style.height.px]="size"
         [style.min-width.px]="size" [style.min-height.px]="size">
-    <span class="user-select-title" *ngIf="user">{{ user.name }}</span>
+    <span class="user-select-title" *ngIf="user && !hideName">{{ user.name }}</span>
 </button>

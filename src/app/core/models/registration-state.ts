@@ -4,5 +4,6 @@ export interface IRegistrationState {
     icon: string;
     nextStates: IRegistrationState[],
     className?: string;
-    neededForClient?: boolean
+    neededForMember?: boolean,
+    isDraft?: boolean
 }

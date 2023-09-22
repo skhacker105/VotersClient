@@ -1,0 +1,27 @@
+<ng-container *ngIf="discussion && selectedRegistration">
+
+    <!-- Name -->
+    <div class="profile-name">
+
+        <app-registration-next-state [registration]="selectedRegistration"
+            [isDiscussionOwner]="discussion.isDiscussionOwner" (changeState)="handleRegistrationStateChange($event)">
+        </app-registration-next-state>
+
+
+        <!-- User Image -->
+        <app-user-icon [avatar]="selectedRegistration.image" *ngIf="selectedRegistration.image" [size]="70"
+            class="mobile">
+        </app-user-icon>
+        <app-user-icon [avatar]="selectedRegistration.image" *ngIf="selectedRegistration.image" [size]="150"
+            class="bigscreen">
+        </app-user-icon>
+
+        <span class="registration-name">{{selectedRegistration.name}} </span>
+        <br>
+        <span class="registration-title">"{{ discussion.title }}"</span>
+    </div>
+
+    <!-- Profile -->
+    <div class="registration-profile" [innerHTML]="selectedRegistration.profile">
+    </div>
+</ng-container>

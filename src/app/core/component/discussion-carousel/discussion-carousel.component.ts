@@ -124,7 +124,7 @@ export class DiscussionCarouselComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.isComponentIsActive))
       .subscribe({
         next: (res) => this.discussion?.changeState(newState),
-        error: (err) => this.loggerService.showError(err),
+        error: (err) => this.loggerService.showError(err.error.message),
       });
   }
 }

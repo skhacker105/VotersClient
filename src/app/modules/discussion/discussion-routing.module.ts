@@ -4,6 +4,8 @@ import { AddEditDiscussionComponent } from './add-edit-discussion/add-edit-discu
 import { DiscussionDetailComponent } from './discussion-detail/discussion-detail.component';
 import { LoginGuard } from 'src/app/core/routeGuard/login.guard';
 import { RegisterWizardComponent } from './register-wizard/register-wizard.component';
+import { RegistrationsComponent } from './registrations/registrations.component';
+import { RegistrationProfileComponent } from './registration-profile/registration-profile.component';
 
 const routes: Routes = [
   {
@@ -47,6 +49,15 @@ const routes: Routes = [
     path: 'register/:id',
     canActivate: [LoginGuard],
     component: RegisterWizardComponent
+  },
+  {
+    path: 'registrations/:id',
+    canActivate: [LoginGuard],
+    component: RegistrationsComponent
+  },
+  {
+    path: 'profile/:id/:ui_id',
+    component: RegistrationProfileComponent
   },
   {
     path: '*',

@@ -29,12 +29,14 @@ export interface IVoteType {
 
 export interface IRegisterVoteType extends IVoteType {
     state: string;
+    stateObj?: IRegistrationState;
+    lastStateChangedOn: Date;
     nextPossibleStates: IRegistrationState[];
 }
 
 export interface IRegisterCategory {
     category: string;
-    votes: IRegisterVoteType[];
+    registrations: IRegisterVoteType[];
 }
 
 export const isInstanceOfIVoteType = (obj: any): obj is IVoteType => {

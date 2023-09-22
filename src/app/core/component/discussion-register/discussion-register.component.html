@@ -1,6 +1,30 @@
-<div *ngIf="discussion && discussion.isRegistrationEnabled" class="discussion-register-button"  class="discussion-register-button">
-    <button *ngIf="discussion" type="button" mat-button color="primary" class="register-now-button" [routerLink]="['/discussion/register/', discussion._id]">
-        Register Now
-        <mat-icon>playlist_add</mat-icon>
+<ng-container *ngIf="discussion && discussion.registrations.length > 0">
+
+    <!-- Registration Going On && Has Pending Registration -->
+    <button mat-icon-button color="accent" [matBadge]="discussion.getApprovedRegistrationCount()"
+        [routerLink]="['/discussion/registrations/', discussion._id]" *ngIf="discussion.isRegistrationEnabled">
+        <mat-icon>badge</mat-icon>
     </button>
-</div>
+
+    <!-- Registration Closed && Has Pending Registration -->
+    <button mat-icon-button color="disabled" [matBadge]="discussion.getApprovedRegistrationCount()"
+        [routerLink]="['/discussion/registrations/', discussion._id]" *ngIf="!discussion.isRegistrationEnabled">
+        <mat-icon>badge</mat-icon>
+    </button>
+</ng-container>
+
+<ng-container *ngIf="discussion && discussion.isRegistrationEnabled">
+    <div class="discussion-register-button" *ngIf="!discussion.myRegistration && !discussion.isDiscussionOwner">
+        <button type="button" mat-button color="primary" class="register-now-button"
+            [routerLink]="['/discussion/register/', discussion._id]">
+            Register Now
+            <mat-icon>playlist_add</mat-icon>
+        </button>
+    </div>
+
+    <ng-container *ngIf="discussion.myRegistration">
+        <app-registration-next-state [registration]="discussion.myRegistration"
+            (changeState)="changeState.emit($event)">
+        </app-registration-next-state>
+    </ng-container>
+</ng-container>

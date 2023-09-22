@@ -3,7 +3,9 @@
         <div class="action-buttons">
 
             <!-- Registration -->
-            <app-discussion-register [discussion]="discussion"></app-discussion-register>
+            <app-discussion-register [discussion]="discussion" (changeState)="handleRegistrationStateChange($event)"
+                class="bigscreen">
+            </app-discussion-register>
 
             <!-- State -->
             <app-discussion-next-state [discussion]="discussion" [showControl]="isOwner" class="bigscreen"
@@ -26,6 +28,9 @@
         </div>
     </app-page-header>
     <app-page-header class="mobile" color="subheader-a">
+
+        <app-discussion-register [discussion]="discussion" (changeState)="handleRegistrationStateChange($event)">
+        </app-discussion-register>
         <app-discussion-next-state [discussion]="discussion" [showControl]="isOwner"
             (changeState)="handleChangeState($event)">
         </app-discussion-next-state>

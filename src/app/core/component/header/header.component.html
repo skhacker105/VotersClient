@@ -28,7 +28,7 @@
                 <mat-icon>account_circle</mat-icon>
             </button>
 
-            <app-user-icon [user]="userService.getProfile()" [avatar]="userService.getAvatar()"
+            <app-user-icon [user]="userService.getProfile()" [avatar]="userService.getAvatar()" [hideName]="true"
                 *ngIf="userService.getAvatar()">
             </app-user-icon>
 

@@ -1,0 +1,30 @@
+.registration-next-state {
+    display: flex;
+    color: white;
+    background-color: #5c3614;
+
+    .registration-state {
+        line-height: 47px;
+        font-size: 12px;
+    }
+}
+
+// Mobile
+@media (max-width: 480px) {
+    .registration-next-state {
+
+        .registration-icon {
+            font-size: 16px;
+        }
+    }
+}
+
+// All other than mobile
+@media (min-width: 481px) {
+    .registration-next-state {
+
+        .registration-icon {
+            font-size: 20px;
+        }
+    }
+}

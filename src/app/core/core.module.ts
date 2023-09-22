@@ -28,6 +28,7 @@ import { DiscussionStateClassPipe } from './pipe/discussion-state-class.pipe';
 import { DiscussionRegisterComponent } from './component/discussion-register/discussion-register.component';
 import { DisplayMessageComponent } from './component/display-message/display-message.component';
 import { UserIconComponent } from './component/user-icon/user-icon.component';
+import { RegistrationNextStateComponent } from './component/registration-next-state/registration-next-state.component';
 
 
 @NgModule({
@@ -55,7 +56,8 @@ import { UserIconComponent } from './component/user-icon/user-icon.component';
     AuthLocationChangedComponent,
     DiscussionRegisterComponent,
     DisplayMessageComponent,
-    UserIconComponent
+    UserIconComponent,
+    RegistrationNextStateComponent
   ],
   imports: [
     CommonModule,
@@ -87,7 +89,8 @@ import { UserIconComponent } from './component/user-icon/user-icon.component';
     RegisterComponent,
     AuthLocationChangedComponent,
     DiscussionRegisterComponent,
-    UserIconComponent
+    UserIconComponent,
+    RegistrationNextStateComponent
   ]
 })
 export class CoreModule { }

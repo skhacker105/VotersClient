@@ -1,0 +1,48 @@
+<mat-tab-group animationDuration="500ms" [selectedIndex]="selectedIndex">
+    <ng-container *ngFor="let state of registrationStateKeys">
+        <mat-tab [label]="getLabelText(state)">
+            <ng-template [ngTemplateOutlet]="RegistrationCategory" [ngTemplateOutletContext]="{
+                regcat: getCategoryData(state)
+            }"></ng-template>
+        </mat-tab>
+    </ng-container>
+</mat-tab-group>
+
+<ng-template #RegistrationCategory let-regcat="regcat">
+
+    <div *ngIf="regcat && discussion" class="category-registrations">
+        <ng-container *ngFor="let registration of regcat.registrations">
+            <mat-card class="registration-card">
+                <mat-card-header>
+                    <app-user-icon mat-card-avatar [user]="registration.createdBy" [hideName]="true">
+                    </app-user-icon>
+                    <mat-card-title>
+                        {{ registration.name }}
+
+                        <button mat-icon-button class="registration-edit"
+                            *ngIf="registration.stateObj.isDraft && !discussion.isDiscussionOwner"
+                            [routerLink]="['/discussion/register/', discussion._id]">
+                            <mat-icon>edit</mat-icon>
+                        </button>
+
+                        <button mat-icon-button class="registration-edit"
+                            *ngIf="!registration.stateObj.isDraft || discussion.isDiscussionOwner"
+                            [routerLink]="['/discussion/profile/', discussion._id, registration.ui_id]">
+                            <mat-icon>arrow_forward_ios</mat-icon>
+                        </button>
+                    </mat-card-title>
+                    <mat-card-subtitle>{{ registration.lastStateChangedOn | date }}</mat-card-subtitle>
+                </mat-card-header>
+
+                <mat-card-content [innerHTML]="registration.profile" class="registration-profile">
+                </mat-card-content>
+                <mat-card-actions>
+                    <app-registration-next-state [registration]="registration"
+                        [isDiscussionOwner]="discussion.isDiscussionOwner"
+                        (changeState)="handleRegistrationStateChange(registration, $event)" class="full-width">
+                    </app-registration-next-state>
+                </mat-card-actions>
+            </mat-card>
+        </ng-container>
+    </div>
+</ng-template>

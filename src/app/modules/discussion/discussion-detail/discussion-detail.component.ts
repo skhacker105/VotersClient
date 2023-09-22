@@ -6,6 +6,7 @@ import { ConfirmationDialogComponent } from 'src/app/core/component/confirmation
 import { IConfirmationDialogData } from 'src/app/core/models/confirmation-dialog.model';
 import { Discussion } from 'src/app/core/models/discussion';
 import { IDiscussionState } from 'src/app/core/models/discussion-state';
+import { IRegistrationState } from 'src/app/core/models/registration-state';
 import { IUser } from 'src/app/core/models/user';
 import { IVote, IVoteType } from 'src/app/core/models/vote';
 import { DiscussionService } from 'src/app/core/services/discussion.service';
@@ -169,6 +170,7 @@ export class DiscussionDetailComponent implements OnInit, OnDestroy {
   }
 
   handleChangeState(newState: IDiscussionState) {
+    console.log('newState = ', newState)
     if (!this.discussion) return;
     this.discussion.confirmForStateChange(newState)
       .then(result => {
@@ -184,7 +186,7 @@ export class DiscussionDetailComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.isComponentIsActive))
       .subscribe({
         next: res => this.discussion?.changeState(newState),
-        error: err => this.loggerService.showError(err)
+        error: err => this.loggerService.showError(err.error.message)
       })
   }
 
@@ -199,5 +201,30 @@ export class DiscussionDetailComponent implements OnInit, OnDestroy {
     const today = new Date();
     const newDT = new Date(dt);
     return today.getDate() === newDT.getDate() && today.getMonth() === newDT.getMonth() && today.getFullYear() === newDT.getFullYear();
+  }
+
+  handleRegistrationStateChange(newState: IRegistrationState) {
+    if (!this.discussion || !this.discussion.myRegistration) return;
+
+    this.discussion.confirmRegistrationStateChange(this.discussion.myRegistration, newState)
+      .then(result => {
+        if (!result) return;
+        this.saveNewRegistrationState(newState);
+      });
+  }
+
+  saveNewRegistrationState(newState: IRegistrationState) {
+    if (!this.discussion || !this.discussion.myRegistration || !this.discussion.myRegistration._id) return;
+
+    this.discussionService.updateRegistrationState(this.discussion._id, this.discussion.myRegistration._id, newState.key)
+    .pipe(takeUntil(this.isComponentIsActive))
+    .subscribe({
+      next: () => {
+        if (!this.discussion || !this.discussion.myRegistration) return;
+
+        this.discussion.changeRegistrationState(this.discussion.myRegistration, newState)
+      },
+      error: err => this.loggerService.showError(err.error.message)
+    });
   }
 }

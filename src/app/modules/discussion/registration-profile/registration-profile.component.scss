@@ -1,0 +1,30 @@
+.profile-name {
+    flex: 1 auto;
+    text-align: center;
+    margin: auto;
+    font-size: 20px;
+    font-weight: 100;
+    line-height: 30px;
+
+    .registration-name,
+    .registration-title {
+        font-weight: bold;
+    }
+
+    .registration-name {
+        color: #005caa;
+    }
+
+    .registration-title {
+        color: #aa6f00;
+    }
+}
+
+.registration-profile {
+    padding-top: 30px;
+    padding-left: 16px;
+    overflow: auto;
+    ::ng-deep p img {
+        max-width: 90% !important;
+    }
+}
