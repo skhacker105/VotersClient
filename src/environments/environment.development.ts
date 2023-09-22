@@ -1,3 +1,3 @@
 export const environment = {
-    basUrl: 'http://localhost:5000/'
+    basUrl: 'https://voters-server-ujhteimfr-skhacker105.vercel.app/'
 };
