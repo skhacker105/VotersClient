@@ -1,0 +1,267 @@
+<div class="welcome-page-container">
+
+    <!-- Header -->
+    <div class="header">
+
+        <div class="header-title">
+            Your Ultimate Destination for Democratic Participation!
+            <br>
+            <button *ngIf="!userService.isLoggedIn()" class="join-us-button" routerLink="/login">
+                <mat-icon class="mat-18">groups</mat-icon>
+                <span class="joinus-text">Join US</span>
+            </button>
+        </div>
+
+        <div class="header-image-container"></div>
+
+    </div>
+
+    <!-- Body -->
+
+    <!-- Possible Insutries -->
+    <owl-carousel-o [options]="customOptions">
+
+        <!-- E-Voting -->
+        <ng-template carouselSlide>
+            <app-industry-card src="../../../../../assets/verticals/evoting.png">
+                <ng-container displayHead>
+                    E-Voting
+                </ng-container>
+                <ng-container displayText>
+                    Voting using mobile, tab, laptop or desktop. Extremely low cost election cost. Features for
+                    Participation approval, rejection and draft.
+                </ng-container>
+            </app-industry-card>
+        </ng-template>
+
+        <!-- Society Voting -->
+        <ng-template carouselSlide>
+            <app-industry-card src="../../../../../assets/verticals/society.png">
+                <ng-container displayHead>
+                    Housing Societies
+                </ng-container>
+                <ng-container displayText>
+                    Online voting technology for committee elections and voting on resolutions in apartments, housing
+                    societies, home owners assocations.
+                </ng-container>
+            </app-industry-card>
+        </ng-template>
+
+        <!-- Associations -->
+        <ng-template carouselSlide>
+            <app-industry-card src="../../../../../assets/verticals/association.png">
+                <ng-container displayHead>
+                    Associations
+                </ng-container>
+                <ng-container displayText>
+                    eVoting technology for elections in professional associations, trade associations, social
+                    assocations, employee assocations and all other assocations.
+                </ng-container>
+            </app-industry-card>
+        </ng-template>
+
+        <!-- Colleges -->
+        <ng-template carouselSlide>
+            <app-industry-card src="../../../../../assets/verticals/colleges.png">
+                <ng-container displayHead>
+                    Colleges
+                </ng-container>
+                <ng-container displayText>
+                    Online election platform for student elections, hostel elections, department elections, alumni
+                    elections, polling in classroom, student opinion poll and contests.
+                </ng-container>
+            </app-industry-card>
+        </ng-template>
+
+        <!-- Club -->
+        <ng-template carouselSlide>
+            <app-industry-card src="../../../../../assets/verticals/club.png">
+                <ng-container displayHead>
+                    Club
+                </ng-container>
+                <ng-container displayText>
+                    eVoting and opinion poll software for elections and resolution voting in gymkhanas, social clubs,
+                    activity clubs, professional clubs and all other clubs.
+                </ng-container>
+            </app-industry-card>
+        </ng-template>
+
+        <!-- Corporate -->
+        <ng-template carouselSlide>
+            <app-industry-card src="../../../../../assets/verticals/corporate.png">
+                <ng-container displayHead>
+                    Corporate
+                </ng-container>
+                <ng-container displayText>
+                    eVoting technology for elections, resolutions and opinion polls in Corporates.
+                </ng-container>
+            </app-industry-card>
+        </ng-template>
+
+        <!-- Unions -->
+        <ng-template carouselSlide>
+            <app-industry-card src="../../../../../assets/verticals/union.png">
+                <ng-container displayHead>
+                    Unions
+                </ng-container>
+                <ng-container displayText>
+                    Online election technology for employee unions, trade unions, professional unions and other unions.
+                </ng-container>
+            </app-industry-card>
+        </ng-template>
+
+        <!-- News -->
+        <ng-template carouselSlide>
+            <app-industry-card src="../../../../../assets/verticals/news.png">
+                <ng-container displayHead>
+                    NEWS
+                </ng-container>
+                <ng-container displayText>
+                    Live voting for breaking news. Opinion polls before elections. Channel and reporter ratings. Access
+                    across the globe.
+                </ng-container>
+            </app-industry-card>
+        </ng-template>
+
+    </owl-carousel-o>
+
+    <!-- Accessible & Easy to Use -->
+    <div class="info-details">
+        <div class="info-img-container">
+            <img src="../../../../assets/features/img_access.png">
+        </div>
+        <div class="content">
+            <div class="content-container">
+
+                <div class="content-title">Accessible & Easy to Use</div>
+
+                <div class="content-data">
+                    Online voting is accessible across a variety of devices such as smartphones, tablets, and computers,
+                    making the entire voting process as simple as a click of a button or a tap on a screen. This also
+                    means the election can be accessed from anywhere in the world. Gone are the days you spend an entire
+                    meeting trying to pick a date when everyone is in town for the election. For example, if members are
+                    on vacation, they can simply log into the software and vote while lounging on the beach. This is
+                    also extremely beneficial for larger organizations with members living in different parts of the
+                    country. It avoids the burden of having to locate and rent out multiple polling sites or pay for a
+                    large number of mail ballots. All members can cast their ballot from the comfort of their home
+                    during the voting hours.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reverse -->
+    <!-- Secure -->
+    <div class="info-details">
+        <div class="content">
+            <div class="content-container">
+
+                <div class="content-title">Secure</div>
+
+                <div class="content-data">
+                    Most reputable election vendors equip their software with state-of-the-art security. Common features
+                    include single-vote verification, which ensures members don’t inadvertently vote more than once;
+                    ballot tracking, which monitors the exact moment a ballot is processed; a secure network to protect
+                    the entire process from nominations to tabulation; and secret ballots, which keep ballots private.
+                    Some vendors also guarantee they’ll never share member information with any third-party groups.
+                </div>
+            </div>
+        </div>
+        <div class="info-img-container">
+            <img src="../../../../assets/features/img_secure.png">
+        </div>
+    </div>
+
+    <!-- Accurate -->
+    <div class="info-details">
+        <div class="info-img-container">
+            <img src="../../../../assets/features/img_accuracy.png">
+        </div>
+        <div class="content">
+            <div class="content-container">
+
+                <div class="content-title">Accurate</div>
+
+                <div class="content-data">
+                    Along with security, accuracy is most likely the top advantage of online voting. A simple miscount
+                    of a single vote can mean the wrong candidate wins. Online voting boasts security systems that
+                    ensure every vote is counted in real time. Ballot tracking documents click and open rates, and the
+                    exact moment a vote is processed. Every step is accounted for and the organization can receive exact
+                    results instantaneously. The final tabulation process is also completely auditable, so the accuracy
+                    can be double-checked if there are any questions.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reverse -->
+    <!-- Increased Turnout & Engagement -->
+    <div class="info-details">
+        <div class="content">
+            <div class="content-container">
+
+                <div class="content-title">Increased Turnout & Engagement</div>
+
+                <div class="content-data">
+                    Due to the increased accessibility and ease of use, there’s a higher probability more members will
+                    cast their ballots—especially if they can do it from their couch on their smartphone. Plus, many
+                    online voting software solutions incorporate social media integration, so your organization can
+                    further boost its engagement. After members cast their ballot, a page will pop-up asking them to
+                    announce it on a social media platform such as Facebook or LinkedIn. The created post won’t show who
+                    they voted for, only that they voted. This may encourage fellow members to participate as well.
+                </div>
+            </div>
+        </div>
+        <div class="info-img-container">
+            <img src="../../../../assets/features/img_turnout.png">
+        </div>
+    </div>
+
+    <!-- Reduced Costs -->
+    <div class="info-details">
+        <div class="info-img-container">
+            <img src="../../../../assets/features/img_cost.png">
+        </div>
+        <div class="content">
+            <div class="content-container">
+
+                <div class="content-title">Reduced Costs</div>
+
+                <div class="content-data">
+                    Switching to online voting can reduce your organization’s costs significantly. It saves you the
+                    price of printing and mailing thousands of ballots if you typically opt for mail in ballots. If
+                    in-person voting is the norm for your organization, the transition can eliminate the costs of
+                    renting a polling location and the printing of all materials used that day. If you’re interested in
+                    learning more about how an online election can reduce your costs, read our blog Reduced Election
+                    Costs: How Online Voting Saves Money.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+
+        <div class="footer-box">
+            <div class="info-message">
+                "We are committed to making the democratic process easier for everyone with our voting app. We've
+                simplified
+                the voting process with simple features and an intuitive design, so it only takes a few taps on your
+                smartphone. Additionally, we recognise the value of price and accessibility in ensuring that everyone's
+                opinion is heard. Our app lowers the obstacles that could have previously prevented participation by
+                making
+                voting simple and affordable. Join us as we transform democracy to make it more inexpensive and
+                accessible
+                to all citizens.
+            </div>
+
+            <div class="register">
+                <h3>Register with US</h3>
+                <mat-form-field class="subscribe">
+                    <input type="text" matInput placeholder="e-Mail Address">
+                </mat-form-field>
+                <button mat-raised-button color="accent">Register</button>
+            </div>
+        </div>
+    </div>
+</div>

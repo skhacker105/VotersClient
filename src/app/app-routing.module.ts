@@ -6,8 +6,13 @@ import { LoginGuard } from './core/routeGuard/login.guard';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'login',
+    redirectTo: 'welcome',
     pathMatch: 'full'
+  },
+  {
+    path: 'welcome',
+    canActivate: [NotLoginGuard],
+    loadChildren: () => import('./modules/welcome/welcome.module').then(m => m.WelcomeModule)
   },
   {
     path: 'login',
@@ -27,6 +32,16 @@ const routes: Routes = [
   {
     path: 'discussion',
     loadChildren: () => import('./modules/discussion/discussion.module').then(m => m.DiscussionModule)
+  },
+  {
+    path: '*',
+    redirectTo: 'welcome',
+    pathMatch: 'full'
+  },
+  {
+    path: '**',
+    redirectTo: 'welcome',
+    pathMatch: 'full'
   }
 ];
 

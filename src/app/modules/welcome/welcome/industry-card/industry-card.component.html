@@ -1,0 +1,9 @@
+<div class="industry-card">
+    <img [attr.src]="src">
+    <div class="display-head">
+        <ng-content select="[displayHead]"></ng-content>
+    </div>
+    <div class="display-text">
+        <ng-content select="[displayText]"></ng-content>
+    </div>
+</div>

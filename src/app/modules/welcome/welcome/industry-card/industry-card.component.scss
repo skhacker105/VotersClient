@@ -1,0 +1,23 @@
+.industry-card {
+    box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
+    width: calc(100% - 50px);
+    padding: 16px;
+    margin: 16px;
+    height: 300px;
+
+    img {
+        height: 200px;
+    }
+
+    .display-head {
+        font-size: 0.8em;
+        padding-top: 10px;
+    }
+
+    .display-text {
+        height: 100px;
+        font-size: 12px;
+        padding-top: 5px;
+    }
+}
+
